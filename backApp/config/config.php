@@ -14,9 +14,9 @@ date_default_timezone_set('Asia/Seoul');
 
 define ('DEVELOPMENT_ENVIRONMENT',true);
 
-define('DB_NAME', 'project_manager');
-define('DB_USER', 'tendency');
-define('DB_PASSWORD', 'ekffu9292');
+define('DB_NAME', 'wip');
+define('DB_USER', 'witinweb');
+define('DB_PASSWORD', 'wjddn2tmfrl');
 define('DB_HOST', 'localhost');
 
 define('UPLOAD_PATH',"/public/upload");

@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="012a9816-2778-4b71-a883-ca8ee4111fd1" name="Default" comment="">
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\categories\add.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\categories\del.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\categories\edit.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\categories\editForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\categories\view_all.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\add.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\edit.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\footer.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\header.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\topMenu.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\comments\view_all.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\footer.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\header.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\pages\editForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\pages\view_all.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\pages\writeform.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\posts\editForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\posts\view.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\posts\view_all.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\posts\writeform.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\project\editForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\project\view_all.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\project\writeform.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\topMenu.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\users\joinForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\users\login.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\users\loginForm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\wit-in-project\backApp\application\views\users\topMenu.php" afterPath="" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\categoriescontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/categoriescontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\commentscontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/commentscontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\pagescontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/pagescontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\postscontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/postscontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\projectcontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/projectcontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\taskscontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/taskscontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\controllers\userscontroller.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\category.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/category.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\comment.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/comment.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\page.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/page.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\post.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/post.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\project.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/project.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\task.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/task.php" />
+      <change type="MOVED" beforePath="C:\wamp\www\wit-in-project\backApp\application\models\user.php" afterPath="$PROJECT_DIR$/backApp/application/v1.0/models/user.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backApp/config/config.php" afterPath="$PROJECT_DIR$/backApp/config/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backApp/library/controller.class.php" afterPath="$PROJECT_DIR$/backApp/library/controller.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backApp/public/index.php" afterPath="$PROJECT_DIR$/backApp/public/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backApp/library/shared.php" afterPath="$PROJECT_DIR$/backApp/library/shared.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backApp/library/template.class.php" afterPath="$PROJECT_DIR$/backApp/library/template.class.php" />
+    </list>
+    <ignored path="wit-in-project.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="wit-in-project" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="shared.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/backApp/library/shared.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="69" column="0" selection-start="1762" selection-end="1762" vertical-scroll-proportion="0.4273859" vertical-offset="994" max-vertical-offset="2200">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userscontroller.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="63" selection-start="1765" selection-end="1772" vertical-scroll-proportion="-14.076923" vertical-offset="450" max-vertical-offset="1547">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backApp/config/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="38" selection-start="563" selection-end="563" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="391">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="taskscontroller.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/taskscontroller.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="38" selection-start="1545" selection-end="1571" vertical-scroll-proportion="-14.25" vertical-offset="285" max-vertical-offset="2888">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backApp/public/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="17" selection-start="449" selection-end="449" vertical-scroll-proportion="-5.428571" vertical-offset="0" max-vertical-offset="285">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/backApp/library/template.class.php" />
+        <option value="$PROJECT_DIR$/backApp/library/controller.class.php" />
+        <option value="$PROJECT_DIR$/backApp/application/1.0/controllers/taskscontroller.php" />
+        <option value="$PROJECT_DIR$/backApp/config/config.php" />
+        <option value="$PROJECT_DIR$/backApp/application/1.0/controllers/userscontroller.php" />
+        <option value="$PROJECT_DIR$/backApp/public/index.php" />
+        <option value="$PROJECT_DIR$/backApp/library/shared.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1612" />
+    <option name="height" value="912" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v1.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wit-in-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v1.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\wit-in-project\backApp\application\1.0" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="012a9816-2778-4b71-a883-ca8ee4111fd1" name="Default" comment="" />
+      <created>1420094949266</created>
+      <updated>1420094949266</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1612" height="912" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32917705" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1641604" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/backApp/backup/gjboard.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2353">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3523">
+          <folding>
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/mysqlidb.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13806">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/controller.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="-22.09091" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/bootstrap.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="775">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/template.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="739" selection-end="739" vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="578">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/categoriescontroller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.3625498" vertical-offset="1026" max-vertical-offset="2178">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/pagescontroller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="187.59091" vertical-offset="4127" max-vertical-offset="4880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="38" selection-start="563" selection-end="563" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="391">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/taskscontroller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="38" selection-start="1545" selection-end="1571" vertical-scroll-proportion="-14.25" vertical-offset="285" max-vertical-offset="2888">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/public/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="17" selection-start="449" selection-end="449" vertical-scroll-proportion="-5.428571" vertical-offset="0" max-vertical-offset="285">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/public/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7182" column="66" selection-start="219628" selection-end="219628" vertical-scroll-proportion="0.5362035" vertical-offset="93261" max-vertical-offset="194896">
+          <folding>
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1419266456000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="63" selection-start="1765" selection-end="1772" vertical-scroll-proportion="-14.076923" vertical-offset="450" max-vertical-offset="1547">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/shared.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="0" selection-start="1762" selection-end="1762" vertical-scroll-proportion="0.4273859" vertical-offset="994" max-vertical-offset="2200">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

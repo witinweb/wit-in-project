@@ -32,30 +32,7 @@ class Template {
     /** Display Template **/
 
     function render() {
-        extract($this->variables);
-        global $is_MANAGER;
-        $view_path = "views";
-        if( $is_MANAGER ) $view_path = "views".DS."manager";
 
-        if (file_exists(ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'header.php')) {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'header.php');
-        } else {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . 'header.php');
-        }
-
-        if (file_exists(ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'topMenu.php')) {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'topMenu.php');
-        } else {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . 'topMenu.php');
-        }
-
-        include (ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . $this->_action . '.php');
-
-        if (file_exists(ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'footer.php')) {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . $this->_controller . DS . 'footer.php');
-        } else {
-            include (ROOT . DS . 'application' . DS . $view_path . DS . 'footer.php');
-        }
     }
 
 }

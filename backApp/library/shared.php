@@ -59,41 +59,22 @@ function unregisterGlobals() {
 
 function callHook() {
     global $url;
-    global $is_API;
-    global $is_MANAGER;
     global $inflect;
+    global $api_version;
 
     $urlArray = array();
     $urlArray = explode("/",$url);
 
+    $api_version = $urlArray[0];
+
+    array_shift($urlArray);
     $controller = $urlArray[0];
     
-
-    if($controller === ""){
-        array_shift($urlArray);
-        $controller = $urlArray[0];
-    }
-
-    if($controller === "project_manager"){
-        array_shift($urlArray);
-        $controller = $urlArray[0];
-        
-    }
-    if($controller === "api"){
-        array_shift($urlArray);
-        $controller = $urlArray[0];
-        $is_API = true;
-    }
-
     array_shift($urlArray);
     $action = $urlArray[0];
+
     array_shift($urlArray);
     $queryString = $urlArray;
-
-    if($is_MANAGER && !is_login() && $action != "loginForm" && $action != "login") {
-        $controller = "users";
-        $action = "loginForm";
-    }
 
     $controllerName = $controller;
     $controller = ucwords($controller);
@@ -111,16 +92,14 @@ function callHook() {
 /** Autoload any classes that are required **/
 
 function __autoload($className) {
-    global $is_MANAGER;
-    $controller_path = "";
-    if( $is_MANAGER ) $controller_path = DS ."manager";
+    global $api_version;
 
     if (file_exists(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php')) {
         require_once(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php');
-    } else if (file_exists(ROOT . DS . 'application' . DS . 'controllers' . $controller_path . DS . strtolower($className) . '.php')) {
-        require_once(ROOT . DS . 'application' . DS . 'controllers' . $controller_path . DS . strtolower($className) . '.php');
-    } else if (file_exists(ROOT . DS . 'application' . DS . 'models' . DS . strtolower($className) . '.php')) {
-        require_once(ROOT . DS . 'application' . DS . 'models' . DS . strtolower($className) . '.php');
+    } else if (file_exists(ROOT . DS . 'application' . DS . $api_version . DS . 'controllers' . DS . strtolower($className) . '.php')) {
+        require_once(ROOT . DS . 'application' . DS . $api_version . DS . 'controllers' . DS . strtolower($className) . '.php');
+    } else if (file_exists(ROOT . DS . 'application' . DS . $api_version . DS . 'models' . DS . strtolower($className) . '.php')) {
+        require_once(ROOT . DS . 'application' . DS . $api_version . DS . 'models' . DS . strtolower($className) . '.php');
     } else {
         /* Error Generation Code Here */
     }

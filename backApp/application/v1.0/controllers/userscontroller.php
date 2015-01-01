@@ -49,15 +49,21 @@ class UsersController extends Controller {
     }
 
     function login() {
-        $referer = (isset($_POST['referer']) && !empty($_POST['referer']) ? $_POST['referer'] : _BASE_URL_."/project/view_all" );
-
+        $result = array(
+            'result'=>0,
+            'error_msg'=>'',
+            'accessToken'=>''
+        );
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
-            msg_page("Required fields are missing.");
+            $result['error_msg'] = "Required fields are missing.";
+            echo json_encode($result);
+            exit;
         }
 
         $data = Array(
             "id" => trim(strval($_POST['id'])),
-            "password" => SHA1( $_POST['password'].SALT )
+            "password" => SHA1( $_POST['password'].SALT ),
+            "accessToken"=> SHA1($_POST['id'].SALT )
         );
 
         $user = $this->User->getUser("*", $data);
@@ -69,29 +75,21 @@ class UsersController extends Controller {
                 $_SESSION['LOGIN_LEVEL'] = $user["level"];
 
                 /*check is save id */
-                $is_save_id =  ( isset($_POST['is_save_id']) ? trim(strval($_POST['is_save_id'])) : "N");
-                if($is_save_id == "Y"){
-                    setcookie("is_save_id", "Y" , time()+60*60*24*365,"/");
-                    setcookie("LOGIN_ID", $user['id'] , time()+60*60*24*365,"/");
-                }else{
-                    setcookie("is_save_id", "" , time()+60*60*24*365,"/");
-                }
+                $result['result'] = 1;
             }else{
-                msg_page("You do not have permission to access.");
+                $result['error_msg'] = "You do not have permission to access.";
             }
         }else{
-            msg_page("information does not match.");
+            $result['error_msg'] =  "information does not match.";
         }
-        redirect($referer);
+        echo json_encode($result);
     }
 
     function logout(){
-        $referer = (isset($_POST['referer'])? $_POST['referer'] : _BASE_URL_."/project/view_all" );
         unset($_SESSION['LOGIN_NO']);
         unset($_SESSION['LOGIN_ID']);
         unset($_SESSION['LOGIN_NAME']);
         unset($_SESSION['LOGIN_LEVEL']);
-        redirect($referer);
     }
 
 }

@@ -14,6 +14,6 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(dirname(__FILE__)));
 define('_BASE_URL_', '/project_manager');
 
-$url = ( isset($_GET['url']) ? $_GET['url'] : _BASE_URL_."/project/view_all" );
-$is_API = false;
+$url = ( isset($_GET['url']) ? $_GET['url'] : _BASE_URL_."/project" );
+$api_version = "v1.0";
 require_once (ROOT . DS . 'library' . DS . 'bootstrap.php');

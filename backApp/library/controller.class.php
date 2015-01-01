@@ -34,9 +34,6 @@ class Controller {
     }
 
     function __destruct() {
-        global $is_API;
-
-        if(!$is_API) $this->_template->render();
 
     }
 
