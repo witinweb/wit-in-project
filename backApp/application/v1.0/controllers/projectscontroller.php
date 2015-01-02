@@ -1,16 +1,36 @@
 <?php
 /**
- * PostsController Class
+ * ProjectController Class
  *
  * @category  Controller
- * @package   Posts
+ * @package   Project
  * @author    Gongjam <guruahn@gmail.com>
  * @copyright Copyright (c) 2014
  * @license   http://opensource.org/licenses/gpl-3.0.html GNU Public License
  * @version   1.0
  **/
 
-class ProjectController extends Controller {
+class ProjectsController extends Controller {
+
+    protected $user;
+    protected $user_info;
+    protected $result = array(
+        'result'=>0,
+        'error_msg'=>'',
+        'accessToken'=>''
+    );
+
+    function checkAccessToken() {
+
+        if( !isset($_POST['accessToken']) ){
+            $this->result['error_msg'] = 'The accessToken is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        $this->user = new User();
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST["accessToken"]));
+    }
+
 
     function view($id = null,$name = null) {
         $this->set('title',$name);
@@ -22,31 +42,41 @@ class ProjectController extends Controller {
         $this->set('post',$post);
     }
 
-    function view_all($thispage=1, $filter=null, $category_id = null) {
+    function viewAll() {
+        $this->checkAccessToken();
         $where = null;
-        if(is_null($thispage) || empty($thispage)) $thispage = 1;
-        $limit = array( ($thispage-1)*10, 10 );
+        $limit = array( 0, 100 );
 
         $project = $this->Project->getList( array('insert_date'=>'desc'), $limit, $where);
-
-        $this->set('title','All Project');
-        $this->set('project',$project);
+        if($project){
+            $this->result['result'] = 1;
+            $this->result['project_list'] = $project;
+        }else{
+            $this->result['error_msg'] = "No project.";
+        }
+        echo json_encode($this->result);
 
     }
 
-    function writeForm() {
 
-        $this->set('title','Add  project');
-    }
-
-    function addProject() {
-        $data = Array(
+    function add() {
+        $this->checkAccessToken();
+        $project_data = Array(
             "name" => $_POST['name'],
-            "insert_date" => date("Y-m-d H:i:s")
+            "master_idx" => $this->user_info['idx']
         );
+        $result_of_project = $this->Project->add($project_data);
 
-        $this->set('post',$this->Project->add($data));
-        redirect(_BASE_URL_."/project/view_all");
+        $user_project_data = Array(
+            "user_idx" => $this->user_info['idx'],
+            "project_idx" => $result_of_project
+        );
+        $user_project = New User_project();
+        $result_of_user_project = $user_project->add($user_project_data);
+        if($result_of_project && $result_of_user_project){
+            $this->result['result'] = 1;
+        }
+        echo json_encode($this->result);
     }
 
     function del($idx = null) {

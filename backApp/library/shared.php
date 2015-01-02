@@ -101,13 +101,14 @@ function callHook() {
 
 function __autoload($className) {
     global $api_version;
-
+    //printr(ROOT . DS . 'application' . DS . $api_version . DS . 'models' . DS . strtolower($className) . '.php');
     if (file_exists(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php')) {
         require_once(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php');
     } else if (file_exists(ROOT . DS . 'application' . DS . $api_version . DS . 'controllers' . DS . strtolower($className) . '.php')) {
         require_once(ROOT . DS . 'application' . DS . $api_version . DS . 'controllers' . DS . strtolower($className) . '.php');
     } else if (file_exists(ROOT . DS . 'application' . DS . $api_version . DS . 'models' . DS . strtolower($className) . '.php')) {
         require_once(ROOT . DS . 'application' . DS . $api_version . DS . 'models' . DS . strtolower($className) . '.php');
+
     } else {
         /* Error Generation Code Here */
     }
