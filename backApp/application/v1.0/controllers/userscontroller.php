@@ -68,11 +68,10 @@ class UsersController extends Controller {
 
         $user = $this->User->getUser("*", $data);
         if( $this->User->count > 0 ){
-            if( $user['level'] <= 5){
+            if( isset($user['accessToken']) ){
                 $_SESSION['LOGIN_NO'] = $user["idx"];
                 $_SESSION['LOGIN_ID'] = $user["id"];
                 $_SESSION['LOGIN_NAME'] = $user["name"];
-                $_SESSION['LOGIN_LEVEL'] = $user["level"];
 
                 /*check is save id */
                 $result['result'] = 1;
@@ -81,6 +80,34 @@ class UsersController extends Controller {
             }
         }else{
             $result['error_msg'] =  "information does not match.";
+        }
+        echo json_encode($result);
+    }
+
+    function join(){
+        $result = array(
+            'result'=>0,
+            'error_msg'=>'',
+            'accessToken'=>''
+        );
+        if( !trim($_POST['id']) || !trim($_POST['password']) || !trim($_POST['name']) ){
+            $result['error_msg'] = "Required fields are missing.";
+            echo json_encode($result);
+            exit;
+        }
+        $data = Array(
+            "id" => trim(strval($_POST['id'])),
+            "password" => SHA1( $_POST['password'].SALT ),
+            "accessToken"=> SHA1($_POST['id'].SALT ),
+            "name"=> $_POST['name'],
+            "last_login_date"=> date("Y-m-d H:m:s")
+        );
+        $user_id = $this->User->add($data);
+        if($user_id){
+            $result['result'] = 1;
+            $result['accessToken'] = $data['accessToken'];
+        }else{
+            $result['error_msg'] = "Join failed.";
         }
         echo json_encode($result);
     }
