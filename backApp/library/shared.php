@@ -46,10 +46,11 @@ function unregisterGlobals() {
 
     //handles JSON posted arguments and stuffs them into $_POST
     //angular's $http makes JSON posts (not normal "form encoded")
-    $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']); //parse content_type string
-    if ($content_type_args[0] == 'application/json')
-        $_POST = json_decode(file_get_contents('php://input'),true);
-
+    if(isset($_SERVER['CONTENT_TYPE'])){
+        $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']); //parse content_type string
+        if ($content_type_args[0] == 'application/json')
+            $_POST = json_decode(file_get_contents('php://input'),true);
+    }
 
     if (ini_get('register_globals')) {
         $array = array('_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES');
