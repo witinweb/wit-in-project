@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('Project')
-    .controller('ProjectController', ['$scope','$modal', 'ProjectService', function ($scope, $modal, ProjectService) {
-   		
+    .controller('ProjectController', ['$scope', '$rootScope', '$modal', 'ProjectService', function ($scope, $rootScope, $modal, ProjectService) {
     	$scope.newProject = function () {
 		    var modalInstance = $modal.open({
 		      	templateUrl: 'app/modules/project/views/newProject.html',

@@ -16,14 +16,27 @@
             <header>
                 <div id="logo">Wit In Project</div>
             </header>
-            <a href="#" class="button" ng-click="logout()">Logout</a>
+            <form name="form" ng-submit="addProject()" role="form">
+                <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
+                <ul class="button-group text-center">
+                    <li>
+                        <button type="submit" ng-disabled="form.$invalid">Create</button>
+                    </li>
+                </ul>
+            </form>
             <ul>
-                {{projectList.idx}}
                 <li ng-repeat="project in projectList">
-                    <a href="#">{{ project.name }}</a>
+                    <input type="text" name="project.name" id="project.name" placeholder="Project Name" ng-model="project.name" required />
+                    <a href="#" ng-click="modifyProject(project.name)">edit</a>
+                </li>
+                <li>
+                    {{noneProject}}
                 </li>
             </ul>
             <footer>
+                <div class="row">
+                    <a href="#" class="button" ng-click="logout()">Logout</a>
+                </div>
                 <span>2015 &copy; WinInWeb All rights reserved.</span>
             </footer>
 
