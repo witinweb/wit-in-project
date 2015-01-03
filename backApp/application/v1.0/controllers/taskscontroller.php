@@ -87,6 +87,25 @@ class TasksController extends Controller {
         echo json_encode($this->result);
     }
 
+    function categoryList(){
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($_POST['project_idx']));
+        printr($this->Task->getLastQuery());
+        if($categories){
+            $this->result['result'] = 1;
+            $this->result['category_list'] = $categories;
+        }else{
+            $this->result['error_msg'] = 'category does not exist.';
+        }
+
+        echo json_encode($this->result);
+    }
+
     function del($idx = null, $project_idx) {
 
         $data = Array(
