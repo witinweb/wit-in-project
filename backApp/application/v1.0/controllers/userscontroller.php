@@ -18,6 +18,18 @@ class UsersController extends Controller {
         'accessToken'=>''
     );
 
+    protected function checkAccessToken() {
+        if( !isset($_COOKIE['LOGIN_ID']) ){
+            $this->result['error_msg'] = 'Your session has expired.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !isset($_COOKIE['accessToken']) ){
+            $this->result['error_msg'] = 'The accessToken is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+    }
 
     function login() {
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
@@ -79,7 +91,32 @@ class UsersController extends Controller {
         echo json_encode($this->result);
     }
 
+    function userViewAll(){
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        $limit = array( 0, 1000 );
+
+        $user_project = New User_project();
+        $user_project_list = $user_project->getList(array('insert_date'=>'desc'), $limit, array('project_idx'=>$_POST['project_idx']));
+        $user_list = array();
+        foreach($user_project_list as $item){
+            $user_list[] = $this->User->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$item['user_idx']));
+        }
+        if($user_list){
+            $this->result['result'] = 1;
+            $this->result['user_list'] = $user_list;
+        }else{
+            $this->result['error_msg'] = "user does not exist.";
+        }
+        echo json_encode($this->result);
+    }
+
     function logout(){
+
         setcookie("LOGIN_ID", "", time() - 3600, '/');
         setcookie("LOGIN_NAME", "", time() - 3600, '/');
         setcookie("accessToken", "", time() - 3600, '/');

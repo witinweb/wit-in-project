@@ -54,7 +54,6 @@ class ProjectsController extends Controller {
 
         $user_project = New User_project();
         $project_idx_list = $user_project->getList(array('insert_date'=>'desc'), array(0, 1000), array('user_idx'=>$this->user_info['idx']));
-        printr($project_idx_list);
         $project_list = array();
         foreach($project_idx_list as $project){
             $project_list[] = $this->Project->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$project['project_idx']));
@@ -63,7 +62,7 @@ class ProjectsController extends Controller {
             $this->result['result'] = 1;
             $this->result['project_list'] = $project_list;
         }else{
-            $this->result['error_msg'] = "No project.";
+            $this->result['error_msg'] = "project does not exist.";
         }
         echo json_encode($this->result);
 
@@ -87,7 +86,8 @@ class ProjectsController extends Controller {
 
         $user_project_data = Array(
             "user_idx" => $this->user_info['idx'],
-            "project_idx" => $result_of_project
+            "project_idx" => $result_of_project,
+            "is_manager" => 1
         );
         $user_project = New User_project();
         $result_of_user_project = $user_project->add($user_project_data);

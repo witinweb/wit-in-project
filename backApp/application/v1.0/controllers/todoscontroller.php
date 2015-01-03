@@ -1,6 +1,6 @@
- <?php
+<?php
 /**
- * TasksController Class
+ * TodosController Class
  *
  * @category  Controller
  * @package   Task
@@ -10,42 +10,33 @@
  * @version   1.0
  **/
 
-class TasksController extends Controller {
+class TodosController extends Controller {
 
-    protected $result = array(
-        'result'=>0,
-        'error_msg'=>'',
-        'accessToken'=>''
-    );
+    function view_all($page_idx, $thispage = null) {
+        global $is_API;
+        $result = array(
+            'result'=>0,
+            'list'=>''
+        );
+        if(is_null($thispage) || empty($thispage)) $thispage = 1;
+        $limit = array( ($thispage-1)*10, 100 );
 
-    protected function checkAccessToken() {
-        if( !isset($_COOKIE['LOGIN_ID']) ){
-            $this->result['error_msg'] = 'Your session has expired.';
-            echo json_encode($this->result);
-            exit;
+        $where = array( "t.page_idx"=>$page_idx );
+        $this->Todo->join("user u", "u.idx=t.receiver_idx", "LEFT");
+        $column = array("u.idx as u_idx", "u.name as u_name", "t.idx as idx", "t.title as title", "t.status as status");
+        $todos = $this->Todo->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+        if($todos) {
+            $result['result'] = 1;
+            foreach($todos as $Todo){
+
+            }
+            $result['list'] = $todos;
         }
-        if( !isset($_COOKIE['accessToken']) ){
-            $this->result['error_msg'] = 'The accessToken is required.';
-            echo json_encode($this->result);
-            exit;
-        }
-
-    }
-
-    function viewAll() {
-        $this->checkAccessToken();
-
-        $limit = array( 0, 1000 );
-        $where = array('project_idx'=>$_POST['project_idx']);
-        $tasks = $this->Task->getList( array('insert_date'=>'desc'), $limit, $where );
-        if($tasks){
-            $this->result['result'] = 1;
-            $this->result['task_list'] = $tasks;
+        if($is_API){
+            echo json_encode($result);
         }else{
-            $this->result['error_msg'] = "project does not exist.";
+            return $result;
         }
-
-        echo json_encode($this->result);
     }
 
 
