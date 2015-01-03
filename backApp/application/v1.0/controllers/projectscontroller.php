@@ -47,10 +47,16 @@ class ProjectsController extends Controller {
         $where = null;
         $limit = array( 0, 100 );
 
-        $project = $this->Project->getList( array('insert_date'=>'desc'), $limit, $where);
-        if($project){
+        $user_project = New User_project();
+        $project_idx_list = $user_project->getList(array('insert_date'=>'desc'), array(0, 1000), array('user_idx'=>$this->user_info['idx']));
+        printr($project_idx_list);
+        $project_list = array();
+        foreach($project_idx_list as $project){
+            $project_list[] = $this->Project->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$project['project_idx']));
+        }
+        if($project_list){
             $this->result['result'] = 1;
-            $this->result['project_list'] = $project;
+            $this->result['project_list'] = $project_list;
         }else{
             $this->result['error_msg'] = "No project.";
         }
