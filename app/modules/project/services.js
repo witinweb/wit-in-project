@@ -1,6 +1,6 @@
 'use strict';
  
-angular.module('Authentication')
+angular.module('Project')
  
 .factory('AuthenticationService',
     ['$http', '$cookieStore', '$rootScope',
@@ -20,33 +20,27 @@ angular.module('Authentication')
             $http.post('backApp/v1.0/users/login', { id: id, password: password })
                 .success(function (response) {
                     callback(response);
+                    console.log(response);
                 });
 
         };
-
-        service.Logout = function (callback){
-            $http.post('backApp/v1.0/users/logout')
-                .success(function (response) {
-                    callback(response);
-                });
-        }
  
-        service.SetCredentials = function (id, name, accessToken) {
-            //$rootScope.accessToken = accessToken;
+        service.SetCredentials = function (id, accessToken) {
+            $rootScope.accessToken = accessToken;
             $rootScope.globals = {
                 currentUser: {
-                    LOGIN_ID: id,
-                    LOGIN_NAME: name,
+                    id: id,
                     accessToken: accessToken
                 }
             };
  
             $http.defaults.headers.common['Authorization'] = 'Basic ' + accessToken; // jshint ignore:line
+            $cookieStore.put('globals', $rootScope.globals);
         };
- 
  
         service.ClearCredentials = function () {
             $rootScope.globals = {};
+            $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic ';
         };
  

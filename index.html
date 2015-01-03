@@ -12,10 +12,11 @@
 
   <body>
     <div id="wrapper">
-        <div class="side-bar">
+        <div class="side-bar" ng-controller="sidebarController">
             <header>
                 <div id="logo">Wit In Project</div>
             </header>
+            <a href="#" class="button" ng-click="logout()">Logout</a>
             <ul>
                 <li>project1</li>
                 <li>project2</li>

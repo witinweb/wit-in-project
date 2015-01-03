@@ -2,6 +2,14 @@
 
 /* body */
 
+* {
+  box-sizing: border-box;
+}
+
+ul, li{
+    list-style: none;
+}
+
 body {
     background-color:#c0c0c0;
 }
@@ -75,11 +83,20 @@ footer{
 
 /* Project List */
 
-#project-list{
-    margin-top: 20px;
+.project-item{
+    display: block;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 2px;
+    background: white;
+    box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
 }
 
-.grid-list{
-    padding: 20px;
-    
+.grid .survey-item {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 200px;
+    width: 250px;
+    margin: 10px;
 }

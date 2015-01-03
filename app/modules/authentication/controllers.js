@@ -12,7 +12,7 @@ angular.module('Authentication')
                     $scope.dataLoading = true;
                     AuthenticationService.Login($scope.id, $scope.password, function(response) {
                         if(response.result) {
-                            AuthenticationService.SetCredentials($scope.id, $scope.password);
+                            AuthenticationService.SetCredentials($scope.id, response.name, response.accessToken);
                             $location.path('/');
                         } else {
                             $scope.error = response.message;
@@ -20,6 +20,7 @@ angular.module('Authentication')
                         }
                     });
                 };
+                
                 $scope.join = function(){
                     $scope.dataLoading = true;
                     AuthenticationService.Join($scope.name, $scope.id, $scope.password, function(response) {

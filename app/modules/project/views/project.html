@@ -1,157 +1,194 @@
-<span class="toggler active" data-toggle="grid"><i class="fa fa-th-large"></i></span>
-<span class="toggler" data-toggle="list"><i class="fa fa-th-list"></i></span>
+<div id="project-list" ng-controller="projectListController">
+  <nav class="top-bar" data-topbar role="navigation">
+    <!-- Title -->
+    <ul class="title-area">
+      <li class="name"><h1><a href="#">Project List</a></h1></li>
 
+      <!-- Mobile Menu Toggle -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>List</span></a></li>
+    </ul>
 
-<ul class="projects grid">
-  <li class="project-item">
-    <span class="project-country list-only">
-      UK
-    </span>
-    
-    <span class="project-name">
-      UK Beer May 2014
-    </span>
-    
-    <span class="project-country grid-only">
-      UK
-    </span>
-    
-    <div class="pull-right">
-      
-      <span class="project-progress">
-        <span class="project-progress-bg">
-          <span class="project-progress-fg" style="width: 88%;"></span>
-        </span>
-        
-        <span class="project-progress-labels">
-          <span class="project-progress-label">
-            88%
-          </span>
+    <!-- Top Bar Section -->
+    <section class="top-bar-section">
 
-          <span class="project-completes">
-            490 / 500
-          </span>
-        </span>
-      </span>
-      
-       <span class="project-end-date ended">
-        2014 - May 10
-      </span>
-      <span class="project-stage">
-        <span class="stage draft">Draft</span>
-        <span class="stage awarded">Awarded</span>
-        <span class="stage live">Live</span>
-        <span class="stage ended active">Ended</span>        
-      </span>
-    </div>
-  </li>
-  <li class="project-item">    
-    <span class="project-country list-only">
-      US
-    </span>
-    
-    <span class="project-name">
-      Pepsi Tracker New Orleans
-    </span>
-    
-    <span class="project-country grid-only">
-      US
-    </span>
-    
-    <div class="pull-right">
-      
-      <span class="project-progress">
-        <span class="project-progress-bg">
-          <span class="project-progress-fg" style="width: 25%;"></span>
-        </span>
-        
-        <span class="project-progress-labels">
-          <span class="project-progress-label">
-            25%
-          </span>
+      <!-- Top Bar Left Nav Elements -->
+      <ul class="left">
 
-          <span class="project-completes">
-            150 / 500
-          </span>
-        </span>
-      </span>
-      
-       <span class="project-end-date">
-        2014 - July 12
-      </span>
-      <span class="project-stage">
-        <span class="stage draft">Draft</span>
-        <span class="stage awarded">Awarded</span>
-        <span class="stage live active">Live</span>
-        <span class="stage ended">Ended</span>        
-      </span>
-    </div>
-  </li>
-  <li class="project-item">
-    <span class="project-country list-only">
-      US
-    </span>
-    
-    <span class="project-name">
-      Global Music Brand Tracker
-    </span>
-    
-    <span class="project-country grid-only">
-      US
-    </span>
-    
-    <div class="pull-right">
-      <span class="project-end-date">
-        2014 - Oct 1
-      </span>
-      <span class="project-stage">
-        <span class="stage draft">Draft</span>
-        <span class="stage awarded active">Awarded</span>
-        <span class="stage live">Live</span>
-        <span class="stage ended">Ended</span>        
-      </span>
-    </div>
-  </li>
-</ul>  
+        <!-- Search | has-form wrapper -->
+        <form class="" role="search">
+          <li class="has-form">
+            <div class="row collapse">
+              <div class="large-8 small-9 columns">
+                <input type="text" placeholder="Project Search" ng-model="searchInfo.projectName">
+              </div>
+              <div class="large-4 small-3 columns">
+                <button type="submit" class="alert button expand" ng-click="search(searchInfo)">Search</button>
+              </div>
+            </div>
+          </li>
+          <!-- Project-List Style -->
+          <li class="has-form" ng-show="projectListViewType=='grid'"><button type="button" ng-click="toggleProjectListViewType()"><i class="fa fa-th-large"></i></button></li>
+          <li class="has-form" ng-show="projectListViewType=='list'"><button type="button" ng-click="toggleProjectListViewType()"><i class="fa fa-th-list"></i></button></li>
+        </form>
+      </ul>
+    </section>
+  </nav>
 
-<div id="project-list">
-    <div class="row">
-        <ul class="large-block-grid-3">
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
+  <button type="button" class="" ng-click="newProject()">
+   <i class="fa fa-plus"></i> 새로운 북마크 추가
+  </button>
+
+  <script type="text/ng-template" id="newProject.html">
+    <h3>프로젝트 생성</h3>
+    <form name="form" ng-submit="addProject()" role="form">
+        <label for="name">name</label>
+        <input type="text" name="name" id="name" placeholder="ID" ng-model="name" required />
+        <span ng-show="form.name.$dirty && form.name.$error.required" class="error">Project Name is required</span>
+        <ul class="button-group text-center">
+            <li>
+                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Create</button>
+                <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
             </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
-            </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
-            </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
-            </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
-            </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
-            </li>
-            <li class="grid-list">
-                <p>프로젝트 타이틀1</p>
-                <p>프로젝트 내용 :</p>
-                <p>프로젝트 참여자 :</p>
+            <li>
+                <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
             </li>
         </ul>
+    </form>
+  </script>
+
+  <ul class="projects grid">
+    <li class="project-item">
+    </li>
+  </ul>
+
+<!--
+  <div class="list-group" ng-if="bookmarkListViewType=='list'">
+   <a ng-repeat="bookmark in bookmarkList" ng-href="#/bookmarks/{{bookmark._id.$oid}}" class="list-group-item">
+    <span class="badge pull-right">{{bookmark.bookmarkName}}</span> 
+    <span>{{bookmark.bookmarkUrl}}</span>
+   </a>
+  </div>
+  <div class="grid" ng-if="bookmarkListViewType=='grid'">
+   <div class="panel panel-default" ng-repeat="bookmark in bookmarkList">
+    <div class="panel-heading">
+     <a ng-href="#/bookmarks/{{bookmark._id.$oid}}">{{bookmark.bookmarkName}}</a>
     </div>
+    <div class="panel-body">
+     <img ng-src="http://free.pagepeeker.com/v2/thumbs.php?size=l&url={{bookmark.bookmarkUrl}}">
+     <p>{{bookmark.bookamrkUrl}}</p>
+    </div>
+   </div>
+  </div>
+ 
+  <ul class="projects grid">
+    <li class="project-item">
+      <span class="project-country list-only">
+        UK
+      </span>
+      
+      <span class="project-name">
+        UK Beer May 2014
+      </span>
+      
+      <span class="project-country grid-only">
+        UK
+      </span>
+      
+      <div class="pull-right">
+        
+        <span class="project-progress">
+          <span class="project-progress-bg">
+            <span class="project-progress-fg" style="width: 88%;"></span>
+          </span>
+          
+          <span class="project-progress-labels">
+            <span class="project-progress-label">
+              88%
+            </span>
+
+            <span class="project-completes">
+              490 / 500
+            </span>
+          </span>
+        </span>
+        
+         <span class="project-end-date ended">
+          2014 - May 10
+        </span>
+        <span class="project-stage">
+          <span class="stage draft">Draft</span>
+          <span class="stage awarded">Awarded</span>
+          <span class="stage live">Live</span>
+          <span class="stage ended active">Ended</span>        
+        </span>
+      </div>
+    </li>
+    <li class="project-item">    
+      <span class="project-country list-only">
+        US
+      </span>
+      
+      <span class="project-name">
+        Pepsi Tracker New Orleans
+      </span>
+      
+      <span class="project-country grid-only">
+        US
+      </span>
+      
+      <div class="pull-right">
+        
+        <span class="project-progress">
+          <span class="project-progress-bg">
+            <span class="project-progress-fg" style="width: 25%;"></span>
+          </span>
+          
+          <span class="project-progress-labels">
+            <span class="project-progress-label">
+              25%
+            </span>
+
+            <span class="project-completes">
+              150 / 500
+            </span>
+          </span>
+        </span>
+        
+         <span class="project-end-date">
+          2014 - July 12
+        </span>
+        <span class="project-stage">
+          <span class="stage draft">Draft</span>
+          <span class="stage awarded">Awarded</span>
+          <span class="stage live active">Live</span>
+          <span class="stage ended">Ended</span>        
+        </span>
+      </div>
+    </li>
+    <li class="project-item">
+      <span class="project-country list-only">
+        US
+      </span>
+      
+      <span class="project-name">
+        Global Music Brand Tracker
+      </span>
+      
+      <span class="project-country grid-only">
+        US
+      </span>
+      
+      <div class="pull-right">
+        <span class="project-end-date">
+          2014 - Oct 1
+        </span>
+        <span class="project-stage">
+          <span class="stage draft">Draft</span>
+          <span class="stage awarded active">Awarded</span>
+          <span class="stage live">Live</span>
+          <span class="stage ended">Ended</span>        
+        </span>
+      </div>
+    </li>
+  </ul>   -->
 </div>
