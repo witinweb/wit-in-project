@@ -1,26 +1,37 @@
 'use strict';
 
 angular.module('Project')
-    .controller('ProjectController', ['$scope','$rootScope','$modal', function ($scope, $rootScope, $modal) {
-    	$scope.accessToken = $rootScope.globals.currentUser.accessToken;
+    .controller('ProjectController', ['$scope', '$rootScope', '$modal', 'ProjectService', function ($scope, $rootScope, $modal, ProjectService) {
     	$scope.newProject = function () {
 		    var modalInstance = $modal.open({
-		      templateUrl: 'newProject.html',
-		      controller: 'newProjectController'
+		      	templateUrl: 'app/modules/project/views/newProject.html',
+		      	controller: 'modalInstanceController'
+		    });
+	        modalInstance.result.then(function (ProjectItem) {
+		      $scope.projectItem = ProjectItem;
 		    });
 		}
-    }])
+    }]);
 
-    .controller('newProjectController', function ($scope, $modalInstance) {
-
-		$scope.ok = function () {
-			$modalInstance.close($scope.selected.item);
+angular.module('Project')
+    .controller('modalInstanceController', ['$scope', '$rootScope', '$modalInstance', 'ProjectService', function ($scope, $rootScope, $modalInstance, ProjectService) {
+    	$scope.data = {};
+		$scope.addProject = function () {
+			$scope.dataLoading = true;
+			ProjectService.Add($scope.data.name, $rootScope.globals.currentUser.accessToken, function(response) {
+                if(response.result) {
+                	$modalInstance.close($scope.data.name);
+                } else {
+                    $scope.error = response.message;
+                    $scope.dataLoading = false;
+                }
+            });
 		};
 
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};
-	})
+	}])
 
    .controller('projectListController',['$scope', function ($scope) {
 	   $scope.projectListViewType = 'grid';
@@ -39,4 +50,4 @@ angular.module('Project')
 	   $scope.search = function (searchInfo) {
 	    $scope.$broadcast('search:newSearchInfo',searchInfo);
 	   };
- }]);
+ 	}]);

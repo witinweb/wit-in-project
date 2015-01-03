@@ -34,6 +34,7 @@ angular.module('BasicHttpAuthExample', [
     .run(['$rootScope', '$location', '$cookies', '$http',
         function ($rootScope, $location, $cookies, $http) {
             //page refresh or init
+            $rootScope.hasProject = 0;
             $rootScope.globals = {
                 currentUser: {
                     LOGIN_ID: $cookies['LOGIN_ID'],
@@ -58,9 +59,49 @@ angular.module('BasicHttpAuthExample', [
             });
         }])
 
-    .controller('sidebarController', ['$scope', '$route', '$location', 'AuthenticationService',
-            function ($scope, $route, $location, AuthenticationService) {
-               
+    .controller('sidebarController', ['$scope', '$rootScope', '$route', '$location', 'AuthenticationService', 'ProjectService',
+            function ($scope, $rootScope, $route, $location, AuthenticationService, ProjectService) {
+                $scope.listProject = function(){
+                    ProjectService.ViewAll(function(response){
+                        if(response.result){
+                            $scope.noneProject = "";
+                            $rootScope.hasProject = 1;
+                            var project_list = [];
+                            for (var i in response.project_list) {
+                                project_list[i] = response.project_list[i][0];
+                            }
+                            $scope.projectList = project_list;
+                        } else {
+                            $scope.noneProject = "프로젝트가 없습니다";
+                            $rootScope.hasProject = 0;
+                        }
+                    });
+                };
+
+                $scope.listProject();
+
+                $scope.addProject = function () {
+                    ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
+                        if(response.result) {
+                            $scope.listProject();
+                            $scope.name = '';
+                        } else {
+                            $scope.error = response.message;
+                        }
+                    });
+                };
+
+                $scope.modifyProject = function (name) {
+                    ProjectService.Modify(name, $rootScope.globals.currentUser.accessToken, function(response) {
+                        if(response.result) {
+                            $scope.listProject();
+                            $scope.name = '';
+                        } else {
+                            $scope.error = response.message;
+                        }
+                    });
+                };
+
                 $scope.logout = function () {
                     AuthenticationService.Logout(function(response){
                         if(response.result){
