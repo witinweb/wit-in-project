@@ -23,6 +23,14 @@ angular.module('Project')
                 });
         };
 
+        service.Delete = function (idx, accessToken, callback) {
+
+            $http.post('backApp/v1.0/projects/del', { project_idx: idx, accessToken: accessToken })
+                .success(function (response){
+                   callback(response);
+                });
+        };
+
         service.ViewAll = function (callback) {
 
             $http.post('backApp/v1.0/projects/ViewAll')

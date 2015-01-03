@@ -17,12 +17,18 @@
                 <div id="logo">Wit In Project</div>
             </header>
             <form name="form" ng-submit="addProject()" role="form">
-                <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
-                <ul class="button-group text-center">
-                    <li>
-                        <button type="submit" ng-disabled="form.$invalid">Create</button>
-                    </li>
-                </ul>
+                 <div class="row">
+                        <div class="large-12 columns">
+                            <div class="row collapse">
+                                <div class="small-10 columns">
+                                    <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
+                                </div>
+                                <div class="small-2 columns">
+                                    <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </form>
             <ul>
                 <li ng-repeat="project in projectList">
@@ -30,15 +36,22 @@
                         <div class="large-12 columns">
                             <div class="row collapse">
                                 <div class="small-8 columns">
-                                    <input type="text" name="project.name" id="project.name" placeholder="Project Name" ng-model="project.name" required />
+                                    <a href="#/projects/{{project.idx}}/" class="button postfix success">{{project.name}}</a>
+                                </div>
+                                <div class="small-2 columns">
+                                    <a href="#" class="button postfix" ng-click="modifyProject(project.name, project.idx)">edit</a>
+                                </div>
+                                <div class="small-2 columns">
+                                    <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
+                                </div>
+                                <script type="text/ng-template" id="delete.html">
+                                <h3>프로젝트 삭제</h3>
+                                <p>프로젝트를 삭제 하시겠습니까?</p>
+                                <p>task / todo 함께 삭제됩니다. </p>
+                                <button class="button" ng-click="ok()">OK</button>
+                                <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
+                              </script>
                             </div>
-                            <div class="small-2 columns">
-                                <a href="#" class="button postfix" ng-click="modifyProject(project.name, project.idx)">edit</a>
-                            </div>
-                            <div class="small-2 columns">
-                                <a href="#" class="button postfix alert" ng-click="deleteProject(project.name)">delete</a>
-                            </div>
-                          </div>
                         </div>
                     </div>
                 </li>

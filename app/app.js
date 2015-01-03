@@ -8,7 +8,8 @@ angular.module('BasicHttpAuthExample', [
         'Authentication',
         'Project',
         'ngRoute',
-        'ngCookies'
+        'ngCookies',
+        'mm.foundation'        
     ])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -34,7 +35,6 @@ angular.module('BasicHttpAuthExample', [
     .run(['$rootScope', '$location', '$cookies', '$http',
         function ($rootScope, $location, $cookies, $http) {
             //page refresh or init
-            $rootScope.hasProject = 0;
             $rootScope.globals = {
                 currentUser: {
                     LOGIN_ID: $cookies['LOGIN_ID'],
@@ -59,13 +59,12 @@ angular.module('BasicHttpAuthExample', [
             });
         }])
 
-    .controller('sidebarController', ['$scope', '$rootScope', '$route', '$location', 'AuthenticationService', 'ProjectService',
-            function ($scope, $rootScope, $route, $location, AuthenticationService, ProjectService) {
+    .controller('sidebarController', ['$scope', '$rootScope', '$route', '$location','$modal', 'AuthenticationService', 'ProjectService',
+            function ($scope, $rootScope, $route, $location, $modal, AuthenticationService, ProjectService) {
                 $scope.listProject = function(){
                     ProjectService.ViewAll(function(response){
                         if(response.result){
                             $scope.noneProject = "";
-                            $rootScope.hasProject = 1;
                             var project_list = [];
                             for (var i in response.project_list) {
                                 project_list[i] = response.project_list[i][0];
@@ -73,7 +72,6 @@ angular.module('BasicHttpAuthExample', [
                             $scope.projectList = project_list;
                         } else {
                             $scope.noneProject = "프로젝트가 없습니다";
-                            $rootScope.hasProject = 0;
                         }
                     });
                 };
@@ -95,13 +93,38 @@ angular.module('BasicHttpAuthExample', [
                     ProjectService.Modify(name, idx, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
                             $scope.listProject();
-                            $scope.name = '';
                         } else {
                             $scope.error = response.message;
                         }
                     });
                 };
 
+                $scope.deleteProject = function (idx) {
+                    $scope.idx = idx;
+                    var modalInstance = $modal.open({
+                        templateUrl: 'delete.html',
+                        controller: 'ModalInstanceCtrl',
+                        resolve: {
+                            idx: function () {
+                              return $scope.idx;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (ProjectItem) {
+                      $scope.listProject();
+                    });
+                }
+                /*
+                $scope.deleteProject = function (name, idx) {
+                    ProjectService.Delete(idx, $rootScope.globals.currentUser.accessToken, function(response) {
+                        if(response.result) {
+                            $scope.listProject();
+                        } else {
+                            $scope.error = response.message;
+                        }
+                    });
+                };
+*/
                 $scope.logout = function () {
                     AuthenticationService.Logout(function(response){
                         if(response.result){
@@ -110,4 +133,22 @@ angular.module('BasicHttpAuthExample', [
                         }
                     }); 
                 };
-        }]);
+        }])
+        .controller('ModalInstanceCtrl', function ($scope, $rootScope, $modalInstance, ProjectService, idx) {
+            $scope.idx = idx;
+            $scope.ok = function () {
+                ProjectService.Delete($scope.idx, $rootScope.globals.currentUser.accessToken, function(response) {
+                        if(response.result) {
+                            $modalInstance.close();            
+                        } else {
+                            
+                        }
+                    });
+                
+            };
+
+            $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+            };
+        });
+        
