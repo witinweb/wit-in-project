@@ -7,41 +7,21 @@ angular.module('Project')
     function ($http, $cookies, $rootScope) {
         var service = {};
 
-        service.newProject = function (name) {
+        service.Add = function (name, accessToken, callback) {
 
-            $http.post('backApp/v1.0/users/join', { name: name, id: id, password: password })
+            $http.post('backApp/v1.0/projects/add', { name: name, accessToken: accessToken })
                 .success(function (response){
                    callback(response);
                 });
         };
 
-        service.Login = function (id, password, callback) {
+        service.ViewAll = function (callback) {
 
-            $http.post('backApp/v1.0/users/login', { id: id, password: password })
-                .success(function (response) {
-                    callback(response);
+            $http.post('backApp/v1.0/projects/ViewAll')
+                .success(function (response){
                     console.log(response);
+                   callback(response);
                 });
-
-        };
- 
-        service.SetCredentials = function (id, accessToken) {
-            $rootScope.accessToken = accessToken;
-            $rootScope.globals = {
-                currentUser: {
-                    id: id,
-                    accessToken: accessToken
-                }
-            };
- 
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + accessToken; // jshint ignore:line
-            $cookieStore.put('globals', $rootScope.globals);
-        };
- 
-        service.ClearCredentials = function () {
-            $rootScope.globals = {};
-            $cookieStore.remove('globals');
-            $http.defaults.headers.common.Authorization = 'Basic ';
         };
  
         return service;

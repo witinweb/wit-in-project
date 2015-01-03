@@ -1,0 +1,15 @@
+<h3>프로젝트 생성</h3>
+    <form name="form" ng-submit="addProject()" role="form">
+        <label for="name">name</label>
+        <input type="text" name="name" id="name" placeholder="ID" ng-model="data.name" required />
+        <span ng-show="form.name.$dirty && form.name.$error.required" class="error">Project Name is required</span>
+        <ul class="button-group text-center">
+            <li>
+                <button type="submit" ng-disabled="form.$invalid || dataLoading">Create</button>
+                <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
+            </li>
+            <li>
+                <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
+            </li>
+        </ul>
+    </form>

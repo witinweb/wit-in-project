@@ -35,26 +35,8 @@
   </nav>
 
   <button type="button" class="" ng-click="newProject()">
-   <i class="fa fa-plus"></i> 새로운 북마크 추가
+   <i class="fa fa-plus"></i> 새로운 프로젝트 추가
   </button>
-
-  <script type="text/ng-template" id="newProject.html">
-    <h3>프로젝트 생성</h3>
-    <form name="form" ng-submit="addProject()" role="form">
-        <label for="name">name</label>
-        <input type="text" name="name" id="name" placeholder="ID" ng-model="name" required />
-        <span ng-show="form.name.$dirty && form.name.$error.required" class="error">Project Name is required</span>
-        <ul class="button-group text-center">
-            <li>
-                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Create</button>
-                <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-            </li>
-            <li>
-                <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
-            </li>
-        </ul>
-    </form>
-  </script>
 
   <ul class="projects grid">
     <li class="project-item">

@@ -58,9 +58,19 @@ angular.module('BasicHttpAuthExample', [
             });
         }])
 
-    .controller('sidebarController', ['$scope', '$route', '$location', 'AuthenticationService',
-            function ($scope, $route, $location, AuthenticationService) {
-               
+    .controller('sidebarController', ['$scope', '$route', '$location', 'AuthenticationService', 'ProjectService',
+            function ($scope, $route, $location, AuthenticationService, ProjectService) {
+                console.log("AA");
+                ProjectService.ViewAll(function(response){
+                    console.log(response.result);
+                    if(response.result){
+                        console.log(response.project_list);
+                        $scope.projectList = response.project_list;
+                    } else {
+                        $scope.error = response.message;
+                    }
+                });
+
                 $scope.logout = function () {
                     AuthenticationService.Logout(function(response){
                         if(response.result){
