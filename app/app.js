@@ -91,8 +91,8 @@ angular.module('BasicHttpAuthExample', [
                     });
                 };
 
-                $scope.modifyProject = function (name) {
-                    ProjectService.Modify(name, $rootScope.globals.currentUser.accessToken, function(response) {
+                $scope.modifyProject = function (name, idx) {
+                    ProjectService.Modify(name, idx, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
                             $scope.listProject();
                             $scope.name = '';

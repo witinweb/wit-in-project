@@ -15,9 +15,9 @@ angular.module('Project')
                 });
         };
 
-        service.Modify = function (name, accessToken, callback) {
+        service.Modify = function (name, idx, accessToken, callback) {
 
-            $http.post('backApp/v1.0/projects/modify', { name: name, accessToken: accessToken })
+            $http.post('backApp/v1.0/projects/modify', { name: name, project_idx: idx, accessToken: accessToken })
                 .success(function (response){
                    callback(response);
                 });
