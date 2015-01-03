@@ -157,7 +157,7 @@ class ProjectsController extends Controller {
             exit;
         }
 
-        if($this->checkIsMaster($idx, $this->user_info['idx'])){
+        if($this->checkIsMaster($_POST['project_idx'], $this->user_info['idx'])){
             $data = Array(
                 "name" => trim(strval($_POST['name']))
             );
