@@ -37,7 +37,7 @@ class User extends Model {
      * @param
      * @return array
      */
-    public function getList($orderby = null, $limit, $where = null) {
+    public function getList($orderby = null, $limit, $where = null, $columns = null) {
         if( !is_null($orderby) && is_array($orderby) ){
             foreach($orderby as $key => $value){
                 $this->orderBy($key,$value);
@@ -48,8 +48,12 @@ class User extends Model {
                 if(!is_null($value)) $this->where($key,$value);
             }
         }
-        $posts = $this->get('user', $limit);
-        return $posts;
+        if ( !is_null($columns) && is_array($columns) ){
+            $users = $this->get('user', $limit, $columns);
+        }else{
+            $users = $this->get('user', $limit);
+        }
+        return $users;
     }
 
 

@@ -11,7 +11,8 @@
  **/
 
 class TasksController extends Controller {
-
+    protected $user;
+    protected $user_info;
     protected $result = array(
         'result'=>0,
         'error_msg'=>'',
@@ -29,15 +30,26 @@ class TasksController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-
+        $this->user = new User();
+        $this->user_info = $this->user->getUser("*", array('id'=>$_COOKIE["LOGIN_ID"]));
     }
 
     function viewAll() {
         $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
 
         $limit = array( 0, 1000 );
-        $where = array('project_idx'=>$_POST['project_idx']);
-        $tasks = $this->Task->getList( array('insert_date'=>'desc'), $limit, $where );
+        $where = array( "t.project_idx"=>$_POST['project_idx'] );
+        if( isset($_POST['category']) ) $where["t.category"] = $_POST['category'];
+        $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
+        $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
+        $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+
+
         if($tasks){
             $this->result['result'] = 1;
             $this->result['task_list'] = $tasks;
@@ -48,65 +60,30 @@ class TasksController extends Controller {
         echo json_encode($this->result);
     }
 
-
-
-    function makeState($state){
-        $result = array(
-            "en"=>"",
-            "ko"=>""
-        );
-        if($state == 1){
-            $result["en"] = "ready";
-            $result["ko"] = "진행중";
-            $result["class"] = "button tiny state0";
-        }else if($state == 1){
-            $result["en"] = "finish";
-            $result["ko"] = "완료";
-            $result["class"] = "button tiny alert state1";
-        }else if($state == 2){
-            $result["en"] = "delete";
-            $result["ko"] = "삭제";
-            $result["class"] = "button tiny secondary state2";
+    function add() {
+        $this->checkAccessToken();
+        if( !isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The task name or description or project_idx is required.';
+            echo json_encode($this->result);
+            exit;
         }
-        return $result;
-    }
-    function writeForm($project_idx) {
-        $limit = array( 0, 1000 );
-        $where = array(
-            'project_idx'=> $project_idx
-        );
-        $category = new Category();
-        $categories = $category->getList( array('insert_date'=>'asc'), $limit, $where );
-        $this->set('project_idx', $project_idx);
-        $this->set('categories', $categories);
-        $this->set('title','Write  pages');
-    }
 
-    function addTask() {
-        global $is_API;
-        $result = array(
-            'result'=>0,
-            'idx'=>''
-        );
         $data = Array(
-            "page_idx" => $_POST['page_idx'],
-            "title" => $_POST['title'],
+            "name" => $_POST['name'],
+            "description" => $_POST['description'],
             "project_idx" => $_POST['project_idx'],
-            "user_idx" => $_SESSION['LOGIN_NO'],
-            "receiver_idx"=> $_POST['receiver_idx'],
-            "due_date" => date("Y-m-d")
+            "creator_idx" => $this->user_info['idx']
         );
+        if( isset($_POST['category']) ) $data["category"] = $_POST['category'];
+        $task = $this->Task->add($data);
 
-        $task_id = $this->Task->add($data);
-        if($task_id) {
-            $result['result'] = 1;
-            $result['idx'] = $task_id;
-        }
-        if($is_API){
-            echo json_encode($result);
+        if($task){
+            $this->result['result'] = 1;
         }else{
-            return $result;
+            $this->result['error_msg'] = 'Failed to add task.';
         }
+
+        echo json_encode($this->result);
     }
 
     function del($idx = null, $project_idx) {

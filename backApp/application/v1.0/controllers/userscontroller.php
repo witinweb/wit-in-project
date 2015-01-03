@@ -104,7 +104,7 @@ class UsersController extends Controller {
         $user_project_list = $user_project->getList(array('insert_date'=>'desc'), $limit, array('project_idx'=>$_POST['project_idx']));
         $user_list = array();
         foreach($user_project_list as $item){
-            $user_list[] = $this->User->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$item['user_idx']));
+            $user_list[] = $this->User->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$item['user_idx']), array('id','name'));
         }
         if($user_list){
             $this->result['result'] = 1;
