@@ -68,7 +68,7 @@ class Project extends Model {
     * @param
     * @return array
     */
-    public function updateProject($idx, $data)
+    public function modify($idx, $data)
     {
         $this->where ('idx', $idx);
         return	$this->update('project', $data);

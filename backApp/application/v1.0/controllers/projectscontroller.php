@@ -33,7 +33,7 @@ class ProjectsController extends Controller {
         }
 
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('id'=>$_SESSION["LOGIN_ID"]));
+        $this->user_info = $this->user->getUser("*", array('id'=>$_COOKIE["LOGIN_ID"]));
     }
 
 
@@ -144,18 +144,33 @@ class ProjectsController extends Controller {
     }
 
     private function checkIsMaster($project_idx, $user_idx){
-        $master_idx = $this->Project->getProject("master_idx", array("idx"=>$project_idx));
-        return ($user_idx == $master_idx);
+        $project = $this->Project->getProject("master_idx", array("idx"=>$project_idx));
+        return ($user_idx == $project['master_idx']);
     }
 
 
-    function updateProject($idx = null) {
+    function modify($idx = null) {
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
 
-        $data = Array(
-            "name" => trim(strval($_POST['name']))
-        );
-        $this->Project->updateProject($idx, $data);
-        redirect(_BASE_URL_."/project/view_all");
+        if($this->checkIsMaster($idx, $this->user_info['idx'])){
+            $data = Array(
+                "name" => trim(strval($_POST['name']))
+            );
+            if( $this->Project->modify($_POST['project_idx'], $data) ){
+                $this->result['result'] = 1;
+            }else{
+                $this->result['error_msg'] = 'Cannot update this project.';
+            }
+        }else{
+            $this->result['error_msg'] = "You do not have permission to update.";
+        }
+
+        echo json_encode($this->result);
     }
 
     function uploadFile($file = null) {
