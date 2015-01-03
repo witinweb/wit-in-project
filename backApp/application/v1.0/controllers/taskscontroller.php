@@ -75,6 +75,7 @@ class TasksController extends Controller {
             "creator_idx" => $this->user_info['idx']
         );
         if( isset($_POST['category']) ) $data["category"] = $_POST['category'];
+        if( isset($_POST['related_link']) ) $data["related_link"] = $_POST['related_link'];
         $task = $this->Task->add($data);
 
         if($task){

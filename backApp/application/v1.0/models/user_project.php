@@ -60,7 +60,7 @@ class User_project extends Model {
     }
 
     /*
-    * delete post
+    * delete user_project
     * @param
     * @return array
     */
@@ -70,5 +70,15 @@ class User_project extends Model {
         return	$this->delete('user_project');
     }
 
+    /*
+    * delete user_project by project_idx
+    * @param
+    * @return array
+    */
+    public function delByProjectIdx($project_idx)
+    {
+        $this->where ('project_idx', $project_idx);
+        return	$this->delete('user_project');
+    }
 
 }

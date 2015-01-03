@@ -129,10 +129,20 @@ class ProjectsController extends Controller {
 
     }
 
-    function del($idx = null) {
+    function del() {
         $this->checkAccessToken();
-        if($this->checkIsMaster($idx, $this->user_info['idx'])){
-            if( $this->Project->del($idx) ){
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if($this->checkIsMaster($_POST['project_idx'], $this->user_info['idx'])){
+            if( $this->Project->del($_POST['project_idx']) ){
+                $user_project = New User_project();
+                $user_project->delByProjectIdx($_POST['project_idx']);
+
+                $task = New Task();
+                $task->delByProjectidx($_POST['project_idx']);
                 $this->result['result'] = 1;
             }else{
                 $this->result['error_msg'] = 'Cannot delete this project.';

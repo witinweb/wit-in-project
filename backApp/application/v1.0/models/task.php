@@ -91,6 +91,17 @@ class Task extends Model {
     }
 
     /*
+    * delete tasks by project_idx
+    * @param
+    * @return array
+    */
+    public function delByProjectIdx($project_idx)
+    {
+        $this->where ('project_idx', $project_idx);
+        return	$this->delete('task');
+    }
+
+    /*
     * add attachment
     * @param
     * @return array
