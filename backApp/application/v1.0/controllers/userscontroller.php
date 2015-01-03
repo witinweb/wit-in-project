@@ -45,6 +45,7 @@ class UsersController extends Controller {
                 setcookie('accessToken',$modify_data['accessToken'],time() + (86400 * 1), '/');
 
                 $this->result['result'] = 1;
+                $this->result['name'] = $user["name"];
                 $this->result['accessToken'] = $modify_data['accessToken'];
             }else{
                 $this->result['error_msg'] = "You do not have permission to access.";

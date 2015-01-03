@@ -23,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="shared.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="shared.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backApp/library/shared.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="0" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.41183037" vertical-offset="379" max-vertical-offset="1989">
+            <state line="53" column="0" selection-start="1580" selection-end="1580" vertical-scroll-proportion="-14.192307" vertical-offset="379" max-vertical-offset="1989">
               <folding />
             </state>
           </provider>
@@ -41,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userscontroller.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="userscontroller.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="40" selection-start="2864" selection-end="2864" vertical-scroll-proportion="-29.884615" vertical-offset="515" max-vertical-offset="1445">
+            <state line="50" column="75" selection-start="1724" selection-end="1724" vertical-scroll-proportion="0.65848213" vertical-offset="107" max-vertical-offset="1462">
               <folding />
             </state>
           </provider>
@@ -62,7 +62,7 @@
       <file leaf-file-name="projectscontroller.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/projectscontroller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="17" selection-start="688" selection-end="688" vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="4233">
+            <state line="111" column="76" selection-start="3506" selection-end="3509" vertical-scroll-proportion="-21.576923" vertical-offset="1173" max-vertical-offset="4233">
               <folding />
             </state>
           </provider>
@@ -119,8 +119,8 @@
         <option value="$PROJECT_DIR$/backApp/application/v1.0/models/project.php" />
         <option value="$PROJECT_DIR$/backApp/application/v1.0/models/user_project.php" />
         <option value="$PROJECT_DIR$/backApp/application/v1.0/controllers/projectscontroller.php" />
-        <option value="$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php" />
         <option value="$PROJECT_DIR$/backApp/library/shared.php" />
+        <option value="$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php" />
       </list>
     </option>
   </component>
@@ -547,23 +547,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/backApp/library/shared.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="1580" selection-end="1580" vertical-scroll-proportion="-14.192307" vertical-offset="379" max-vertical-offset="1989">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/projectscontroller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="17" selection-start="688" selection-end="688" vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="4233">
+        <state line="111" column="76" selection-start="3506" selection-end="3509" vertical-scroll-proportion="-21.576923" vertical-offset="1173" max-vertical-offset="4233">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backApp/application/v1.0/controllers/userscontroller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="40" selection-start="2864" selection-end="2864" vertical-scroll-proportion="-29.884615" vertical-offset="515" max-vertical-offset="1445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backApp/library/shared.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="0" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.41183037" vertical-offset="379" max-vertical-offset="1989">
+        <state line="50" column="75" selection-start="1724" selection-end="1724" vertical-scroll-proportion="0.65848213" vertical-offset="107" max-vertical-offset="1462">
           <folding />
         </state>
       </provider>
