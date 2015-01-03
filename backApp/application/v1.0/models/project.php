@@ -16,7 +16,7 @@ class Project extends Model {
 	* @param
 	* @return array
 	*/
-    public function getPost($column = "*", $where = null)
+    public function getProject($column = "*", $where = null)
     {
         if( is_array($where) && !is_null($where) )
         {

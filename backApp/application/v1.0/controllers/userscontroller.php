@@ -33,14 +33,17 @@ class UsersController extends Controller {
         $user = $this->User->getUser("*", $data);
         if( $this->User->count > 0 ){
             if( isset($user['accessToken']) ){
-                $_SESSION['LOGIN_NO'] = $user["idx"];
-                $_SESSION['LOGIN_ID'] = $user["id"];
-                $_SESSION['LOGIN_NAME'] = $user["name"];
+
                 $modify_data = array(
                     "last_login_date"=> date("Y-m-d H:m:s"),
                     "accessToken"=> SHA1($_POST['id'].date("Y-m-d H:m:s").SALT )
                 );
                 $this->User->modify( $user["idx"], $modify_data );
+
+                setcookie('LOGIN_ID',$user["id"],time() + (86400 * 1), '/');
+                setcookie('LOGIN_NAME',$user["name"],time() + (86400 * 1), '/');
+                setcookie('accessToken',$modify_data['accessToken'],time() + (86400 * 1), '/');
+
                 $this->result['result'] = 1;
                 $this->result['accessToken'] = $modify_data['accessToken'];
             }else{
@@ -76,10 +79,11 @@ class UsersController extends Controller {
     }
 
     function logout(){
-        unset($_SESSION['LOGIN_NO']);
-        unset($_SESSION['LOGIN_ID']);
-        unset($_SESSION['LOGIN_NAME']);
-        unset($_SESSION['LOGIN_LEVEL']);
+        setcookie("LOGIN_ID", "", time() - 3600, '/');
+        setcookie("LOGIN_NAME", "", time() - 3600, '/');
+        setcookie("accessToken", "", time() - 3600, '/');
+        $this->result['result'] = 1;
+        echo json_encode($this->result);
     }
 
 }

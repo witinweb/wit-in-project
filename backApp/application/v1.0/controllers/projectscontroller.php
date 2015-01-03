@@ -20,15 +20,20 @@ class ProjectsController extends Controller {
         'accessToken'=>''
     );
 
-    function checkAccessToken() {
-
-        if( !isset($_POST['accessToken']) ){
+    protected function checkAccessToken() {
+        if( !isset($_COOKIE['LOGIN_ID']) ){
+            $this->result['error_msg'] = 'Your session has expired.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !isset($_COOKIE['accessToken']) ){
             $this->result['error_msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
+
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST["accessToken"]));
+        $this->user_info = $this->user->getUser("*", array('id'=>$_SESSION["LOGIN_ID"]));
     }
 
 
@@ -66,7 +71,14 @@ class ProjectsController extends Controller {
 
 
     function add() {
+
         $this->checkAccessToken();
+        if( !isset($_POST['name']) ){
+            $this->result['error_msg'] = 'The project name is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+
         $project_data = Array(
             "name" => $_POST['name'],
             "master_idx" => $this->user_info['idx']
@@ -79,27 +91,63 @@ class ProjectsController extends Controller {
         );
         $user_project = New User_project();
         $result_of_user_project = $user_project->add($user_project_data);
+
         if($result_of_project && $result_of_user_project){
             $this->result['result'] = 1;
+        }
+
+        echo json_encode($this->result);
+
+    }
+
+    function addUser(){
+
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) || !isset($_POST['user_id']) ){
+            $this->result['error_msg'] = 'The project_idx and user_id is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+
+        if($this->checkIsMaster($_POST['project_idx'], $this->user_info['idx'])){
+            //User information to be updated
+            $this->user = new User();
+            $user = $this->user->getUser("*", array('user_id'=>$_POST["user_id"]));
+            //project member update
+            $user_project = New User_project();
+            $where = array('user_idx'=>$user['idx'], 'project_idx'=>$_POST['project_idx']);
+            if($user_project->modify($where, array('is_manager'=> 1))){
+                $this->result['result'] = 1;
+            }else{
+                $this->result['error_msg'] = "Update failed.";
+            }
+        }else{
+            $this->result['error_msg'] = "You do not have permission to delete.";
+        }
+
+        echo json_encode($this->result);
+
+    }
+
+    function del($idx = null) {
+        $this->checkAccessToken();
+        if($this->checkIsMaster($idx, $this->user_info['idx'])){
+            if( $this->Project->del($idx) ){
+                $this->result['result'] = 1;
+            }else{
+                $this->result['error_msg'] = 'Cannot delete this project.';
+            }
+        }else{
+            $this->result['error_msg'] = "You do not have permission to delete.";
         }
         echo json_encode($this->result);
     }
 
-    function del($idx = null) {
-
-        if( $this->Project->del($idx) ){
-            msg_page('Success delete project.', _BASE_URL_."/project/view_all");
-            exit;
-        }else{
-            msg_page('Cannot delete this project.');
-            exit;
-        }
+    private function checkIsMaster($project_idx, $user_idx){
+        $master_idx = $this->Project->getProject("master_idx", array("idx"=>$project_idx));
+        return ($user_idx == $master_idx);
     }
 
-    function editForm($idx = null) {
-        $this->set('title','Edit Project');
-        $this->set('project',$this->Project->getPost( "*", array("idx"=>$idx) ));
-    }
 
     function updateProject($idx = null) {
 

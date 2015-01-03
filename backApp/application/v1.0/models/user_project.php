@@ -49,9 +49,13 @@ class User_project extends Model {
     * @param
     * @return array
     */
-    public function modify($idx, $data)
+    public function modify($where, $data)
     {
-        $this->where ('idx', $idx);
+        if( !is_null($where) && is_array($where) ){
+            foreach($where as $key => $value){
+                if(!is_null($value)) $this->where($key,$value);
+            }
+        }
         return	$this->update('user_project', $data);
     }
 
