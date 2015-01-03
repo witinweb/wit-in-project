@@ -33,7 +33,7 @@ angular.module('BasicHttpAuthExample', [
 
     .run(['$rootScope', '$location', '$cookies', '$http',
         function ($rootScope, $location, $cookies, $http) {
-            // keep user logged in after page refresh
+            //page refresh or init
             $rootScope.globals = {
                 currentUser: {
                     LOGIN_ID: $cookies['LOGIN_ID'],
@@ -42,17 +42,17 @@ angular.module('BasicHttpAuthExample', [
                 }
             };
 
-            if ($cookies['LOGIN_ID']) {
+            if ($rootScope.globals.currentUser.LOGIN_ID) {
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.accessToken; // jshint ignore:line
             }
-
+            //only change location state
             $rootScope.$on('$locationChangeStart', function (event, next, current) {
                 // redirect to login page if not logged in
-                if (($location.path() !== '/login' && !$cookies['LOGIN_ID']) || (!$cookies['LOGIN_ID'] && $location.path() !== '/join')) {
+                if (($location.path() !== '/login' && !$rootScope.globals.currentUser.LOGIN_ID ) || ($location.path() !== '/join' && !$rootScope.globals.currentUser.LOGIN_ID)) {
                     $location.path('/login');
                 }
-
-                if ($location.path() == '/login' && $cookies['LOGIN_ID']) {
+                //don't redirect to login page if logged in
+                if ($location.path() == '/login' && $rootScope.globals.currentUser.LOGIN_ID ) {
                     $location.path('/');
                 }
             });

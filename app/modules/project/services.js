@@ -2,12 +2,12 @@
  
 angular.module('Project')
  
-.factory('AuthenticationService',
-    ['$http', '$cookieStore', '$rootScope',
-    function ($http, $cookieStore, $rootScope) {
+.factory('ProjectService',
+    ['$http', '$cookies', '$rootScope',
+    function ($http, $cookies, $rootScope) {
         var service = {};
 
-        service.Join = function (name, id, password, callback) {
+        service.newProject = function (name) {
 
             $http.post('backApp/v1.0/users/join', { name: name, id: id, password: password })
                 .success(function (response){

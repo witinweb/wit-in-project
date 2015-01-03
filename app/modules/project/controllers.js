@@ -2,7 +2,7 @@
 
 angular.module('Project')
     .controller('ProjectController', ['$scope','$rootScope','$modal', function ($scope, $rootScope, $modal) {
-    	$scope.accessToken = $rootScope.accessToken;
+    	$scope.accessToken = $rootScope.globals.currentUser.accessToken;
     	$scope.newProject = function () {
 		    var modalInstance = $modal.open({
 		      templateUrl: 'newProject.html',

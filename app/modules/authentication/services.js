@@ -3,8 +3,8 @@
 angular.module('Authentication')
  
 .factory('AuthenticationService',
-    ['$http', '$cookieStore', '$rootScope',
-    function ($http, $cookieStore, $rootScope) {
+    ['$http', '$cookies', '$rootScope',
+    function ($http, $cookies, $rootScope) {
         var service = {};
 
         service.Join = function (name, id, password, callback) {
@@ -46,7 +46,13 @@ angular.module('Authentication')
  
  
         service.ClearCredentials = function () {
-            $rootScope.globals = {};
+            $rootScope.globals = {
+                currentUser: {
+                    LOGIN_ID: '',
+                    LOGIN_NAME: '',
+                    accessToken: ''
+                }
+            };
             $http.defaults.headers.common.Authorization = 'Basic ';
         };
  
