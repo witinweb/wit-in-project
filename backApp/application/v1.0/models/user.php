@@ -69,9 +69,9 @@ class User extends Model {
     * @param
     * @return array
     */
-    public function update($id, $data)
+    public function modify($idx, $data)
     {
-        $this->where ('id', $id);
+        $this->where ('idx', $idx);
         return	$this->update('user', $data);;
     }
 }

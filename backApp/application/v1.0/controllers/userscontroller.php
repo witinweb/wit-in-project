@@ -12,51 +12,17 @@
 
 class UsersController extends Controller {
 
-    function view($id = null,$name = null) {
-        $this->set('title',$name.' - GJboard View App');
-        $this->set('post',$this->Post->getPost( "*", array("id"=>$id) ));
+    protected $result = array(
+        'result'=>0,
+        'error_msg'=>'',
+        'accessToken'=>''
+    );
 
-    }
-
-    function joinForm() {
-        $this->set('title','join user - Project manager');
-    }
-
-    function add() {
-        $referer = (isset($_POST['referer'])? $_POST['referer'] : _BASE_URL_."/project/view_all" );
-
-        if( !trim($_POST['name']) || !trim($_POST['id']) || !trim($_POST['password']) ){
-            msg_page("Required fields are missing.");
-        }
-
-        $data = Array(
-            "id" => trim(strval($_POST['id'])),
-            "name" => trim(strval($_POST['name'])),
-            "password" => $this->User->func('SHA1(?)', Array( trim(strval($_POST['password'])).SALT) ),
-            "insert_date" => date("Y-m-d H:i:s")
-        );
-        $this->User->getUser("id", array("id"=>$data['id']));
-        if( $this->User->count > 0 ){
-            msg_page("ID is already subscribed.");
-        }
-
-        $id = $this->set('user',$this->User->add($data));
-        redirect($referer);
-    }
-
-    function loginForm() {
-        $this->set('title','login user - Project Manager App');
-    }
 
     function login() {
-        $result = array(
-            'result'=>0,
-            'error_msg'=>'',
-            'accessToken'=>''
-        );
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
-            $result['error_msg'] = "Required fields are missing.";
-            echo json_encode($result);
+            $this->result['error_msg'] = "Required fields are missing.";
+            echo json_encode($this->result);
             exit;
         }
 
@@ -72,27 +38,24 @@ class UsersController extends Controller {
                 $_SESSION['LOGIN_NO'] = $user["idx"];
                 $_SESSION['LOGIN_ID'] = $user["id"];
                 $_SESSION['LOGIN_NAME'] = $user["name"];
-
-                /*check is save id */
-                $result['result'] = 1;
+                $modify_data = array("last_login_date"=> date("Y-m-d H:m:s"));
+                $this->User->modify( $user["idx"], $modify_data );
+                $this->result['result'] = 1;
+                $this->result['accessToken'] = $data['accessToken'];
             }else{
-                $result['error_msg'] = "You do not have permission to access.";
+                $this->result['error_msg'] = "You do not have permission to access.";
             }
         }else{
-            $result['error_msg'] =  "information does not match.";
+            $this->result['error_msg'] =  "information does not match.";
         }
-        echo json_encode($result);
+        echo json_encode($this->result);
     }
 
     function join(){
-        $result = array(
-            'result'=>0,
-            'error_msg'=>'',
-            'accessToken'=>''
-        );
+
         if( !trim($_POST['id']) || !trim($_POST['password']) || !trim($_POST['name']) ){
-            $result['error_msg'] = "Required fields are missing.";
-            echo json_encode($result);
+            $this->result['error_msg'] = "Required fields are missing.";
+            echo json_encode($this->result);
             exit;
         }
         $data = Array(
@@ -102,14 +65,15 @@ class UsersController extends Controller {
             "name"=> $_POST['name'],
             "last_login_date"=> date("Y-m-d H:m:s")
         );
+        //todo check exist id
         $user_id = $this->User->add($data);
         if($user_id){
-            $result['result'] = 1;
-            $result['accessToken'] = $data['accessToken'];
+            $this->result['result'] = 1;
+            $this->result['accessToken'] = $data['accessToken'];
         }else{
-            $result['error_msg'] = "Join failed.";
+            $this->result['error_msg'] = "Join failed.";
         }
-        echo json_encode($result);
+        echo json_encode($this->result);
     }
 
     function logout(){
