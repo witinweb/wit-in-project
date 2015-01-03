@@ -62,7 +62,6 @@ class UsersController extends Controller {
         $data = Array(
             "id" => trim(strval($_POST['id'])),
             "password" => SHA1( $_POST['password'].SALT ),
-            "accessToken"=> SHA1($_POST['id'].SALT ),
             "name"=> $_POST['name'],
             "last_login_date"=> date("Y-m-d H:m:s")
         );
@@ -70,7 +69,6 @@ class UsersController extends Controller {
         $user_id = $this->User->add($data);
         if($user_id){
             $this->result['result'] = 1;
-            $this->result['accessToken'] = $data['accessToken'];
         }else{
             $this->result['error_msg'] = "Join failed.";
         }
