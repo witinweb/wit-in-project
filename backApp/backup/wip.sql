@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 15-01-02 10:54
+-- Generation Time: 15-01-03 10:16
 -- 서버 버전: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -57,16 +57,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `insert_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '가입일시',
   `last_login_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '최근 로그인 일시',
   PRIMARY KEY (`idx`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=8 ;
 
 --
 -- 테이블의 덤프 데이터 `user`
 --
 
 INSERT INTO `user` (`idx`, `id`, `password`, `name`, `accessToken`, `insert_date`, `last_login_date`) VALUES
-(1, 'guruahn@gmail.com', '9c4d61ec636053f7c6d32cd5f71f537178571c8a', 'guruahn', '0070331677524ea794321e73d72a826976f4fd2c', '2015-01-01 09:24:53', '2015-01-01 09:01:53'),
+(1, 'guruahn@gmail.com', '9c4d61ec636053f7c6d32cd5f71f537178571c8a', 'guruahn', '03eb2123dc73a922460b38de0dbbbba099f5b0e7', '2015-01-03 09:15:53', '2015-01-03 09:01:53'),
 (2, 'schemr', 'ec84e66195963ea033b67c0dc7ef547c402761a1', 'lee', '4d6ac515f0d242886d375befacccb57d513327ba', '2015-01-01 10:01:59', '2015-01-01 10:01:59'),
-(6, 'fdf', '07ad1e3bdc12b98c4d0dff753229ea701dd711e2', 'ff', 'e2b18dbe6cc2a3fc3a4293dab126f70ab0c76463', '2015-01-01 10:08:30', '2015-01-01 10:01:30');
+(6, 'fdf', '07ad1e3bdc12b98c4d0dff753229ea701dd711e2', 'ff', 'e2b18dbe6cc2a3fc3a4293dab126f70ab0c76463', '2015-01-01 10:08:30', '2015-01-01 10:01:30'),
+(7, 'zesta@naver.com', 'ec84e66195963ea033b67c0dc7ef547c402761a1', 'zesta', 'f892e6a69bce83d6fe3b390043816f1e73af428a', '2015-01-03 09:11:29', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

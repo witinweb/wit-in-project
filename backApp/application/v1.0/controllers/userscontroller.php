@@ -28,20 +28,21 @@ class UsersController extends Controller {
 
         $data = Array(
             "id" => trim(strval($_POST['id'])),
-            "password" => SHA1( $_POST['password'].SALT ),
-            "accessToken"=> SHA1($_POST['id'].SALT )
+            "password" => SHA1( $_POST['password'].SALT )
         );
-
         $user = $this->User->getUser("*", $data);
         if( $this->User->count > 0 ){
             if( isset($user['accessToken']) ){
                 $_SESSION['LOGIN_NO'] = $user["idx"];
                 $_SESSION['LOGIN_ID'] = $user["id"];
                 $_SESSION['LOGIN_NAME'] = $user["name"];
-                $modify_data = array("last_login_date"=> date("Y-m-d H:m:s"));
+                $modify_data = array(
+                    "last_login_date"=> date("Y-m-d H:m:s"),
+                    "accessToken"=> SHA1($_POST['id'].date("Y-m-d H:m:s").SALT )
+                );
                 $this->User->modify( $user["idx"], $modify_data );
                 $this->result['result'] = 1;
-                $this->result['accessToken'] = $data['accessToken'];
+                $this->result['accessToken'] = $modify_data['accessToken'];
             }else{
                 $this->result['error_msg'] = "You do not have permission to access.";
             }
