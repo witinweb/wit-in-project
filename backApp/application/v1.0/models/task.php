@@ -73,7 +73,7 @@ class Task extends Model {
     * @param
     * @return array
     */
-    public function updateTask($idx, $data)
+    public function modify($idx, $data)
     {
         $this->where ('idx', $idx);
         return	$this->update('task', $data);

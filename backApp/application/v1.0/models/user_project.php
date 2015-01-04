@@ -12,6 +12,26 @@
 
 class User_project extends Model {
 
+    /*
+	* Get a project
+	* @param
+	* @return array
+	*/
+    public function getUserProject($column = "*", $where = null)
+    {
+        if( is_array($where) && !is_null($where) )
+        {
+            foreach($where as $key => $value)
+            {
+                $this->where($key,$value);
+            }
+            $user_project = $this->getOne("user_project", $column);
+        }else{
+            $user_project = $this->get("user_project", $column);
+
+        }
+        return	$user_project;
+    }
 
     /*
      * Get list

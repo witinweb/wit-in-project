@@ -12,7 +12,7 @@
 
 class Project extends Model {
     /*
-	* Get a post
+	* Get a project
 	* @param
 	* @return array
 	*/
@@ -53,7 +53,7 @@ class Project extends Model {
     }
 
     /*
-    * add post
+    * add project
     * @param
     * @return array
     */
@@ -64,7 +64,7 @@ class Project extends Model {
     }
 
     /*
-    * update post
+    * update project
     * @param
     * @return array
     */
@@ -75,7 +75,7 @@ class Project extends Model {
     }
 
     /*
-    * delete post
+    * delete project
     * @param
     * @return array
     */

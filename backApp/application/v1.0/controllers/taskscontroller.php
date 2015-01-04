@@ -41,20 +41,28 @@ class TasksController extends Controller {
             echo json_encode($this->result);
             exit;
         }
+        $categories = $this->categoryList($_POST['project_idx']);
+        $category_list = array();
+        $i = 0;
+        foreach($categories as $category){
+            $category_list[$i]['category_name'] = $category['category'];
+            $limit = array( 0, 1000 );
+            $where = array(
+                "t.project_idx"=>$_POST['project_idx'],
+                "t.category"=>$category['category']
+            );
+            $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
+            $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
+            $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+            $category_list[$i]['task_list'] = $tasks;
+            $i++;
+        }
 
-        $limit = array( 0, 1000 );
-        $where = array( "t.project_idx"=>$_POST['project_idx'] );
-        if( isset($_POST['category']) ) $where["t.category"] = $_POST['category'];
-        $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
-        $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
-        $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-
-
-        if($tasks){
+        if($category_list){
             $this->result['result'] = 1;
-            $this->result['task_list'] = $tasks;
+            $this->result['category_list'] = $category_list;
         }else{
-            $this->result['error_msg'] = "project does not exist.";
+            $this->result['error_msg'] = "task does not exist.";
         }
 
         echo json_encode($this->result);
@@ -87,65 +95,80 @@ class TasksController extends Controller {
         echo json_encode($this->result);
     }
 
-    function categoryList(){
+    protected function categoryList($project_idx){
+        $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($project_idx));
+        if($categories){
+            return $categories;
+        }else{
+            return null;
+        }
+    }
+
+    function del() {
         $this->checkAccessToken();
-        if( !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The project_idx is required.';
+        if( !isset($_POST['task_idx']) || !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The task_idx and project_idx is required.';
             echo json_encode($this->result);
             exit;
         }
-        $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($_POST['project_idx']));
-        printr($this->Task->getLastQuery());
-        if($categories){
+        if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
+            $this->result['error_msg'] = 'You do not have permission to update.';
+            echo json_encode($this->result);
+            exit;
+        }
+
+        if($this->Task->del($_POST['task_idx'])){
             $this->result['result'] = 1;
-            $this->result['category_list'] = $categories;
         }else{
-            $this->result['error_msg'] = 'category does not exist.';
+            $this->result['error_msg'] = 'Failed to delete task.';
+        }
+    }
+
+
+    function modify() {
+        $this->checkAccessToken();
+        if( !isset($_POST['task_idx']) || !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The task_idx and project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
+            $this->result['error_msg'] = 'You do not have permission to update.';
+            echo json_encode($this->result);
+            exit;
+        }
+        $data = array();
+        if( isset($_POST['name']) ) $data["name"] = $_POST['name'];
+        if( isset($_POST['description']) ) $data["description"] = $_POST['description'];
+        if( isset($_POST['category']) ) $data["category"] = $_POST['category'];
+        if( count($data) > 0 ){
+            $data["modify_date"] = date("Y-m-d H:i:s");
+            if($this->Task->modify($_POST['task_idx'], $data)){
+                $this->result['result'] = 1;
+            }else{
+                $this->result['error_msg'] = 'Failed to update task.';
+            }
+        }else{
+            $this->result['error_msg'] = 'There is no information to be updated.';
         }
 
         echo json_encode($this->result);
     }
 
-    function del($idx = null, $project_idx) {
-
-        $data = Array(
-            "state" => 4,
-        );
-
-        $this->Page->updatePost($idx, $data);
-        redirect(_BASE_URL_."/pages/view_all/".$project_idx);
+    private function checkIsMaster($project_idx, $user_idx){
+        $project = New Project();
+        $item = $project->getProject("master_idx", array("idx"=>$project_idx));
+        return ($user_idx == $item['master_idx']);
     }
 
-
-    function updateTask($idx = null) {
-
-        $data = Array(
-            "link" => $_POST['link'],
-            "name" => $_POST['name'],
-            "state" => $_POST['state'],
-            "description" => $_POST['description'],
-            "category_idx" => $_POST['category_idx']
+    private function checkIsManager($project_idx, $user_idx){
+        $user_project = New User_project();
+        $where = array(
+            "project_idx"=>$project_idx,
+            "user_idx"=>$user_idx
         );
-        if( isset($_POST['finish_date']) ) $data["finish_date"] = $_POST['finish_date'];
-        $this->Task->updateTask($idx, $data);
-        redirect(_BASE_URL_."/pages/view_all/".$_POST['project_idx']);
-    }
-
-    function updateStatus($idx = null) {
-        global $is_API;
-        $result = array(
-            'result'=>0
-        );
-        $data = Array(
-            "status" => $_POST['status'],
-            "finish_date" => date("Y-m-d")
-        );
-        $result['result'] = $this->Task->updateTask($idx, $data);
-        if($is_API){
-            echo json_encode($result);
-        }else{
-            return $result;
-        }
+        $item = $user_project->getUserProject("is_manager", $where);
+        return (1 == $item['is_manager']);
     }
 
 
