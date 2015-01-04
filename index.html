@@ -34,9 +34,9 @@
                 <li ng-repeat="project in projectList">
                     <div class="row">
                         <div class="large-12 columns">
-                            <div class="row collapse">
+                            <div ng-show="$edit" class="row collapse">
                                 <div class="small-8 columns">
-                                    <a href="#/projects/{{project.idx}}/" class="button postfix success">{{project.name}}</a>
+                                    <input type="text" name="project.name" id="project.name" ng-model="project.name" required />
                                 </div>
                                 <div class="small-2 columns">
                                     <a href="#" class="button postfix" ng-click="modifyProject(project.name, project.idx)">edit</a>
@@ -44,6 +44,18 @@
                                 <div class="small-2 columns">
                                     <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
                                 </div>
+                            </div>
+                            <div ng-show="!$edit" class="row collapse">
+                                <div class="small-8 columns">
+                                    <a href="#/projects/{{project.idx}}/" class="button postfix success">{{project.name}}</a>
+                                </div>
+                                <div class="small-2 columns">
+                                    <a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
+                                </div>
+                                <div class="small-2 columns">
+                                    <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
+                                </div>
+                            </div>
                                 <script type="text/ng-template" id="delete.html">
                                 <h3>프로젝트 삭제</h3>
                                 <p>프로젝트를 삭제 하시겠습니까?</p>
@@ -51,7 +63,6 @@
                                 <button class="button" ng-click="ok()">OK</button>
                                 <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
                               </script>
-                            </div>
                         </div>
                     </div>
                 </li>
@@ -82,6 +93,8 @@
     <script src="app/modules/authentication/controllers.js"></script>
     <script src="app/modules/project/services.js"></script>
     <script src="app/modules/project/controllers.js"></script>
+    <script src="app/modules/task/services.js"></script>
+    <script src="app/modules/task/controllers.js"></script>
   </body>
 
 </html>

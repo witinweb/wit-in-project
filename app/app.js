@@ -3,10 +3,12 @@
 // declare modules
 angular.module('Authentication', []);
 angular.module('Project', ['mm.foundation']);
+angular.module('Task', ['mm.foundation']);
 
 angular.module('BasicHttpAuthExample', [
         'Authentication',
         'Project',
+        'Task',
         'ngRoute',
         'ngCookies',
         'mm.foundation'        
@@ -23,6 +25,17 @@ angular.module('BasicHttpAuthExample', [
             .when('/join', {
                 controller: 'LoginController',
                 templateUrl: 'app/modules/authentication/views/join.html'
+            })
+            .when('/projects/:project_idx', {
+                controller: 'TaskController',
+                templateUrl: 'app/modules/task/views/task.html',
+                resolve: {
+                    task : function (TaskService, $route) {
+                      return TaskService.get({
+                        project_idx : $route.current.params.project_idx 
+                      }).$promise;
+                    }
+                }
             })
             .when('/', {
                 controller: 'ProjectController',
@@ -70,6 +83,7 @@ angular.module('BasicHttpAuthExample', [
                                 project_list[i] = response.project_list[i][0];
                             }
                             $scope.projectList = project_list;
+                            $scope.projectList.edit = 0;
                         } else {
                             $scope.noneProject = "프로젝트가 없습니다";
                         }
