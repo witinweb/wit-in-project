@@ -1,23 +1,21 @@
-<div ng-show="error" class="alert alert-danger">{{error}}</div>
-<div id="login">
-    <h2><i class="fa fa-lock"></i> Log In</h2>
+<div id="login" ng-controller="LoginController">
+    <header><div id="logo">TEST</div></header>
+    <div ng-show="error" class="error">{{error}}</div>
+    <p><a class="button" ui-sref="join">Join</a></p>
+    <h2><i class="fa fa-lock"></i> Login</h2>
     <div class="row">
     <form name="form" ng-submit="login()" role="form">
-        <label for="id">ID</label>
-        <input type="text" name="id" id="id" class="form-control" placeholder="ID" ng-model="id" required />
+        <input type="text" name="id" id="id" class="form-control" placeholder="ID (E-mail)" ng-model="id" required />
         <span ng-show="form.id.$dirty && form.id.$error.required" class="error">ID is required</span>
-        <label for="password">Password</label>
         <input type="password" name="password" id="password" class="form-control"  placeholder="PASSWORD" ng-model="password" required />
         <span ng-show="form.password.$dirty && form.password.$error.required" class="error">Password is required</span>
         <ul class="button-group text-center">
             <li>
-                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Login</button>
+                <button type="submit" ng-disabled="form.$invalid || dataLoading">Login</button>
                 <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
-            </li>
-            <li>
-                <a class="button" href="#/join">Join</a>
             </li>
         </ul>
     </form>
     </div>
+    <footer><span>2015 &copy; All rights reserved.</span></footer>
 </div>

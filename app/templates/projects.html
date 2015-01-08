@@ -1,0 +1,54 @@
+<div id="project">
+프로젝트 페이지 
+<div class="row"  ng-controller="LoginController">
+<div class="row">
+  <div class="span3">
+    <div class="pa-sidebar well well-small">
+      <ul class="nav nav-list">
+        <li ng-class="{ active: $state.includes('projects.list') }"><a ui-sref="projects.list">All projects</a></li>
+        <li class="nav-header">Top projects</li>
+
+        <!-- This <li> will only add the 'active' class if 'projects.detail' or its descendants are active
+             AND if it is the link for the active project (aka projectId) -->
+        <li ng-repeat="project in projects | limitTo:2" ui-sref-active="active">
+
+          <!-- Here's a ui-sref that is also providing necessary parameters -->
+          <a ui-sref="projects.detail({projectId:project.id})">{{project.name}}</a>
+        </li>
+      </ul>
+      <hr>
+      <button class="btn" ng-click="goToRandom()">Show random project</button>
+
+      <!-- Another named view -->
+      <div ui-view="menuTip" class="slide"></div>
+    </div>
+  </div>
+
+  <!-- Our unnamed main ui-view for this template -->
+  <div ui-view class="span9 slide"></div>
+</div>
+
+
+
+
+     <a href="#" class="button" ng-click="logout()">Logout</a>
+</div>
+
+<div class="row" ng-controller="ProjectsController">
+<form name="form" ng-submit="addProject()" role="form">
+     <div class="row">
+            <div class="large-12 columns">
+                <div class="row collapse">
+                    <div class="small-10 columns">
+                        <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
+                    </div>
+                    <div class="small-2 columns">
+                        <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+
+</div>

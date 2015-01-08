@@ -1,100 +1,73 @@
 <!DOCTYPE html>
-<html ng-app="BasicHttpAuthExample">
-
+<html ng-app="wipApp">
   <head>
     <meta charset="utf-8" />
-    <title>Wit In Project</title>
-    <link rel="stylesheet" type="text/css" href="public/css/foundation.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="public/css/app.css">
-
+    <link rel="stylesheet" type="text/css" href="app/public/css/foundation.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="app/public/css/app.css">
+    <!-- lib -->
+    <script src="app/public/lib/jquery-1.11.2.min.js"></script>
+    <script src="app/public/lib/angular.js"></script>
+    <script src="app/public/lib/angular-animate.js"></script>
+    <script src="app/public/lib/angular-ui-router.min.js"></script>
+    <script src="app/public/lib/angular-cookies.js"></script>
+    <script src="app/public/lib/mm-foundation-tpls-0.5.1.js"></script>
+    <!-- app.js -->
+    <script src="app/scripts/app.js"></script>
+    <!-- projects js -->
+    <script src="app/scripts/projects/projects.js"></script>
+    <!-- <script src="app/scripts/projects/projects-service.js"></script> -->
+    <!-- Controllers -->
+    <script src="app/scripts/controllers/LoginController.js"></script> 
+    <script src="app/scripts/controllers/ProjectController.js"></script> 
+    <!--<script src="scripts/controllers/TaskController.js"></script>-->
+    <!-- Services -->
+    <script src="app/scripts/services/LoginService.js"></script>
+    <script src="app/scripts/services/ProjectService.js"></script>
+    <!--<script src="scripts/services/TaskService.js"></script> -->
+    <!-- could easily use a custom property of the state here instead of 'name' -->
+    <title ng-bind="$state.current.name + ' - ui-router'">ui-router</title>
   </head>
 
   <body>
-    <div id="wrapper">
-        <div class="side-bar" ng-controller="sidebarController">
-            <header>
-                <div id="logo">Wit In Project</div>
-            </header>
-            <form name="form" ng-submit="addProject()" role="form">
-                 <div class="row">
-                        <div class="large-12 columns">
-                            <div class="row collapse">
-                                <div class="small-10 columns">
-                                    <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
-                                </div>
-                                <div class="small-2 columns">
-                                    <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </form>
-            <ul>
-                <li ng-repeat="project in projectList">
-                    <div class="row">
-                        <div class="large-12 columns">
-                            <div ng-show="$edit" class="row collapse">
-                                <div class="small-8 columns">
-                                    <input type="text" name="project.name" id="project.name" ng-model="project.name" required />
-                                </div>
-                                <div class="small-2 columns">
-                                    <a href="#" class="button postfix" ng-click="modifyProject(project.name, project.idx)">edit</a>
-                                </div>
-                                <div class="small-2 columns">
-                                    <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
-                                </div>
-                            </div>
-                            <div ng-show="!$edit" class="row collapse">
-                                <div class="small-8 columns">
-                                    <a href="#/projects/{{project.idx}}/" class="button postfix success">{{project.name}}</a>
-                                </div>
-                                <div class="small-2 columns">
-                                    <a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
-                                </div>
-                                <div class="small-2 columns">
-                                    <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
-                                </div>
-                            </div>
-                                <script type="text/ng-template" id="delete.html">
-                                <h3>프로젝트 삭제</h3>
-                                <p>프로젝트를 삭제 하시겠습니까?</p>
-                                <p>task / todo 함께 삭제됩니다. </p>
-                                <button class="button" ng-click="ok()">OK</button>
-                                <a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
-                              </script>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    {{noneProject}}
-                </li>
-            </ul>
-            <footer>
-                <div class="row">
-                    <a href="#" class="button" ng-click="logout()">Logout</a>
-                </div>
-                <span>2015 &copy; WinInWeb All rights reserved.</span>
-            </footer>
+     <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner"><div class="container">
 
-        </div>
-        <div class="contents">
-            <div ng-view></div>
-        </div>
+        <!-- ui-sref is a great directive for linking a state location with an anchor link.
+             You should almost always use ui-sref instead of href on your links when you want
+             then to navigate to a state. When this link is clicked it will take the application
+             to the 'home' state. Behind the scenes the directive also adds the correct href attr
+             and url. -->
+        <a class="brand" ui-sref="home">ui-router</a>
+        <ul class="nav">
+
+        <!-- Here you can see ui-sref in action again. Also notice the use of $state.includes, which
+             will set the links to 'active' if, for example on the first link, 'projects' or any of
+             its descendant states are activated. -->
+          <li ng-class="{active: $state.includes('projects')}"><a ui-sref="projects.list">projects</a></li>
+          <li ui-sref-active="active"><a ui-sref="about">About</a></li>
+        </ul>
+
+        <!-- Here is a named ui-view. ui-views don't have to be named, but we'll populate this
+             one from various different child states and we want a name to help us target. -->
+        <p ui-view="hint" class="navbar-text pull-right"></p>
+      </div></div>
     </div>
 
-    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="//code.angularjs.org/1.3.8/angular.js"></script>
-    <script src="//code.angularjs.org/1.3.8/angular-route.js"></script>
-    <script src="//code.angularjs.org/1.3.8/angular-cookies.js"></script>
-    <script src="public/lib/mm-foundation-tpls-0.5.1.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/modules/authentication/services.js"></script>
-    <script src="app/modules/authentication/controllers.js"></script>
-    <script src="app/modules/project/services.js"></script>
-    <script src="app/modules/project/controllers.js"></script>
-    <script src="app/modules/task/services.js"></script>
-    <script src="app/modules/task/controllers.js"></script>
+    <div id="wrapper">
+            <!-- Here is the main ui-view (unnamed) and will be populated by its immediate children's templates
+         unless otherwise explicitly named views are targeted. It's also employing ng-animate. -->
+    <div ui-view class="container slide" style="padding-top: 80px;"></div>
+
+    </div>
+    <pre>
+      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+      $state = {{$state.current.name}}
+      $stateParams = {{$stateParams}}
+      $state full url = {{ $state.$current.url.source }}
+      <!-- $state.$current is not a public api, we are using it to
+           display the full url for learning purposes-->
+    </pre>
   </body>
 
 </html>
