@@ -1,6 +1,5 @@
 <div id="project">
 프로젝트 페이지 
-<div class="row"  ng-controller="LoginController">
 <div class="row">
   <div class="span3">
     <div class="pa-sidebar well well-small">
@@ -10,10 +9,11 @@
 
         <!-- This <li> will only add the 'active' class if 'projects.detail' or its descendants are active
              AND if it is the link for the active project (aka projectId) -->
-        <li ng-repeat="project in projects | limitTo:2" ui-sref-active="active">
+
+        <li ng-repeat="project in projects" ui-sref-active="active">
 
           <!-- Here's a ui-sref that is also providing necessary parameters -->
-          <a ui-sref="projects.detail({projectId:project.id})">{{project.name}}</a>
+          <a ui-sref="projects.detail({projectId:project.idx})">{{project.name}}</a>
         </li>
       </ul>
       <hr>
@@ -32,7 +32,7 @@
 
 
      <a href="#" class="button" ng-click="logout()">Logout</a>
-</div>
+
 
 <div class="row" ng-controller="ProjectsController">
 <form name="form" ng-submit="addProject()" role="form">

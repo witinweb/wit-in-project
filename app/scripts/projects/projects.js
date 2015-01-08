@@ -44,8 +44,8 @@ angular.module('wipApp.projects', [
               // child state views can access it in their scopes. Please note: scope
               // inheritance is not due to nesting of states, but rather choosing to
               // nest the templates of those states. It's normal scope inheritance.
-              console.log(projects);
-              $scope.projects = projects;
+              $scope.projects = {};
+              $scope.projects = projects.data.project_list;
 
               $scope.goToRandom = function () {
                 //var randId = utils.newRandomKey($scope.projects, "id", $state.params.projectId);
