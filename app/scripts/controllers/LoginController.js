@@ -1,13 +1,13 @@
 app.controller('LoginController', ['$scope', '$rootScope', '$state', 'AuthenticationService', 'projects', function ($scope, $rootScope, $state,  AuthenticationService, projects) {
                 // reset login status
-                AuthenticationService.ClearCredentials();
+                //AuthenticationService.ClearCredentials();
 
                 $scope.login = function () {
                     $scope.dataLoading = true;
                     AuthenticationService.Login($scope.id, $scope.password, function(response) {
                         if(response.result) {
                             AuthenticationService.SetCredentials($scope.id, response.name, response.accessToken);
-                            $state.go('home');
+                            $state.go("projects.list", { redirect : true });
                         } else {
                             $scope.error = response.error_msg;
                             $scope.dataLoading = false;
@@ -31,7 +31,7 @@ app.controller('LoginController', ['$scope', '$rootScope', '$state', 'Authentica
                     AuthenticationService.Logout(function(response){
                         if(response.result){
                             AuthenticationService.ClearCredentials();
-                            $state.go('login');
+                            $state.go("login", { redirect : true });
                         }
                     }); 
                 };

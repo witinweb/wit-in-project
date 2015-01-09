@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="app/public/css/foundation.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="app/public/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="app/public/css/app.css">
     <!-- lib -->
     <script src="app/public/lib/jquery-1.11.2.min.js"></script>
@@ -18,6 +18,7 @@
     <script src="app/scripts/projects/projects.js"></script>
     <!-- <script src="app/scripts/projects/projects-service.js"></script> -->
     <!-- Controllers -->
+    <script src="app/scripts/controllers/MenuController.js"></script>
     <script src="app/scripts/controllers/LoginController.js"></script> 
     <script src="app/scripts/controllers/ProjectController.js"></script> 
     <!--<script src="scripts/controllers/TaskController.js"></script>-->
@@ -26,34 +27,38 @@
     <script src="app/scripts/services/ProjectService.js"></script>
     <!--<script src="scripts/services/TaskService.js"></script> -->
     <!-- could easily use a custom property of the state here instead of 'name' -->
-    <title ng-bind="$state.current.name + ' - ui-router'">ui-router</title>
+    <title ng-bind="$state.current.name">WIP</title>
   </head>
 
   <body>
-     <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner"><div class="container">
+  <nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#/">WIP</a></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
 
-        <!-- ui-sref is a great directive for linking a state location with an anchor link.
-             You should almost always use ui-sref instead of href on your links when you want
-             then to navigate to a state. When this link is clicked it will take the application
-             to the 'home' state. Behind the scenes the directive also adds the correct href attr
-             and url. -->
-        <a class="brand" ui-sref="home">ui-router</a>
-        <ul class="nav">
-
-        <!-- Here you can see ui-sref in action again. Also notice the use of $state.includes, which
-             will set the links to 'active' if, for example on the first link, 'projects' or any of
-             its descendant states are activated. -->
-          <li ng-class="{active: $state.includes('projects')}"><a ui-sref="projects.list">projects</a></li>
-          <li ui-sref-active="active"><a ui-sref="about">About</a></li>
+  <section class="top-bar-section" ng-controller="MenuController">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li ng-show="$state.includes('projects')"><a href="#" ng-click="logout()">Logout</a></li>
+      <li class="has-dropdown">
+        <a href="#">Right Button Dropdown</a>
+        <ul class="dropdown">
+          <li><a href="#">First link in dropdown</a></li>
+          <li class="active"><a href="#">Active link in dropdown</a></li>
         </ul>
+      </li>
+    </ul>
 
-        <!-- Here is a named ui-view. ui-views don't have to be named, but we'll populate this
-             one from various different child states and we want a name to help us target. -->
-        <p ui-view="hint" class="navbar-text pull-right"></p>
-      </div></div>
-    </div>
-
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li ng-class="{active: $state.includes('projects')}" ng-show="$loginState"><a ui-sref="projects.list">Project List</a></li>
+    </ul>
+  </section>
+</nav>
     <div id="wrapper">
             <!-- Here is the main ui-view (unnamed) and will be populated by its immediate children's templates
          unless otherwise explicitly named views are targeted. It's also employing ng-animate. -->
@@ -62,6 +67,7 @@
     </div>
     <pre>
       <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+      $rootScope.loginState = {{$loginState}}
       $state = {{$state.current.name}}
       $stateParams = {{$stateParams}}
       $state full url = {{ $state.$current.url.source }}

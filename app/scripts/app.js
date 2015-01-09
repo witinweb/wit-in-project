@@ -12,6 +12,7 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScop
     // to active whenever 'contacts.list' or one of its decendents is active.
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.$loginState = false;
     $rootScope.globals = {
             currentUser: {
                 LOGIN_ID: $cookies['LOGIN_ID'],
@@ -19,6 +20,12 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScop
                 accessToken: $cookies['accessToken']
             }
         };
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if($rootScope.globals.currentUser.accessToken != undefined){
+          $rootScope.$loginState = true;
+        }
+        console.log("$rootScope.globals.currentUser.accessToken :"+$rootScope.globals.currentUser.accessToken);
+      });
     //only change location state
     //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     // redirect to login page if not logged in
@@ -62,21 +69,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
 
       // Use $stateProvider to configure your states.
       $stateProvider
-        
-        ///////////
-        // home //
-        ///////////
-         .state('home', {
-          url: '/',
-          templateUrl: 'app/templates/home.html'
-        })
 
         ///////////
         // Login //
         ///////////
 
         .state('login', {
-          url: '/login',
+          url: '/',
           templateUrl: 'app/templates/login.html'
         })
 
