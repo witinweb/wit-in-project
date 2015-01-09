@@ -1,28 +1,14 @@
-app.controller('ProjectsController', ['$scope', '$rootScope', '$location', 'AuthenticationService', 'projects',
-            function ($scope, $rootScope, $location, AuthenticationService, projects) {
-                $scope.listProject = function(){
-                    projects.ViewAll(function(response){
-                        if(response.result){
-                            $scope.noneProject = "";
-                            var project_list = [];
-                            for (var i in response.project_list) {
-                                project_list[i] = response.project_list[i][0];
-                            }
-                            $scope.projectList = project_list;
-                            $scope.projectList.edit = 0;
-                        } else {
-                            $scope.noneProject = "프로젝트가 없습니다";
-                        }
-                    });
-                };
-
-                $scope.listProject();
+app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$modal', 'projectLists', 'ProjectService',
+            function ($scope, $rootScope, $state, $modal, projectLists, ProjectService) {
+                console.log(projectLists.data.project_list);
+                $scope.projectLists = projectLists.data.project_list;
 
                 $scope.addProject = function () {
-                    projects.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
+                    ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
-                            $scope.listProject();
-                            $scope.name = '';
+                            console.log(projectLists.data.project_list);
+                            ProjectService.projectLists;
+                            //console.log(response);
                         } else {
                             $scope.error = response.message;
                         }
@@ -30,9 +16,9 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$location', 'Auth
                 };
 
                 $scope.modifyProject = function (name, idx) {
-                    projects.Modify(name, idx, $rootScope.globals.currentUser.accessToken, function(response) {
+                    ProjectService.Modify(name, idx, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
-                            $scope.listProject();
+                            $scope.edit = !$scope.edit;
                         } else {
                             $scope.error = response.message;
                         }
@@ -43,7 +29,7 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$location', 'Auth
                     $scope.idx = idx;
                     var modalInstance = $modal.open({
                         templateUrl: 'delete.html',
-                        controller: 'ModalInstanceCtrl',
+                        controller: 'ModalInstanceController',
                         resolve: {
                             idx: function () {
                               return $scope.idx;
@@ -51,9 +37,9 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$location', 'Auth
                         }
                     });
                     modalInstance.result.then(function (ProjectItem) {
-                      $scope.listProject();
+                      console.log("삭제했어요")
                     });
-                }
+                };
                 /*
                 $scope.deleteProject = function (name, idx) {
                     projects.Delete(idx, $rootScope.globals.currentUser.accessToken, function(response) {
@@ -64,13 +50,6 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$location', 'Auth
                         }
                     });
                 };
-*/
-                $scope.logout = function () {
-                    AuthenticationService.Logout(function(response){
-                        if(response.result){
-                            AuthenticationService.ClearCredentials();
-                            $location.path('/login');
-                        }
-                    }); 
                 };
+                */
         }])

@@ -1,6 +1,7 @@
 var app = angular.module('wipApp', [
     'ui.router',
     'ngCookies',
+    'mm.foundation',
     'wipApp.projects',
     'wipApp.projects.service'
 ]);
@@ -22,9 +23,15 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScop
         };
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if($rootScope.globals.currentUser.accessToken != undefined){
-          $rootScope.$loginState = true;
+		$rootScope.$loginState = true;
+			console.log("logonState: "+$rootScope.$loginState+", accessToken :"+$rootScope.globals.currentUser.accessToken+" , toState.name: "+toState.name);
+		if($rootScope.$loginState == true && toState.name == 'login' ){
+			event.preventDefault();
+			console.log("로그인 된 상태지롱");
+          		$state.go("projects.list", { redirect : true });
         }
-        console.log("$rootScope.globals.currentUser.accessToken :"+$rootScope.globals.currentUser.accessToken);
+        }
+         
       });
     //only change location state
     //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

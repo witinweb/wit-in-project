@@ -1,15 +1,15 @@
 angular.module('wipApp.projects.service', [
 
 ])
-.factory('projects',
+.factory('ProjectService',
     ['$http', '$cookies', '$rootScope',
     function ($http, $cookies, $rootScope) {
 
-        var projects = $http.post('backApp/v1.0/projects/ViewAll', { accessToken: $rootScope.globals.currentUser.accessToken })
+        var projectLists = $http.post('backApp/v1.0/projects/ViewAll', { accessToken: $rootScope.globals.currentUser.accessToken })
                 .success( function (response){
                     
-                project_list = response.project_list;
-                return project_list;
+                projectLists = response.project_list;
+                return projectLists;
             });
 
         var factory = {};
@@ -53,7 +53,7 @@ angular.module('wipApp.projects.service', [
         };
 
         factory.View = function () {
-            return projects;
+            return projectLists;
         };
  
         return factory;

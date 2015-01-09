@@ -2,9 +2,7 @@ angular.module('wipApp.projects', [
   'ui.router'
 ])
   
-.config(
-  [          '$stateProvider', '$urlRouterProvider',
-    function ($stateProvider,   $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
       $stateProvider
         //////////////
         // projects //
@@ -28,37 +26,20 @@ angular.module('wipApp.projects', [
           // returns a promise, the controller will wait until projects.all() is
           // resolved before instantiation. Non-promise return values are considered
           // to be resolved immediately.
+          
           resolve: {
-            projects: ['projects',
-              function( projects){
-                console.log(projects.View());
-                return projects.View();
+            projectLists: ['ProjectService',
+              function( ProjectService){
+                return ProjectService.View();
               }]
           },
 
           // You can pair a controller to your template. There *must* be a template to pair with.
-          controller: ['$scope', '$state', 'projects', 
-            function (  $scope,   $state,   projects ) {
-
-              // Add a 'projects' field in this abstract parent's scope, so that all
-              // child state views can access it in their scopes. Please note: scope
-              // inheritance is not due to nesting of states, but rather choosing to
-              // nest the templates of those states. It's normal scope inheritance.
-              $scope.projects = {};
-              $scope.projects = projects.data.project_list;
-
-              $scope.goToRandom = function () {
-                //var randId = utils.newRandomKey($scope.projects, "id", $state.params.projectId);
-
-                // $state.go() can be used as a high level convenience method
-                // for activating a state programmatically.
-                $state.go('projects.detail', { projectId: randId });
-              };
-            }]
-        })
+          controller: 'ProjectsController'
+     		})
 
         /////////////////////
-        // projects > List //
+        // Projects > List //
         /////////////////////
 
         // Using a '.' within a state name declares a child within a parent.
