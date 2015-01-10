@@ -1,0 +1,47 @@
+/* Wit In Project CSS */
+
+/* body */
+
+* {
+  box-sizing: border-box;
+}
+
+ul, li{
+    list-style: none;
+}
+
+body {
+    background-color:#999;
+}
+
+/* LayOut */
+
+#Wrapper {
+    width:100%;
+}
+
+.side-bar{
+    position: fixed;
+    top:0;left:0;bottom:0;
+    width:350px;
+    height: 100%;
+    background: #43AC6A;
+
+}
+
+footer{
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#logo{
+    font-size: 2em;
+    text-align: center;
+    color: #fff;
+    padding-top: 20px;
+}
+
+/* login / join */
