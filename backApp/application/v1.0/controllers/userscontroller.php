@@ -24,7 +24,7 @@ class UsersController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        if( !isset($_COOKIE['accessToken']) ){
+        if( !isset($_POST['accessToken']) ){
             $this->result['error_msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
