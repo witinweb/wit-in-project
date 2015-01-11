@@ -104,7 +104,7 @@ class TasksController extends Controller {
     protected function categoryList($project_idx){
         $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($project_idx));
         if($categories){
-            return $categories;
+            return $categories[0];
         }else{
             return null;
         }
