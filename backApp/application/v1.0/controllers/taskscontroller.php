@@ -50,9 +50,10 @@ class TasksController extends Controller {
         $categories = $this->categoryList($_POST['project_idx']);
         $category_list = array();
         $i = 0;
+
         if($categories){
             foreach($categories as $category){
-                $category_list[$i]['category_name'] = $category['category'];
+                $categories[$i]['category_name'] = $category['category'];
                 $limit = array( 0, 1000 );
                 $where = array(
                     "t.project_idx"=>$_POST['project_idx'],
@@ -61,16 +62,18 @@ class TasksController extends Controller {
                 $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
                 $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
                 $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-                $category_list[$i]['task_list'] = $tasks[0];
+
+                $categories[$i]['task_list'] = $tasks;
                 $i++;
             }
+            $this->result['result'] = 1;
+            $this->result['category_list'] = $categories;
         }else{
             $this->result['result'] = 1;
             $this->result['category_list'] = null;
             echo json_encode($this->result);
             exit;
         }
-
         echo json_encode($this->result);
     }
 
@@ -104,7 +107,7 @@ class TasksController extends Controller {
     protected function categoryList($project_idx){
         $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($project_idx));
         if($categories){
-            return $categories[0];
+            return $categories;
         }else{
             return null;
         }
