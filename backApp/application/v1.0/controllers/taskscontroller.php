@@ -74,7 +74,6 @@ class TasksController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        printr($categories);
         echo json_encode($this->result);
     }
 
