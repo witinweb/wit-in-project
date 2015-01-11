@@ -1,4 +1,4 @@
-app.controller('LoginController', ['$scope', '$rootScope', '$state', 'AuthenticationService', 'projects', function ($scope, $rootScope, $state,  AuthenticationService, projects) {
+app.controller('LoginController', ['$scope', '$rootScope', '$state', 'AuthenticationService', 'ProjectService', function ($scope, $rootScope, $state,  AuthenticationService, projects) {
                 // reset login status
                 //AuthenticationService.ClearCredentials();
 

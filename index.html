@@ -22,11 +22,11 @@
     <script src="app/scripts/controllers/MenuController.js"></script>
     <script src="app/scripts/controllers/LoginController.js"></script> 
     <script src="app/scripts/controllers/ProjectController.js"></script>
-    <!--<script src="scripts/controllers/TaskController.js"></script>-->
+    <script src="app/scripts/controllers/TaskController.js"></script>
     <!-- Services -->
     <script src="app/scripts/services/LoginService.js"></script>
     <script src="app/scripts/services/ProjectService.js"></script>
-    <!--<script src="scripts/services/TaskService.js"></script> -->
+    <script src="app/scripts/services/TaskService.js"></script>
     <!-- could easily use a custom property of the state here instead of 'name' -->
     <title ng-bind="$state.current.name">WIP</title>
   </head>
@@ -56,7 +56,7 @@
 
     <!-- Left Nav Section -->
     <ul class="left">
-      <li ng-class="{active: $state.includes('projects')}" ng-show="$loginState"><a ui-sref="projects.list">Project List</a></li>
+      <li ng-class="{active: $state.includes('projects')}" ng-show="$loginState"><a ui-sref="projects.recentTask">Project List</a></li>
     </ul>
   </section>
 </nav>

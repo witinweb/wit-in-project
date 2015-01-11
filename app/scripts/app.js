@@ -3,7 +3,8 @@ var app = angular.module('wipApp', [
     'ngCookies',
     'mm.foundation',
     'wipApp.projects',
-    'wipApp.projects.service'
+    'wipApp.projects.service',
+    'wipApp.task.service'
 ]);
 
 app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScope, $state, $stateParams, $cookies) {
@@ -28,7 +29,7 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScop
 		if($rootScope.$loginState == true && toState.name == 'login' ){
 			event.preventDefault();
 			console.log("로그인 된 상태지롱");
-          		$state.go("projects.list", { redirect : true });
+          		$state.go("projects.recentTask", { redirect : true });
         }
         }
          

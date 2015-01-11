@@ -1,7 +1,10 @@
-app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$modal', 'projectLists', 'ProjectService',
-            function ($scope, $rootScope, $state, $modal, projectLists, ProjectService) {
-                $scope.projectLists = projectLists.data.project_list;
-                $scope.recentProject = $scope.projectLists[0];
+app.controller('TaskController', ['$scope', '$rootScope', '$state', '$modal', 'taskLists', 'TaskService',
+            function ($scope, $rootScope, $state, $modal, taskLists, TaskService) {
+                console.log(taskLists.data);
+                $scope.taskLists = taskLists.data.task_list;
+
+                //$scope.recentProject = $scope.projectLists[0];
+                //console.log($scope.recentProject.name);
 
                 $scope.addProject = function () {
                     ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
