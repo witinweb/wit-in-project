@@ -37,7 +37,7 @@ class Project extends Model {
      * @param
      * @return array
      */
-    public function getList($orderby = null, $limit, $where = null) {
+    public function getList($table = "project", $orderby = null, $limit, $where = null, $columns = null) {
         if( !is_null($orderby) && is_array($orderby) ){
             foreach($orderby as $key => $value){
                 $this->orderBy($key,$value);
@@ -48,8 +48,12 @@ class Project extends Model {
                 if(!is_null($value)) $this->where($key,$value);
             }
         }
-        $posts = $this->get('project', $limit);
-        return $posts;
+        if ( !is_null($columns) && is_array($columns) ){
+            $projects = $this->get($table, $limit, $columns);
+        }else{
+            $projects = $this->get($table, $limit);
+        }
+        return $projects;
     }
 
     /*

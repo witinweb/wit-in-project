@@ -4,13 +4,13 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$stateP
 
                 $rootScope.recentProject = $scope.projectLists[0].idx;
 
-                //console.log($rootScope.recentProject);
+                console.log($rootScope.globals.currentUser);
                 $scope.addProject = function () {
                     ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
-                            console.log(projectLists.data.project_list);
-                            $scope.projectLists.push("{a:0,b:0}")
-                            
+                            console.log(response.result);
+                            $scope.projectLists.unshift({'idx':response.project_idx, 'name':$scope.name, 'master_idx':$rootScope.globals.currentUser.LOGIN_ID});
+
                         } else {
                             $scope.error = response.message;
                         }
@@ -27,7 +27,7 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$stateP
                     });
                 };
 
-                $scope.deleteProject = function (idx) {
+                $scope.deleteProject = function (idx, $index) {
                     $scope.idx = idx;
                     var modalInstance = $modal.open({
                         templateUrl: 'delete.html',
@@ -39,7 +39,8 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$stateP
                         }
                     });
                     modalInstance.result.then(function (ProjectItem) {
-                      console.log("삭제했어요")
+                        $scope.projectLists.splice($index, 1);
+                        console.log("삭제했어요")
                     });
                 };
                 /*
