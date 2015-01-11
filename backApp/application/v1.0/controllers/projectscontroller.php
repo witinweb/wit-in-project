@@ -102,6 +102,7 @@ class ProjectsController extends Controller {
 
         if($result_of_project && $result_of_user_project){
             $this->result['result'] = 1;
+            $this->result['project_idx'] = $result_of_project;
         }
 
         echo json_encode($this->result);
