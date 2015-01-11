@@ -23,15 +23,9 @@ angular.module('wipApp.projects', [
         /////////////////////
         // Projects > recentTask //
         /////////////////////
-        .state('projects.recentTask', {
+        .state('projects.taskList', {
           url: '',
-          templateUrl: 'app/templates/projects.recentTask.html',
-          resolve: {
-            taskLists: ['TaskService',
-              function( TaskService){
-                return TaskService.View();
-              }]
-          },
+          templateUrl: 'app/templates/projects.taskList.html',
           controller: 'TaskController'
         })
 

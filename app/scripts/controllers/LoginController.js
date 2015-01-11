@@ -7,7 +7,7 @@ app.controller('LoginController', ['$scope', '$rootScope', '$state', 'Authentica
                     AuthenticationService.Login($scope.id, $scope.password, function(response) {
                         if(response.result) {
                             AuthenticationService.SetCredentials($scope.id, response.name, response.accessToken);
-                            $state.go("projects.list", { redirect : true });
+                            $state.go("projects.taskList", { redirect : true });
                         } else {
                             $scope.error = response.error_msg;
                             $scope.dataLoading = false;

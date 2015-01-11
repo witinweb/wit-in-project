@@ -7,7 +7,6 @@ angular.module('wipApp.projects.service', [
 
         var projectLists = $http.post('backApp/v1.0/projects/ViewAll', { accessToken: $rootScope.globals.currentUser.accessToken })
                 .success( function (response){
-                    
                 projectLists = response.project_list;
                 return projectLists;
             });

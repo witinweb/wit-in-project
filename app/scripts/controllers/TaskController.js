@@ -1,9 +1,13 @@
-app.controller('TaskController', ['$scope', '$rootScope', '$state', '$modal', 'taskLists', 'TaskService',
-            function ($scope, $rootScope, $state, $modal, taskLists, TaskService) {
-                //$scope.categoryLists = taskLists.data.category_list;
-                //$scope.taskLists = taskLists.data.category_list.task_list;
+app.controller('TaskController', ['$scope', '$rootScope', '$state', '$modal', 'TaskService',
+            function ($scope, $rootScope, $state, $modal, TaskService) {
+
+                console.log($rootScope.recentProject);
+                $state.go('projects.detail', { redirect : true, projectId: $rootScope.recentProject });
+
+                /*$scope.categoryLists = taskLists.data.category_list;
+                $scope.taskLists = taskLists.data.category_list.task_list;
                 console.log(taskLists.data);
-                //console.log(taskLists.data.category_list.task_list);
+                console.log(taskLists.data.category_list.task_list);*/
 
                 $scope.addProject = function () {
                     ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {

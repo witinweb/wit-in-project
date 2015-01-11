@@ -16,7 +16,7 @@
 			        </div>
 			</form>
 			<ul class="side-nav">
-				<li ng-class="{ active: $state.includes('projects.list') }"><a ui-sref="projects.list">Project LIST</a></li>
+				<li ng-class="{ active: $state.includes('projects.list') }"><a ui-sref="projects.taskList">Project LIST</a></li>
 				<li class="divider"></li>
 				<li ng-repeat="project in projectLists" ui-sref-active="active">
 					<div ng-show="$edit" class="row collapse">

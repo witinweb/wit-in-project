@@ -29,7 +29,7 @@ app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScop
 		if($rootScope.$loginState == true && toState.name == 'login' ){
 			event.preventDefault();
 			console.log("로그인 된 상태지롱");
-          		$state.go("projects.recentTask", { redirect : true });
+          		$state.go("projects.taskList", { redirect : true });
         }
         }
          
