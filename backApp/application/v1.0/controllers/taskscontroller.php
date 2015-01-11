@@ -61,19 +61,14 @@ class TasksController extends Controller {
                 $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
                 $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
                 $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-                $category_list[$i]['task_list'] = $tasks;
+                $category_list[$i]['task_list'] = $tasks[0];
                 $i++;
             }
         }else{
-            $this->result['error_msg'] = 'task does not exist.';
+            $this->result['result'] = 1;
+            $this->result['category_list'] = null;
             echo json_encode($this->result);
             exit;
-        }
-        if($category_list){
-            $this->result['result'] = 1;
-            $this->result['category_list'] = $category_list;
-        }else{
-            $this->result['error_msg'] = "task does not exist.";
         }
 
         echo json_encode($this->result);
