@@ -63,17 +63,18 @@ class TasksController extends Controller {
                 $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
                 $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
 
-                $categories[$i]['task_list'] = $tasks;
+                $categories[$i]['task_list'] = (object) $tasks;
                 $i++;
             }
             $this->result['result'] = 1;
-            $this->result['category_list'] = $categories;
+            $this->result['category_list'] = (object) $categories;
         }else{
             $this->result['result'] = 1;
             $this->result['category_list'] = null;
             echo json_encode($this->result);
             exit;
         }
+        printr($categories);
         echo json_encode($this->result);
     }
 
