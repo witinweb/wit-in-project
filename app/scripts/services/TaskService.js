@@ -5,10 +5,10 @@ angular.module('wipApp.task.service', [
     ['$http', '$cookies', '$rootScope',
     function ($http, $cookies, $rootScope) {
 
-        var taskLists = $http.post('backApp/v1.0/tasks/ViewAll', { project_idx: 10, accessToken: $rootScope.globals.currentUser.accessToken })
+        var taskLists = $http.post('backApp/v1.0/tasks/ViewAll', { project_idx: $rootScope.recentProject, accessToken: $rootScope.globals.currentUser.accessToken })
                 .success( function (response){
                     //result 처리
-                       console.log(response.result);
+                    console.log(response.result);
                     taskLists = response.task_list;
                     return taskLists;
                 })
