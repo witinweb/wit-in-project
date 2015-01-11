@@ -12,6 +12,34 @@
 
 class TodosController extends Controller {
 
+    protected $user;
+    protected $user_info;
+    protected $result = array(
+        'result'=>0,
+        'error_msg'=>'',
+        'accessToken'=>''
+    );
+
+    protected function checkAccessToken() {
+        if( !isset($_COOKIE['LOGIN_ID']) ){
+            $this->result['error_msg'] = 'Your session has expired.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !isset($_POST['accessToken']) ){
+            $this->result['error_msg'] = 'The accessToken is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        $this->user = new User();
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST['accessToken']));
+        if(!$this->user_info){
+            $this->result['error_msg'] = 'The accessToken is not valid.';
+            echo json_encode($this->result);
+            exit;
+        }
+    }
+
     function view_all($page_idx, $thispage = null) {
         global $is_API;
         $result = array(
@@ -73,31 +101,34 @@ class TodosController extends Controller {
         $this->set('title','Write  pages');
     }
 
-    function addTask() {
-        global $is_API;
-        $result = array(
-            'result'=>0,
-            'idx'=>''
-        );
+    function add() {
+        $this->checkAccessToken();
+        if( !isset($_POST['task_idx']) || !isset($_POST['title']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
+            $this->result['error_msg'] = 'The task_idx or todo title or reciever or due date is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
+            $this->result['error_msg'] = 'You do not have permission to add.';
+            echo json_encode($this->result);
+            exit;
+        }
         $data = Array(
-            "page_idx" => $_POST['page_idx'],
             "title" => $_POST['title'],
-            "project_idx" => $_POST['project_idx'],
-            "user_idx" => $_SESSION['LOGIN_NO'],
-            "receiver_idx"=> $_POST['receiver_idx'],
-            "due_date" => date("Y-m-d")
+            "user_idx" => $this->user_info['idx'],
+            "receiver_idx" => $_POST['receiver_idx'],
+            "due_date" => $_POST['due_date'],
+            "insert_date"=> date("Y-m-d H:i:s")
         );
 
-        $task_id = $this->Task->add($data);
-        if($task_id) {
-            $result['result'] = 1;
-            $result['idx'] = $task_id;
-        }
-        if($is_API){
-            echo json_encode($result);
+        $todo_id = $this->Todo->add($data);
+        if($todo_id){
+            $this->result['result'] = 1;
         }else{
-            return $result;
+            $this->result['error_msg'] = 'Failed to add todo.';
         }
+
+        echo json_encode($this->result);
     }
 
     function del($idx = null, $project_idx) {
@@ -140,6 +171,22 @@ class TodosController extends Controller {
         }else{
             return $result;
         }
+    }
+
+    private function checkIsMaster($project_idx, $user_idx){
+        $project = New Project();
+        $item = $project->getProject("master_idx", array("idx"=>$project_idx));
+        return ($user_idx == $item['master_idx']);
+    }
+
+    private function checkIsManager($project_idx, $user_idx){
+        $user_project = New User_project();
+        $where = array(
+            "project_idx"=>$project_idx,
+            "user_idx"=>$user_idx
+        );
+        $item = $user_project->getUserProject("is_manager", $where);
+        return (1 == $item['is_manager']);
     }
 
 

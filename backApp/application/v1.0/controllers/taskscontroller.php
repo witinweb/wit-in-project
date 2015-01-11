@@ -25,13 +25,18 @@ class TasksController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        if( !isset($_COOKIE['accessToken']) ){
+        if( !isset($_POST['accessToken']) ){
             $this->result['error_msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('id'=>$_COOKIE["LOGIN_ID"]));
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST['accessToken']));
+        if(!$this->user_info){
+            $this->result['error_msg'] = 'The accessToken is not valid.';
+            echo json_encode($this->result);
+            exit;
+        }
     }
 
     function viewAll() {

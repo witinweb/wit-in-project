@@ -26,14 +26,18 @@ class ProjectsController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        if( !isset($_COOKIE['accessToken']) ){
+        if( !isset($_POST['accessToken']) ){
             $this->result['error_msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
-
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('id'=>$_COOKIE["LOGIN_ID"]));
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST['accessToken']));
+        if(!$this->user_info){
+            $this->result['error_msg'] = 'The accessToken is not valid.';
+            echo json_encode($this->result);
+            exit;
+        }
     }
 
 
@@ -55,8 +59,12 @@ class ProjectsController extends Controller {
         $user_project = New User_project();
         $project_idx_list = $user_project->getList(array('insert_date'=>'desc'), array(0, 1000), array('user_idx'=>$this->user_info['idx']));
         $project_list = array();
+        $i = 0;
         foreach($project_idx_list as $project){
-            $project_list[] = $this->Project->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$project['project_idx']));
+            $temp = $this->Project->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$project['project_idx']));
+            $project_list[$i] = $temp[0];
+
+            $i++;
         }
         if($project_list){
             $this->result['result'] = 1;
