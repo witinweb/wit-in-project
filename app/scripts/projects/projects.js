@@ -64,10 +64,23 @@ angular.module('wipApp.projects', [
             // So this one is targeting the unnamed view within the parent state's template.
             '': {
               templateUrl: 'app/templates/projects.detail.html',
-              controller: ['$scope', '$stateParams', 
-                function (  $scope,   $stateParams ) {
-                  //$scope.project = utils.findById($scope.projects, $stateParams.projectId);
+              resolve: {
+                  taskLists: ['TaskService', '$stateParams',
+                      function( TaskService, $stateParams){
+                          return TaskService.add();
+                      }]
+              },
+              controller: ['$scope', '$stateParams', 'utils', 'taskLists' ,
+                function (  $scope,   $stateParams, utils, taskLists ) {
+                    $scope.selectedProject = utils.findById($scope.projectLists, $stateParams.projectId);
+                    console.log($scope.selectedProject);
+
+                    //$scope.categoryLists = taskLists.data.category_list;
+                    //$scope.taskLists = taskLists.data.category_list.task_list;
+                    console.log(taskLists);
+
                 }]
+
             },
 
             // This one is targeting the ui-view="hint" within the unnamed root, aka index.html.

@@ -16,6 +16,7 @@ angular.module('wipApp.projects.service', [
 
               $http.post('backApp/v1.0/projects/add', { name: name, accessToken: accessToken })
                 .success(function (response){
+
                    callback(response);
                 });
                 return 

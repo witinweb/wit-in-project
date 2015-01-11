@@ -1,10 +1,6 @@
 app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$stateParams', '$modal', 'projectLists', 'ProjectService',
             function ($scope, $rootScope, $state, $stateParams, $modal, projectLists, ProjectService) {
                 $scope.projectLists = projectLists.data.project_list;
-
-                $rootScope.recentProject = $scope.projectLists[0].idx;
-
-                console.log($rootScope.globals.currentUser);
                 $scope.addProject = function () {
                     ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {

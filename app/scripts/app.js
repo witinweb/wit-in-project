@@ -4,7 +4,8 @@ var app = angular.module('wipApp', [
     'mm.foundation',
     'wipApp.projects',
     'wipApp.projects.service',
-    'wipApp.task.service'
+    'wipApp.task.service',
+    'wipApp.project.util'
 ]);
 
 app.run(['$rootScope', '$state', '$stateParams', '$cookies', function ($rootScope, $state, $stateParams, $cookies) {
