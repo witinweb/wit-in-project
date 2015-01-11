@@ -1,5 +1,5 @@
-app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$modal', 'projectLists', 'ProjectService',
-            function ($scope, $rootScope, $state, $modal, projectLists, ProjectService) {
+app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$stateParams', '$modal', 'projectLists', 'ProjectService',
+            function ($scope, $rootScope, $state, $stateParams, $modal, projectLists, ProjectService) {
                 $scope.projectLists = projectLists.data.project_list;
 
                 $rootScope.recentProject = $scope.projectLists[0].idx;
@@ -9,8 +9,8 @@ app.controller('ProjectsController', ['$scope', '$rootScope', '$state', '$modal'
                     ProjectService.Add($scope.name, $rootScope.globals.currentUser.accessToken, function(response) {
                         if(response.result) {
                             console.log(projectLists.data.project_list);
-                            ProjectService.projectLists;
-                            //console.log(response);
+                            $scope.projectLists.push("{a:0,b:0}")
+                            
                         } else {
                             $scope.error = response.message;
                         }
