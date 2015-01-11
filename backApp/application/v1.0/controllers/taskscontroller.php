@@ -46,23 +46,29 @@ class TasksController extends Controller {
             echo json_encode($this->result);
             exit;
         }
+
         $categories = $this->categoryList($_POST['project_idx']);
         $category_list = array();
         $i = 0;
-        foreach($categories as $category){
-            $category_list[$i]['category_name'] = $category['category'];
-            $limit = array( 0, 1000 );
-            $where = array(
-                "t.project_idx"=>$_POST['project_idx'],
-                "t.category"=>$category['category']
-            );
-            $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
-            $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
-            $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-            $category_list[$i]['task_list'] = $tasks;
-            $i++;
+        if($categories){
+            foreach($categories as $category){
+                $category_list[$i]['category_name'] = $category['category'];
+                $limit = array( 0, 1000 );
+                $where = array(
+                    "t.project_idx"=>$_POST['project_idx'],
+                    "t.category"=>$category['category']
+                );
+                $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
+                $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
+                $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+                $category_list[$i]['task_list'] = $tasks;
+                $i++;
+            }
+        }else{
+            $this->result['error_msg'] = 'task does not exist.';
+            echo json_encode($this->result);
+            exit;
         }
-
         if($category_list){
             $this->result['result'] = 1;
             $this->result['category_list'] = $category_list;
