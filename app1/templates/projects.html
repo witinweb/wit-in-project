@@ -1,0 +1,67 @@
+<div id="project">
+	<div class="row fullWidth">
+		<div class="large-4 columns">
+			<form name="form" ng-submit="addProject()" role="form">
+			     <div class="row">
+			            <div class="large-12 columns">
+			                <div class="row collapse">
+			                    <div class="small-10 columns">
+			                        <input type="text" name="name" id="name" placeholder="Project Name" ng-model="name" required />
+			                    </div>
+			                    <div class="small-2 columns">
+			                        <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			</form>
+			<ul class="side-nav">
+				<li ng-class="{ active: $state.includes('projects.list') }"><a ui-sref="projects.taskList">Project LIST</a></li>
+				<li class="divider"></li>
+				<li ng-repeat="project in projectLists" ui-sref-active="active">
+					<div ng-show="$edit" class="row collapse">
+	                    <div class="small-8 columns">
+	                        <input type="text" name="project.name" id="project.name" ng-model="project.name" required />
+	                    </div>
+	                    <div class="small-2 columns">
+	                        <a href="#" class="button postfix" ng-click="$edit = !$edit; modifyProject(project.name, project.idx)">save</a>
+	                    </div>
+	                    <div class="small-2 columns">
+	                        <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx)">delete</a>
+	                    </div>
+	                </div>
+	                <div ng-show="!$edit" class="row collapse">
+	                    <div class="small-8 columns">
+	                        <a ui-sref="projects.detail({projectId:project.idx})" class="button postfix success">{{project.name}}</a>
+	                    </div>
+	                    <div class="small-2 columns">
+	                        <a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
+	                    </div>
+	                    <div class="small-2 columns">
+	                        <a href="#" class="button postfix alert" ng-click="deleteProject(project.idx, $index)">delete</a>
+	                    </div>
+	                </div>
+				</li>
+			</ul>
+			<p>{{projectLists}}</p>
+		</div>
+		<div class="large-8 columns">
+			
+	     <!-- Another named view -->
+	     <div ui-view="menuTip" class="slide"></div>
+		
+		<div ui-view class="slide"></div>
+	   
+		</div>
+
+
+
+		<script type="text/ng-template" id="delete.html">
+			<h3>프로젝트 삭제</h3>
+			<p>프로젝트를 삭제 하시겠습니까?</p>
+			<p>task / todo 함께 삭제됩니다. </p>
+			<button class="button" ng-click="ok()">OK</button>
+			<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
+		</script>
+	</div>
+</div>

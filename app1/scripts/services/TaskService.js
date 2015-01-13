@@ -4,21 +4,19 @@ angular.module('wipApp.task.service', [
 .factory('TaskService',
     ['$http', '$cookies', '$rootScope',
     function ($http, $cookies, $rootScope) {
-        var projectId = "";
 
-        var taskLists = $http.post('backApp/v1.0/tasks/ViewAll', { project_idx: projectId, accessToken: $rootScope.globals.currentUser.accessToken })
+        var taskLists = function(projectId){
+            $http.post('backApp/v1.0/tasks/ViewAll', { project_idx: projectId, accessToken: $rootScope.globals.currentUser.accessToken })
                 .success( function (response){
                     //result 처리
-                console.log("last projectId:"+projectId);
-                    console.log(response.result);
                     taskLists = response.category_list;
                     return taskLists;
                 })
                 .error( function (response){
-                    console.log(response.result);
                     taskLists = response.error_msg;
                     return taskLists;
                 });
+            }
 
         var factory = {};
         factory.UserProject = function (idx, accessToken, callback) {
@@ -61,9 +59,7 @@ angular.module('wipApp.task.service', [
         };
 
         factory.View = function (projectId) {
-            projectId = projectId;
-            console.log("projectId:"+projectId);
-            return taskLists;
+            return taskLists(projectId);
         };
  
         return factory;

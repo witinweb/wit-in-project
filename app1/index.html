@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="wipApp">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="app/public/css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="app/public/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="app/public/css/app.css">
+    <!-- lib -->
+    <script src="app/public/lib/jquery-1.11.2.min.js"></script>
+    <script src="app/public/lib/angular.js"></script>
+    <script src="app/public/lib/angular-animate.js"></script>
+    <script src="app/public/lib/angular-ui-router.min.js"></script>
+    <script src="app/public/lib/angular-cookies.js"></script>
+    <script src="app/public/lib/mm-foundation-tpls-0.5.1.js"></script>
+    <!-- app.js -->
+    <script src="app/scripts/app.js"></script>
+    <!-- projects js -->
+    <script src="app/scripts/projects/projects.js"></script>
+    <!-- <script src="app/scripts/projects/projects-service.js"></script> -->
+    <!-- Controllers -->
+    <script src="app/scripts/controllers/ModalInstanceController.js"></script>
+    <script src="app/scripts/controllers/MenuController.js"></script>
+    <script src="app/scripts/controllers/LoginController.js"></script> 
+    <script src="app/scripts/controllers/ProjectController.js"></script>
+    <!-- <script src="app/scripts/controllers/TaskController.js"></script> -->
+    <!-- Services -->
+    <script src="app/scripts/services/LoginService.js"></script>
+    <script src="app/scripts/services/ProjectService.js"></script>
+    <script src="app/scripts/services/TaskService.js"></script>
+    <script src="app/scripts/projects/util.js"></script>
+    <!-- could easily use a custom property of the state here instead of 'name' -->
+    <title ng-bind="$state.current.name">WIP</title>
+  </head>
+
+  <body>
+  <nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#/">WIP</a></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section" ng-controller="MenuController">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li ng-show="$state.includes('projects')"><a href="#" ng-click="logout()">Logout</a></li>
+      <li class="has-dropdown">
+        <a href="#">Right Button Dropdown</a>
+        <ul class="dropdown">
+          <li><a href="#">First link in dropdown</a></li>
+          <li class="active"><a href="#">Active link in dropdown</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li ng-class="{active: $state.includes('projects')}" ng-show="$loginState"><a ui-sref="projects.taskList">Project List</a></li>
+    </ul>
+  </section>
+</nav>
+    <div id="wrapper">
+            <!-- Here is the main ui-view (unnamed) and will be populated by its immediate children's templates
+         unless otherwise explicitly named views are targeted. It's also employing ng-animate. -->
+    <div ui-view class="container slide" style="padding-top: 80px;"></div>
+
+    </div>
+    <pre>
+      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+      $rootScope.loginState = {{$loginState}}
+      $state = {{$state.current.name}}
+      $stateParams = {{$stateParams}}
+      $state full url = {{ $state.$current.url.source }}
+      <!-- $state.$current is not a public api, we are using it to
+           display the full url for learning purposes-->
+    </pre>
+  </body>
+
+</html>

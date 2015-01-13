@@ -26,7 +26,9 @@ angular.module('wipApp.projects', [
         .state('projects.taskList', {
           url: '',
           templateUrl: 'app/templates/projects.taskList.html',
-          controller: 'TaskController'
+          controller: function($state, $stateParams, $rootScope){
+            $state.go('projects.detail', { redirect : true, projectId: $rootScope.recentProject });
+          }
         })
 
         ///////////////////////
@@ -67,18 +69,13 @@ angular.module('wipApp.projects', [
               resolve: {
                   taskLists: ['TaskService', '$stateParams',
                       function( TaskService, $stateParams){
-                          return TaskService.add();
+                          return TaskService.View($stateParams.projectId);
                       }]
               },
-              controller: ['$scope', '$stateParams', 'utils', 'taskLists' ,
-                function (  $scope,   $stateParams, utils, taskLists ) {
+              controller: ['$scope', '$stateParams', 'utils' ,
+                function (  $scope,   $stateParams, utils ) {
                     $scope.selectedProject = utils.findById($scope.projectLists, $stateParams.projectId);
                     console.log($scope.selectedProject);
-
-                    //$scope.categoryLists = taskLists.data.category_list;
-                    //$scope.taskLists = taskLists.data.category_list.task_list;
-                    console.log(taskLists);
-
                 }]
 
             },
