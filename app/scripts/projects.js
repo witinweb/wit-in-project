@@ -29,21 +29,41 @@ angular.module('wipApp.projects', [
           	}]
       },
       // You can pair a controller to your template. There *must* be a template to pair with.
-	controller: ['$scope', '$state', 'projects', 'utils',
-     		function (  $scope,   $state,   projects,   utils) {
+	controller: ['$scope', '$state', 'projects', 'utils', '$modal',
+     		function (  $scope,   $state,   projects,   utils, $modal) {
           // Add a 'projects' field in this abstract parent's scope, so that all
           // child state views can access it in their scopes. Please note: scope
           // inheritance is not due to nesting of states, but rather choosing to
           // nest the templates of those states. It's normal scope inheritance.
           $scope.projects = projects;
+          $scope.createProject = function(){
+          		$scope.project.id = Math.floor(Math.random() * 100) +1;
+          		$scope.projects.unshift({'id':$scope.project.id, 'name':$scope.project.name});
+          }
+          $scope.deleteProject = function (id, $index) {
+          		$scope.id = id;
+			var modalInstance = $modal.open({
+			    templateUrl: 'delete.html',
+			    controller: 'ModalInstanceController',
+			    resolve: {
+			        id: function () {
+			          return $scope.id;
+			        }
+			    }
+			});
+			modalInstance.result.then(function (ProjectItem) {
+			    $scope.projects.splice($index, 1);
+			    console.log("삭제했어요")
+			});
+			};
 
-          $scope.goToRandom = function () {
+          /*$scope.goToRandom = function () {
             var randId = utils.newRandomKey($scope.projects, "id", $state.params.projectId);
 
             // $state.go() can be used as a high level convenience method
             // for activating a state programmatically.
             $state.go('projects.detail', { projectId: randId });
-     	     };
+     	     };*/
 	}]
     })
       /////////////////////

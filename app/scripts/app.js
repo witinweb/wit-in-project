@@ -3,6 +3,8 @@ angular.module('wipApp', [
   'wipApp.projects',
   'wipApp.projects.service',
   'wipApp.utils.service',
+  'wipApp.modal',
+  'mm.foundation',
   'ui.router', 
   'ngAnimate'
 ])
