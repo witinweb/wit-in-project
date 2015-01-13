@@ -39,6 +39,7 @@ angular.module('wipApp.projects', [
           $scope.createProject = function(){
           		$scope.project.id = Math.floor(Math.random() * 100) +1;
           		$scope.projects.unshift({'id':$scope.project.id, 'name':$scope.project.name});
+          		$scope.project.name = '';
           }
           $scope.deleteProject = function (id, $index) {
           		$scope.id = id;
@@ -55,7 +56,7 @@ angular.module('wipApp.projects', [
 			    $scope.projects.splice($index, 1);
 			    console.log("삭제했어요")
 			});
-			};
+		};
 
           /*$scope.goToRandom = function () {
             var randId = utils.newRandomKey($scope.projects, "id", $state.params.projectId);
