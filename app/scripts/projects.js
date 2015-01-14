@@ -29,17 +29,41 @@ angular.module('wipApp.projects', [
           	}]
       },
       // You can pair a controller to your template. There *must* be a template to pair with.
-	controller: ['$scope', '$state', 'projects', 'utils', '$modal',
-     		function (  $scope,   $state,   projects,   utils, $modal) {
+	controller: ['$scope', '$state', 'projects', 'utils', '$modal', 'notificationFactory', 
+     		function (  $scope,   $state,   projects,   utils, $modal, notificationFactory) {
           // Add a 'projects' field in this abstract parent's scope, so that all
           // child state views can access it in their scopes. Please note: scope
           // inheritance is not due to nesting of states, but rather choosing to
           // nest the templates of those states. It's normal scope inheritance.
           $scope.projects = projects;
+          // PRIVATE FUNCTIONS 
+          // 성공 알림 function
+		var requestSuccess = function () {
+	  		notificationFactory.success();
+		}
+		// 실패 알림 function
+		var requestError = function () {
+     			notificationFactory.error();
+    		}
+    		// 이름 중복 검사 function
+    		var isNameDuplicated = function (projectName) {
+			return $scope.projects.some(function (entry) {
+				return entry.name.toUpperCase() == projectName.toUpperCase();
+			});
+		};
+
           $scope.createProject = function(){
-          		$scope.project.id = Math.floor(Math.random() * 100) +1;
-          		$scope.projects.unshift({'id':$scope.project.id, 'name':$scope.project.name});
-          		$scope.project.name = '';
+          		// 기존에 동일한 이름의 프로젝트가 있는지 확인
+          		var duplicated = isNameDuplicated($scope.project.name);
+          		
+          		if(!duplicated){
+	          		$scope.project.id = Math.floor(Math.random() * 100) +1;
+	          		$scope.projects.unshift({'id':$scope.project.id, 'name':$scope.project.name});
+	                requestSuccess();
+	          		$scope.project.name = '';
+          		} else{
+          			notificationFactory.error("The project already exists.")
+          		}
           }
           $scope.deleteProject = function (id, $index) {
           		$scope.id = id;

@@ -6,7 +6,8 @@ angular.module('wipApp', [
   'wipApp.modal',
   'mm.foundation',
   'ui.router', 
-  'ngAnimate'
+  'ngAnimate',
+  'notificationFactory'
 ])
 
 .run(
