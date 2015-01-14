@@ -29,8 +29,8 @@ angular.module('wipApp.projects', [
           	}]
       },
       // You can pair a controller to your template. There *must* be a template to pair with.
-	controller: ['$scope', '$state', 'projects', 'utils', '$modal', 'notificationFactory', 
-     		function (  $scope,   $state,   projects,   utils, $modal, notificationFactory) {
+	controller: ['$scope', '$state', 'projects', 'utils', '$modal', 'notificationFactory', 'modalWindowFactory' ,
+     		function (  $scope,   $state,   projects,   utils, $modal, notificationFactory, modalWindowFactory) {
           // Add a 'projects' field in this abstract parent's scope, so that all
           // child state views can access it in their scopes. Please note: scope
           // inheritance is not due to nesting of states, but rather choosing to
@@ -65,21 +65,19 @@ angular.module('wipApp.projects', [
           			notificationFactory.error("The project already exists.")
           		}
           }
-          $scope.deleteProject = function (id, $index) {
-          		$scope.id = id;
-			var modalInstance = $modal.open({
-			    templateUrl: 'delete.html',
-			    controller: 'ModalInstanceController',
-			    resolve: {
-			        id: function () {
-			          return $scope.id;
-			        }
-			    }
-			});
-			modalInstance.result.then(function (ProjectItem) {
-			    $scope.projects.splice($index, 1);
-			    console.log("삭제했어요")
-			});
+          $scope.deleteProject = function (project) {
+			// 서버통신시 필요한 id
+          		//$scope.id = id;
+
+          		// 삭제 변수 지정
+          		var title = "Delete '" + project.name + "'";
+			var msg = "Are you sure you want to remove this project?";
+			var confirmCallback = function () {
+				var index = $scope.projects.indexOf(project);
+            		$scope.projects.splice(index, 1);
+			};
+			modalWindowFactory.show(title, msg, confirmCallback);
+
 		};
 
           /*$scope.goToRandom = function () {
