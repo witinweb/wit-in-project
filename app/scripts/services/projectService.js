@@ -10,6 +10,9 @@ angular.module('wipApp.project.service', [])
   projects.AddProject = function (name) {
     return $http.post(path+"/add",name);
   };
+  projects.ModifyProject = function (id, name) {
+    return $http.post(path+"/modify",{project_idx:id, name:name});
+  };
   projects.DeleteProject = function (id) {
     return $http.post(path+"/del",{project_idx:id});
   };

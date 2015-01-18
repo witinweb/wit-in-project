@@ -51,7 +51,19 @@ angular.module('wipApp.project.controller', [])
 		} else{
 			notificationFactory.error("The project already exists.")
 		}*/
-	}
+	};
+	$scope.modifyProject = function (project){
+		projects.ModifyProject(project.idx, project.name)
+			.success(function(response){
+				if(response.error_info == null){
+					requestSuccess();
+					
+				}else{
+					$scope.error = response.error_info.msg;
+					requestError();
+				}
+			})
+	};
 	$scope.deleteProject = function (project){
 		var title = "Delete '" + project.name + "'";
 		var msg = "Are you sure you want to remove this project?";

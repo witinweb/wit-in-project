@@ -103,4 +103,22 @@ angular.module('wipApp', [
       templateUrl: 'app/templates/projects.list.html',
       controller: "projectController"
       })
+	  //////////
+	  // Project Detail //
+	  //////////
+	  .state('projects.detail', {
+
+      // Using an empty url means that this child state will become active
+      // when its parent's url is navigated to. Urls of child states are
+      // automatically appended to the urls of their parent. So this state's
+      // url is '/projects' (because '/projects' + '').
+    	url: '/{projectId:[0-9]{1,4}}',
+
+      // IMPORTANT: Now we have a state that is not a top level state. Its
+      // template will be inserted into the ui-view within this state's
+      // parent's template; so the ui-view within projects.html. This is the
+      // most important thing to remember about templates.
+      templateUrl: 'app/templates/projects.list.html',
+      controller: "projectController"
+      })
 }]);
