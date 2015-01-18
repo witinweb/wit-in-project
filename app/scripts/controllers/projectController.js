@@ -1,6 +1,6 @@
 angular.module('wipApp.project.controller', [])
-.controller('projectController', ['$scope', '$stateParams', '$state', 'projects', 'notificationFactory', 
-	function (  $scope,   $stateParams,   $state,   projects, notificationFactory) {
+.controller('projectController', ['$scope', '$stateParams', '$state', 'projectsList' ,'projects', 'notificationFactory', 'modalWindowFactory', 
+	function (  $scope,   $stateParams,   $state, projectsList,  projects, notificationFactory, modalWindowFactory) {
 	
 	// PRIVATE FUNCTIONS 
     // 성공 알림 function
@@ -26,9 +26,22 @@ angular.module('wipApp.project.controller', [])
     // indicates if the view is in add mode
     //$scope.addMode = false;
 
-	$scope.createProject = function(){
+	$scope.addProject = function(){
+		console.log($scope.newProject);
+		projects.AddProject($scope.newProject)
+			.success(function(response){
+				if(response.error_info == null){
+					requestSuccess();
+					$scope.projects.unshift(response.new_project);
+					$scope.newProject = {};
+					
+				}else{
+					$scope.error = response.error_info.msg;
+					requestError();
+				}
+			})
 		// 기존에 동일한 이름의 프로젝트가 있는지 확인
-		var duplicated = isNameDuplicated($scope.newProject.name);
+		/*var duplicated = isNameDuplicated($scope.newProject.name);
 		
 		if(!duplicated){
   		$scope.newProject.id = Math.floor(Math.random() * 100) +1;
@@ -38,23 +51,18 @@ angular.module('wipApp.project.controller', [])
   		$scope.newProject.name = '';
 		} else{
 			notificationFactory.error("The project already exists.")
-		}
+		}*/
 	}
-	$scope.deleteProject = function (project) {
-	// 서버통신시 필요한 id
-			//$scope.id = id;
-
-			// 삭제 변수 지정
-			var title = "Delete '" + project.name + "'";
-	var msg = "Are you sure you want to remove this project?";
-	var confirmCallback = function () {
-		var index = $scope.projects.indexOf(project);
+	$scope.deleteProject = function (project){
+		var title = "Delete '" + project.name + "'";
+		var msg = "Are you sure you want to remove this project?";
+		var confirmCallback = function () {
+			requestSuccess();
+			var index = $scope.projects.indexOf(project);
 			$scope.projects.splice(index, 1);
+			
+		};
+		modalWindowFactory.show(title, msg, confirmCallback, project.idx);
 	};
-	modalWindowFactory.show(title, msg, confirmCallback);
-
-	};
-
-	$scope.projects = projects.data.projects;;
-
-	}]);
+	$scope.projects = projectsList.data.project_list;
+}]);

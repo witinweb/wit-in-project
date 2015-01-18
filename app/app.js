@@ -2,14 +2,14 @@
 angular.module('wipApp', [
  /* 'wipApp.projects',
   'wipApp.projects.service',
-  
-  'wipApp.modal',*/
+  */
   'wipApp.user.controller',
   'wipApp.user.service',
   'wipApp.project.controller',
   'wipApp.project.service',
   'wipApp.util.service',
   'mm.foundation',
+  'wipApp.modal',
   'ui.router', 
   'ngAnimate',
   'notificationFactory'
@@ -18,8 +18,7 @@ angular.module('wipApp', [
 .run(['$rootScope', '$state', '$stateParams',function ($rootScope,   $state,   $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
-    $rootScope.$userInfo = {};
-    $rootScope.$loginState = '';
+    
     }
   ]
 )
@@ -66,9 +65,19 @@ angular.module('wipApp', [
 	    abstract: true,
 	    templateUrl: "app/templates/projects.html",
 	    resolve: {
-				projects: ['projects',
+				projectsList: ['projects',
 				function( projects){
-				   return projects.getAllProjects();
+				  return projects.getAllProjects()
+				   .success(function (response) {
+						if(response.error_info == null){
+							return response;
+						}else{
+							console.log(response.error_info.msg);
+						}
+						})
+				   .error(function (response) {
+				    console.log(response);
+						});
 				}]
 			}/*,
 	    controller: ['$scope', 'projects', function($scope, projects){

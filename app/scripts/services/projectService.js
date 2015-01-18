@@ -1,16 +1,19 @@
 angular.module('wipApp.project.service', [])
 // A RESTful factory for retrieving projects from 'projects.json'
 .factory('projects', ['$http', 'utils', function ($http, utils) {
-  var path = 'assets/projects.json';
+  var path = '/backApp/v1.0/projects';
   var projects = {};
 
   projects.getAllProjects = function () {
-    return $http.post(path);
+    return $http.post(path+"/viewAll");
   };
-  projects.get = function (id) {
-    return projects.then(function(){
-      return utils.findById(projects, id);
-    })
+  projects.AddProject = function (name) {
+    console.log('Add'+name);
+    return $http.post(path+"/add",name);
   };
+  projects.DeleteProject = function (id) {
+    return $http.post(path+"/del",{project_idx:id});
+  };
+
   return projects;
 }]);

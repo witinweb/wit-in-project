@@ -8,7 +8,7 @@ angular.module('wipApp.modal', [
     return {
  
         // Show a modal window with the specified title and msg
-        show: function (title, msg, confirmCallback, cancelCallback) {
+        show: function (title, msg, confirmCallback, id) {
  
             // Show window
             var modalInstance = $modal.open({
@@ -21,6 +21,9 @@ angular.module('wipApp.modal', [
                     },
                     body: function () {
                         return msg;
+                    },
+                    id: function(){
+                        return id;
                     }
                 }
             });
@@ -44,7 +47,7 @@ angular.module('wipApp.modal', [
  
  
     // Internal controller used by the modal window
-    function _modalWindowController($scope, $modalInstance, title, body) {
+    function _modalWindowController($scope, $modalInstance, title, body, id, projects) {
         $scope.title = "";
         $scope.body = "";
  
@@ -55,8 +58,18 @@ angular.module('wipApp.modal', [
         if (body) {
             $scope.body = body;
         }
+        console.log(id);
  
         $scope.confirm = function () {
+            projects.DeleteProject(id)
+            .success(function(response){
+                if(response.error_info == null){
+                    console.log(response);
+                    
+                }else{
+                    console.log(response.error_info.msg);
+                }
+            })
             $modalInstance.close();
         };
  
