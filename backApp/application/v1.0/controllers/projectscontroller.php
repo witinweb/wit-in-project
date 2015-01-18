@@ -64,7 +64,7 @@ class ProjectsController extends Controller {
         $i = 0;
         foreach($project_idx_list as $project){
             $this->Project->join("user u", "u.idx=p.master_idx", "LEFT");
-            $column = array("p.idx as idx", "p.name as name", "u.id as master_id");
+            $column = array("p.idx as idx", "p.name as name", "u.id as master_id, p.insert_date as insert_date, p.modify_date modify_date");
             $temp = $this->Project->getList("project p", array('p.insert_date'=>'desc'), $limit, array('p.idx'=>$project['project_idx']), $column);
             $project_list[] = $temp[0];
             $i++;
@@ -100,8 +100,10 @@ class ProjectsController extends Controller {
         $result_of_user_project = $user_project->add($user_project_data);
         $this->result['new_project'] = '';
         if($result_of_project && $result_of_user_project){
-            $new_project[0] = $this->Project->getProject( "*", array("idx"=>$result_of_project) );
-            $this->result['new_project'] = (object) $new_project;
+            $this->Project->join("user u", "u.idx=p.master_idx", "LEFT");
+            $column = array("p.idx as idx", "p.name as name", "u.id as master_id, p.insert_date as insert_date, p.modify_date modify_date");
+            $new_project = $this->Project->getList("project p", array('p.insert_date'=>'desc'), array( 0, 100 ), array('p.idx'=>$result_of_project), $column);
+            $this->result['new_project'] = (object) $new_project[0];
         }
 
         echo json_encode($this->result);
