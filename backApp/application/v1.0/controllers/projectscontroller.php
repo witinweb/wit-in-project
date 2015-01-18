@@ -69,7 +69,7 @@ class ProjectsController extends Controller {
             $project_list[] = $temp[0];
             $i++;
         }
-        $this->result['project_list'] = (object) $project_list;
+        $this->result['project_list'] = $project_list;
         echo json_encode($this->result);
 
     }
@@ -103,7 +103,7 @@ class ProjectsController extends Controller {
             $this->Project->join("user u", "u.idx=p.master_idx", "LEFT");
             $column = array("p.idx as idx", "p.name as name", "u.id as master_id, p.insert_date as insert_date, p.modify_date modify_date");
             $new_project = $this->Project->getList("project p", array('p.insert_date'=>'desc'), array( 0, 100 ), array('p.idx'=>$result_of_project), $column);
-            $this->result['new_project'] = (object) $new_project;
+            $this->result['new_project'] = $new_project;
         }
 
         echo json_encode($this->result);
