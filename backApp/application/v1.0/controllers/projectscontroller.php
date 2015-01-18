@@ -79,7 +79,8 @@ class ProjectsController extends Controller {
 
         $this->checkAccessToken();
         if( !isset($_POST['name']) ){
-            $this->result['error_msg'] = 'The project name is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "The project name is required.";
             echo json_encode($this->result);
             exit;
         }
@@ -97,10 +98,10 @@ class ProjectsController extends Controller {
         );
         $user_project = New User_project();
         $result_of_user_project = $user_project->add($user_project_data);
-
+        $this->result['new_project'] = '';
         if($result_of_project && $result_of_user_project){
-            $this->result['result'] = 1;
-            $this->result['project_idx'] = $result_of_project;
+            $new_project = $this->Project->getProject( "*", array("idx"=>$result_of_project) );
+            $this->result['new_project'] = $new_project;
         }
 
         echo json_encode($this->result);
