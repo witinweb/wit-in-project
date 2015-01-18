@@ -25,7 +25,7 @@ class UsersController extends Controller {
         }
         $headers = apache_request_headers();
         if( !isset($headers['Authorization']) ){
-            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['id'] = 0;
             $this->result['error_info']['msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
@@ -41,7 +41,7 @@ class UsersController extends Controller {
 
     function login() {
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
-            $this->result['error_msg'] = "Required fields are missing.";
+            $this->result['error_info']['msg'] = "Required fields are missing.";
             echo json_encode($this->result);
             exit;
         }
@@ -68,10 +68,12 @@ class UsersController extends Controller {
                 $this->result['accessToken'] = $modify_data['accessToken'];
                 //todo add project list and first project's task list
             }else{
-                $this->result['error_msg'] = "You do not have permission to access.";
+                $this->result['error_info']['id'] = 1;
+                $this->result['error_info']['msg'] = "You do not have permission to access.";
             }
         }else{
-            $this->result['error_msg'] =  "information does not match.";
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] =  "information does not match.";
         }
         echo json_encode($this->result);
     }
