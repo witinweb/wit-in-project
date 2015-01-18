@@ -7,6 +7,8 @@ angular.module('wipApp', [
   'wipApp.user.service',
   'wipApp.project.controller',
   'wipApp.project.service',
+  'wipApp.task.controller',
+  'wipApp.task.service',
   'wipApp.util.service',
   'mm.foundation',
   'wipApp.modal',
@@ -62,7 +64,7 @@ angular.module('wipApp', [
 	  //////////
 	  .state("projects", {
 	    url: "/projects",
-	    abstract: true,
+	  //  abstract: true,
 	    templateUrl: "app/templates/projects.html",
 	    resolve: {
 				projectsList: ['projects',
@@ -79,30 +81,27 @@ angular.module('wipApp', [
 				    console.log(response);
 						});
 				}]
-			}/*,
-	    controller: ['$scope', 'projects', function($scope, projects){
-	    		$scope.projects = projects.data.projects;
-	    		console.log($scope.projects);
-	    	}]*/
+			},
+	    controller: "projectController"
 	  })
 	  //////////
 	  // Project List //
 	  //////////
-	  .state('projects.list', {
+	  //.state('projects.list', {
 
       // Using an empty url means that this child state will become active
       // when its parent's url is navigated to. Urls of child states are
       // automatically appended to the urls of their parent. So this state's
       // url is '/projects' (because '/projects' + '').
-    	url: '',
+    //	url: '',
 
       // IMPORTANT: Now we have a state that is not a top level state. Its
       // template will be inserted into the ui-view within this state's
       // parent's template; so the ui-view within projects.html. This is the
       // most important thing to remember about templates.
-      templateUrl: 'app/templates/projects.list.html',
-      controller: "projectController"
-      })
+    //  templateUrl: 'app/templates/projects.list.html',
+    //  controller: "projectController"
+    //  })
 	  //////////
 	  // Project Detail //
 	  //////////
@@ -114,11 +113,7 @@ angular.module('wipApp', [
       // url is '/projects' (because '/projects' + '').
     	url: '/{projectId:[0-9]{1,4}}',
 
-      // IMPORTANT: Now we have a state that is not a top level state. Its
-      // template will be inserted into the ui-view within this state's
-      // parent's template; so the ui-view within projects.html. This is the
-      // most important thing to remember about templates.
-      templateUrl: 'app/templates/projects.list.html',
-      controller: "projectController"
-      })
+      templateUrl : 'app/templates/tasks.list.html',
+      controller: 'taskController'
+    })
 }]);

@@ -7,7 +7,7 @@ angular.module('wipApp.user.controller', [])
 				.success(function (response) {
 				    if(response.error_info == null){
 				    	user.SetUser(response.user_info);
-				    	$state.go('projects.list',{redirect:true});
+				    	$state.go('projects',{redirect:true});
 				    }else{
 				    	$scope.error = response.error_info.msg;
 				    }

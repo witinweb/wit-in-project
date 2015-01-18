@@ -29,7 +29,7 @@
 		</div>
 		<div ng-show="!$edit" class="row collapse">
 			<div class="small-8 columns">
-				<a ui-sref="projects.detail({projectId:project.id})" class="button postfix success">{{project.name}}</a>
+				<a ui-sref="projects.detail({projectId:project.idx})" class="button postfix success">{{project.name}}</a>
 			</div>
 			<div class="small-2 columns">
 				<a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
