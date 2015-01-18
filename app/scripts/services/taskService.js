@@ -1,6 +1,6 @@
 angular.module('wipApp.task.service', [])
 // A RESTful factory for retrieving projects from 'projects.json'
-.factory('tasks', ['$http', 'utils', function ($http, utils) {
+.factory('tasks', ['$http', function ($http) {
   var path = '/backApp/v1.0/tasks';
   var tasks = {};
 

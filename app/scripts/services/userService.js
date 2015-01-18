@@ -1,7 +1,7 @@
 angular.module('wipApp.user.service', [
 
 ])
-.factory('user', ['$http','$rootScope', function ($http, $rootScope) {
+.factory('user', ['$http','$rootScope', '$cookieStore', function ($http, $rootScope, $cookieStore) {
   var path = '/backApp/v1.0/users';
   var user = {};
 
@@ -15,6 +15,7 @@ angular.module('wipApp.user.service', [
   	$rootScope.loginState = true;
 		$rootScope.userInfo = user;
 		$http.defaults.headers.common['Authorization'] = 'Basic ' + user.accessToken;
+    $cookieStore.put('userInfo', $rootScope.userInfo);
 	};
 
 	user.Logout = function () {

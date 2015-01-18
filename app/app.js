@@ -14,12 +14,25 @@ angular.module('wipApp', [
   'wipApp.modal',
   'ui.router', 
   'ngAnimate',
+  'ngCookies',
   'notificationFactory'
 ])
 
-.run(['$rootScope', '$state', '$stateParams',function ($rootScope,   $state,   $stateParams) {
+.run(['$rootScope', '$state', '$stateParams', '$cookieStore', '$http' ,function ($rootScope, $state, $stateParams, $cookieStore, $http) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.userInfo = $cookieStore.get('userInfo') || {};
+        if ($rootScope.userInfo) {
+        	$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.userInfo.accessToken;
+            //$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+        }
+  
+        /*$rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in
+            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+                $location.path('/login');
+            }
+        });*/
     
     }
   ]
@@ -113,7 +126,7 @@ angular.module('wipApp', [
       // url is '/projects' (because '/projects' + '').
     	url: '/{projectId:[0-9]{1,4}}',
 
-      templateUrl : 'app/templates/tasks.list.html',
+      templateUrl: 'app/templates/tasks.list.html',
       controller: 'taskController'
     })
 }]);
