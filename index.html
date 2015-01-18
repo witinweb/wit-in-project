@@ -46,7 +46,7 @@
 	<nav class="top-bar" data-topbar role="navigation">
 		<ul class="title-area">
 			<li class="name">
-				<h1><a href="#/">WIP</a></h1>
+				<h1><a href="#/projects">WIP</a></h1>
 			</li>
 		</ul>
 
@@ -60,7 +60,7 @@
 			<!-- <li ng-show="$state.includes('projects')"><a href="#" ng-click="logout()">Logout</a></li> -->
 			<li><a ui-sref="join">Join</a></li>
 			<li><a ui-sref="login">Login</a></li>
-			<li><a ui-sref="logout">Logout</a></li>
+			<li ng-controller="userController"><a ng-click="logout()">Logout</a></li>
 		</ul>
 		</section>
 	</nav>

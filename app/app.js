@@ -24,15 +24,16 @@ angular.module('wipApp', [
     $rootScope.userInfo = $cookieStore.get('userInfo') || {};
         if ($rootScope.userInfo) {
         	$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.userInfo.accessToken;
-            //$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
         }
-  
-        /*$rootScope.$on('$locationChangeStart', function (event, next, current) {
+  			$rootScope.$on('$locationChangeSuccess', function(event, next, current) {
+  				/*console.log(event, next, current);
+  				console.log($state.current.name);
             // redirect to login page if not logged in
-            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
-                $location.path('/login');
-            }
-        });*/
+            if (e.$state.current.name !== 'login' && !$rootScope.userInfo) {
+            	console.log('not login');
+                $state.go('login',{redirect:true});
+            }*/
+        });
     
     }
   ]

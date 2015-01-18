@@ -18,7 +18,7 @@ angular.module('wipApp.user.controller', [])
 				});
 	  };
 	  $scope.join = function(){
-	  	user.join($scope.name, $scope.id, $scope.password)
+	  	user.Join($scope.name, $scope.id, $scope.password)
 				.success(function (response) {
 				    if(response.error_info == null){
 				    	console.log(response);
@@ -30,5 +30,8 @@ angular.module('wipApp.user.controller', [])
 				    $scope.error = response.error_msg;
 				    console.log(response);
 				});
+	  };
+	  $scope.logout = function(){
+	  	user.Logout();
 	  };
 	}]);
