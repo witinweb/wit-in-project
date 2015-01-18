@@ -4,8 +4,8 @@ angular.module('wipApp.task.service', [])
   var path = '/backApp/v1.0/tasks';
   var tasks = {};
 
-  tasks.getAlltasks = function () {
-    return $http.post(path+"/viewAll");
+  tasks.getAlltasks = function (id) {
+    return $http.post(path+"/viewAll", {project_idx:id});
   };
   tasks.AddProject = function (name) {
     return $http.post(path+"/add",name);

@@ -1,6 +1,6 @@
 // Make sure to include the `ui.router` module as a dependency
 angular.module('wipApp', [
- /* 'wipApp.projects',
+ /* 'wipApp.tasks',
   'wipApp.projects.service',
   */
   'wipApp.user.controller',
@@ -128,6 +128,23 @@ angular.module('wipApp', [
     	url: '/{projectId:[0-9]{1,4}}',
 
       templateUrl: 'app/templates/tasks.list.html',
+      /*resolve: {
+				tasksList: ['tasks',
+				function( tasks){
+				  return tasks.getAlltasks(project.idx)
+				   .success(function (response) {
+						if(response.error_info == null){
+							console.log(response);
+							return response;
+						}else{
+							console.log(response.error_info.msg);
+						}
+						})
+				   .error(function (response) {
+				    console.log(response);
+						});
+				}]
+			},*/
       controller: 'taskController'
     })
 }]);
