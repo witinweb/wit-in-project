@@ -8,7 +8,6 @@ angular.module('wipApp.project.service', [])
     return $http.post(path+"/viewAll");
   };
   projects.AddProject = function (name) {
-    console.log('Add'+name);
     return $http.post(path+"/add",name);
   };
   projects.DeleteProject = function (id) {

@@ -35,12 +35,6 @@ angular.module('wipApp.modal', [
                     if (confirmCallback != undefined) {
                         confirmCallback();
                     }
-                },
-                // if any, execute cancel callback
-                function () {
-                    if (cancelCallback != undefined) {
-                        cancelCallback();
-                    }
                 });
         }
     };
@@ -58,13 +52,11 @@ angular.module('wipApp.modal', [
         if (body) {
             $scope.body = body;
         }
-        console.log(id);
  
         $scope.confirm = function () {
             projects.DeleteProject(id)
             .success(function(response){
                 if(response.error_info == null){
-                    console.log(response);
                     
                 }else{
                     console.log(response.error_info.msg);

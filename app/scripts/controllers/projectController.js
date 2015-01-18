@@ -27,7 +27,6 @@ angular.module('wipApp.project.controller', [])
     //$scope.addMode = false;
 
 	$scope.addProject = function(){
-		console.log($scope.newProject);
 		projects.AddProject($scope.newProject)
 			.success(function(response){
 				if(response.error_info == null){
@@ -64,5 +63,7 @@ angular.module('wipApp.project.controller', [])
 		};
 		modalWindowFactory.show(title, msg, confirmCallback, project.idx);
 	};
+
+	//프로젝트 리스트 
 	$scope.projects = projectsList.data.project_list;
 }]);
