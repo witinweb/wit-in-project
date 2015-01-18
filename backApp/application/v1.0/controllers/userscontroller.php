@@ -82,22 +82,27 @@ class UsersController extends Controller {
     function join(){
 
         if( !trim($_POST['id']) || !trim($_POST['password']) || !trim($_POST['name']) ){
-            $this->result['error_msg'] = "Required fields are missing.";
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "Required fields are missing.";
             echo json_encode($this->result);
             exit;
         }
         $data = Array(
             "id" => trim(strval($_POST['id'])),
             "password" => SHA1( $_POST['password'].SALT ),
-            "name"=> $_POST['name'],
-            "last_login_date"=> date("Y-m-d H:m:s")
+            "name"=> $_POST['name']
         );
-        //todo check exist id
-        $user_id = $this->User->add($data);
-        if($user_id){
-            $this->result['result'] = 1;
+        //check exist id
+        $is_exist_user = $this->User->getUser('idx', array('id'=>$data['id']));
+        if($is_exist_user){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "The ID that already exists.";
         }else{
-            $this->result['error_msg'] = "Join failed.";
+            //insert user
+            if(!$this->User->add($data)){
+                $this->result['error_info']['id'] = 2;
+                $this->result['error_info']['msg'] = "Join failed.";
+            }
         }
         echo json_encode($this->result);
     }
