@@ -14,26 +14,28 @@ class TasksController extends Controller {
     protected $user;
     protected $user_info;
     protected $result = array(
-        'result'=>0,
-        'error_msg'=>'',
-        'accessToken'=>''
+        'error_info'=>NULL
     );
 
     protected function checkAccessToken() {
         if( !isset($_COOKIE['LOGIN_ID']) ){
-            $this->result['error_msg'] = 'Your session has expired.';
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = 'Your session has expired.';
             echo json_encode($this->result);
             exit;
         }
-        if( !isset($_POST['accessToken']) ){
-            $this->result['error_msg'] = 'The accessToken is required.';
+        $headers = apache_request_headers();
+        ;        if( !isset($headers['Authorization']) || empty($headers['Authorization']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST['accessToken']));
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>str_replace("Basic ", "", $headers['Authorization'])));
         if(!$this->user_info){
-            $this->result['error_msg'] = 'The accessToken is not valid.';
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = 'The accessToken is not valid.';
             echo json_encode($this->result);
             exit;
         }
@@ -42,18 +44,18 @@ class TasksController extends Controller {
     function viewAll() {
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The project_idx is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_idx is required.';
             echo json_encode($this->result);
             exit;
         }
 
         $categories = $this->categoryList($_POST['project_idx']);
         $category_list = array();
-        $i = 0;
 
         if($categories){
+            $i = 0;
             foreach($categories as $category){
-                $categories[$i]['category_name'] = $category['category'];
                 $limit = array( 0, 1000 );
                 $where = array(
                     "t.project_idx"=>$_POST['project_idx'],
@@ -62,19 +64,48 @@ class TasksController extends Controller {
                 $this->Task->join("user u", "u.idx=t.creator_idx", "LEFT");
                 $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category as category", "t.insert_date as insert_date","u.id as creator_id", "u.name as creator_name");
                 $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+                if($tasks){
+                    $categories[$i]['task_list'] = $tasks;
+                    $j = 0;
+                    foreach($tasks as $task){
+                        $categories[$i]['task_list'][$j]['todo_list'] = $this->getTodoList($task);
+                        $j++;
+                    }
+                }else{
+                    $categories[$i]['task_list'] = null;
+                }
 
-                $categories[$i]['task_list'] = (object) $tasks;
                 $i++;
             }
-            $this->result['result'] = 1;
-            $this->result['category_list'] = (object) $categories;
+            $this->result['category_list'] = $categories;
         }else{
-            $this->result['result'] = 1;
             $this->result['category_list'] = null;
-            echo json_encode($this->result);
-            exit;
         }
         echo json_encode($this->result);
+    }
+
+    function getTodoList($task){
+        $todo = new Todo();
+        $where = array(
+            "project_idx"=>$task['project_idx'],
+            "task_idx"=>$task['idx']
+        );
+        $todo_list = $todo->getList('todo', array('insert_date'=>'desc'), $limit = array( 0, 1000 ), $where, "*");
+        if($todo_list){
+            $i = 0;
+            foreach($todo_list as $todo){
+                $user = new User();
+                $creator = $user->getUser("id", array('idx'=>$todo['user_idx']));
+                $receiver = $user->getUser("id", array('idx'=>$todo['receiver_idx']));
+                $todo_list[$i]['user_id'] = $creator['id'];
+                $todo_list[$i]['receiver_id'] = $receiver['id'];
+                $i++;
+            }
+        }else{
+            $todo_list = null;
+        }
+
+        return $todo_list;
     }
 
     function add() {
