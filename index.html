@@ -72,6 +72,8 @@
 	$state = {{$state.current.name}}
 	$stateParams = {{$stateParams}}
 	$state full url = {{ $state.$current.url.source }}
+	$rootScope.$userInfo = {{$rootScope.$userInfo}};
+    $rootScope.$loginState = {{$rootScope.$loginState}};
 	<!-- $state.$current is not a public api, we are using it to
 	display the full url for learning purposes-->
 	</pre>
