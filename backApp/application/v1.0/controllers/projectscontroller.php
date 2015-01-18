@@ -34,7 +34,6 @@ class ProjectsController extends Controller {
         }
         $this->user = new User();
         $this->user_info = $this->user->getUser("*", array('accessToken'=>str_replace("basic ", "", $headers['Authorization'])));
-        printr($this->user_info);
         if(!$this->user_info){
             $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = 'The accessToken is not valid.';
@@ -64,13 +63,10 @@ class ProjectsController extends Controller {
         $project_list = array();
         $i = 0;
         foreach($project_idx_list as $project){
-
-
             $this->Project->join("user u", "u.idx=p.master_idx", "LEFT");
             $column = array("p.idx as idx", "p.name as name", "u.id as master_id");
             $temp = $this->Project->getList("project p", array('p.insert_date'=>'desc'), $limit, array('p.idx'=>$project['project_idx']), $column);
             $project_list[$i] = $temp[0];
-
             $i++;
         }
         $this->result['project_list'] = (object) $project_list;
