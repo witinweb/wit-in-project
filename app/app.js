@@ -1,99 +1,95 @@
 // Make sure to include the `ui.router` module as a dependency
 angular.module('wipApp', [
-  'wipApp.projects',
+ /* 'wipApp.projects',
   'wipApp.projects.service',
-  'wipApp.utils.service',
-  'wipApp.modal',
+  
+  'wipApp.modal',*/
+  'wipApp.user.controller',
+  'wipApp.user.service',
+  'wipApp.project.controller',
+  'wipApp.project.service',
+  'wipApp.util.service',
   'mm.foundation',
   'ui.router', 
   'ngAnimate',
   'notificationFactory'
 ])
 
-.run(
-  [          '$rootScope', '$state', '$stateParams',
-    function ($rootScope,   $state,   $stateParams) {
-
-    // It's very handy to add references to $state and $stateParams to the $rootScope
-    // so that you can access them from any scope within your applications.For example,
-    // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
-    // to active whenever 'contacts.list' or one of its decendents is active.
+.run(['$rootScope', '$state', '$stateParams',function ($rootScope,   $state,   $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     }
   ]
 )
 
-.config(
-  [          '$stateProvider', '$urlRouterProvider',
-    function ($stateProvider,   $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider',function ($stateProvider,   $urlRouterProvider) {
+	/////////////////////////////
+	// Redirects and Otherwise //
+	/////////////////////////////
+	// Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+	$urlRouterProvider
 
-      /////////////////////////////
-      // Redirects and Otherwise //
-      /////////////////////////////
+	  // The `when` method says if the url is ever the 1st param, then redirect to the 2nd param
+	  // Here we are just setting up some convenience urls.
+	  //.when('/p?id', '/projects/:id')
+	  //.when('/project/:id', '/projects/:id')
 
-      // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
-      $urlRouterProvider
+	  // If the url is ever invalid, e.g. '/asdf', then redirect to '/' aka the home state
+	  .otherwise('/login');
+	//////////////////////////
+	// State Configurations //
+	//////////////////////////
+	$stateProvider
+	  //////////
+	  // Login //
+	  //////////
+	  .state("login", {
+	    url: "/login",
+	    templateUrl: "app/templates/login.html",
+	    controller: "userController"
+	  })
+	  //////////
+	  // Join //
+	  //////////
+	  .state("join", {
+	    url: "/join",
+	    templateUrl: "app/templates/join.html",
+	    controller: "userController"
+	  })
+	  //////////
+	  // Project //
+	  //////////
+	  .state("projects", {
+	    url: "/projects",
+	    abstract: true,
+	    templateUrl: "app/templates/projects.html",
+	    resolve: {
+				projects: ['projects',
+				function( projects){
+				   return projects.getAllProjects();
+				}]
+			}/*,
+	    controller: ['$scope', 'projects', function($scope, projects){
+	    		$scope.projects = projects.data.projects;
+	    		console.log($scope.projects);
+	    	}]*/
+	  })
+	  //////////
+	  // Project List //
+	  //////////
+	  .state('projects.list', {
 
-        // The `when` method says if the url is ever the 1st param, then redirect to the 2nd param
-        // Here we are just setting up some convenience urls.
-        .when('/p?id', '/projects/:id')
-        .when('/project/:id', '/projects/:id')
+      // Using an empty url means that this child state will become active
+      // when its parent's url is navigated to. Urls of child states are
+      // automatically appended to the urls of their parent. So this state's
+      // url is '/projects' (because '/projects' + '').
+    	url: '',
 
-        // If the url is ever invalid, e.g. '/asdf', then redirect to '/' aka the home state
-        .otherwise('/');
-
-
-      //////////////////////////
-      // State Configurations //
-      //////////////////////////
-
-      // Use $stateProvider to configure your states.
-      $stateProvider
-
-        //////////
-        // Home //
-        //////////
-
-        .state("home", {
-
-          // Use a url of "/" to set a states as the "index".
-          url: "/",
-
-          // Example of an inline template string. By default, templates
-          // will populate the ui-view within the parent state's template.
-          // For top level states, like this one, the parent template is
-          // the index.html file. So this template will be inserted into the
-          // ui-view within index.html.
-          template: '<p class="lead">Welcome to the UI-Router Demo</p>' +
-            '<p>Use the menu above to navigate. ' +
-            'Pay attention to the <code>$state</code> and <code>$stateParams</code> values below.</p>' +
-            '<p>Click these links—<a href="#/p?id=1">Alice</a> or ' +
-            '<a href="#/projects/42">Bob</a>—to see a url redirect in action.</p>'
-
-        })
-
-        ///////////
-        // About //
-        ///////////
-
-        .state('about', {
-          url: '/about',
-
-          // Showing off how you could return a promise from templateProvider
-          templateProvider: ['$timeout',
-            function (        $timeout) {
-              return $timeout(function () {
-                return '<p class="lead">UI-Router Resources</p><ul>' +
-                         '<li><a href="https://github.com/angular-ui/ui-router/tree/master/sample">Source for this Sample</a></li>' +
-                         '<li><a href="https://github.com/angular-ui/ui-router">Github Main Page</a></li>' +
-                         '<li><a href="https://github.com/angular-ui/ui-router#quick-start">Quick Start</a></li>' +
-                         '<li><a href="https://github.com/angular-ui/ui-router/wiki">In-Depth Guide</a></li>' +
-                         '<li><a href="https://github.com/angular-ui/ui-router/wiki/Quick-Reference">API Reference</a></li>' +
-                       '</ul>';
-              }, 100);
-            }]
-        })
-    }
-  ]
-);
+      // IMPORTANT: Now we have a state that is not a top level state. Its
+      // template will be inserted into the ui-view within this state's
+      // parent's template; so the ui-view within projects.html. This is the
+      // most important thing to remember about templates.
+      templateUrl: 'app/templates/projects.list.html',
+      controller: "projectController"
+      })
+}]);

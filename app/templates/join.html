@@ -1,9 +1,6 @@
-<div id="join" ng-controller="LoginController">
-    <header><div id="logo">TEST</div></header>
     <div ng-show="error" class="alert alert-danger">{{error}}</div>
-    <p><a class="button" ui-sref="login">Login</a></p>
-    <h2><i class="fa fa-sign-in"></i> Join</h2>
     <div class="row">
+    <h2><i class="fa fa-sign-in"></i> Join</h2>
     <form name="form" ng-submit="join()" role="form">
         <label for="name">Name</label>
         <input type="text" name="name" id="name" class="form-control" placeholder="Name" ng-model="name" required />
@@ -21,7 +18,3 @@
             </li>
         </ul>
     </form>
-    </div>
-    <footer><span>2015 &copy; All rights reserved.</span></footer>
-</div>
-

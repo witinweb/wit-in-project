@@ -1,58 +1,12 @@
 <div class="row">
-	<div class="large-4 columns">
-		<ul class="side-nav">
-			<form name="form" ng-submit="createProject()" role="form">
-		     <div class="row">
-		            <div class="large-12 columns">
-		                <div class="row collapse">
-		                    <div class="small-10 columns">
-		                        <input type="text" name="name" id="name" placeholder="Project Name" ng-model="newProject.name" required />
-		                    </div>
-		                    <div class="small-2 columns">
-		                        <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-			</form>
-			<li ng-class="{ active: $state.includes('projects.list') }"><a ui-sref="projects.list">All projects</a></li>
-			<li class="divider"></li>
-			<li ng-repeat="project in projects" ui-sref-active="active">
-				<!-- Here's a ui-sref that is also providing necessary parameters -->
-				<div ng-show="$edit" class="row collapse">
-					<div class="small-8 columns">
-						<input type="text" name="project.name" id="project.name" ng-model="project.name" required />
-					</div>
-					<div class="small-2 columns">
-						<a href="#" class="button postfix" ng-click="$edit = !$edit; modifyProject(project.name, project.id)">save</a>
-					</div>
-					<div class="small-2 columns">
-						<a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
-					</div>
-				</div>
-				<div ng-show="!$edit" class="row collapse">
-					<div class="small-8 columns">
-						<a ui-sref="projects.detail({projectId:project.id})" class="button postfix success">{{project.name}}</a>
-					</div>
-					<div class="small-2 columns">
-						<a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
-					</div>
-					<div class="small-2 columns">
-						<a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
-					</div>
-				</div>
-			</li>
-		</ul>
-		{{projects}}
-		<button class="btn" ng-click="goToRandom()">Show random project</button>
-
-		<!-- Another named view -->
-		<div ui-view="menuTip" class="fade"></div>
-	</div>
-
-<!-- Our unnamed main ui-view for this template -->
-	<div ui-view class="large-8 columns fade"></div>
+<!-- 	<div class="large-4 columns fade">
+		<div ui-view="projectsList" class="fade"></div>		
+	</div> -->
+	<div ui-view class="large-4 columns fade"></div>
+	<div ui-view="tasksList" class="large-8 columns fade"></div>
 </div>
+
+
 <script type="text/ng-template" id="delete.html">
 	<h3>프로젝트 삭제</h3>
 	<p>프로젝트를 삭제 하시겠습니까?</p>

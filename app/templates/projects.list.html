@@ -1,6 +1,42 @@
-<h2>All Projects</h2>
-<ul>
-  <li ng-repeat="project in projects">
-    <a ui-sref="projects.detail({projectId:project.id})">{{project.name}}</a>
-  </li>
-</ul>    
+<ul class="side-nav">
+	<form name="form" ng-submit="createProject()" role="form">
+     <div class="row">
+            <div class="large-12 columns">
+                <div class="row collapse">
+                    <div class="small-10 columns">
+                        <input type="text" name="name" id="name" placeholder="Project Name" ng-model="newProject.name" required />
+                    </div>
+                    <div class="small-2 columns">
+                        <button type="submit" class="button postfix" ng-disabled="form.$invalid">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</form>
+	<li class="divider"></li>
+	<li ng-repeat="project in projects" ui-sref-active="active">
+		<!-- Here's a ui-sref that is also providing necessary parameters -->
+		<div ng-show="$edit" class="row collapse">
+			<div class="small-8 columns">
+				<input type="text" name="project.name" id="project.name" ng-model="project.name" required />
+			</div>
+			<div class="small-2 columns">
+				<a href="#" class="button postfix" ng-click="$edit = !$edit; modifyProject(project.name, project.id)">save</a>
+			</div>
+			<div class="small-2 columns">
+				<a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
+			</div>
+		</div>
+		<div ng-show="!$edit" class="row collapse">
+			<div class="small-8 columns">
+				<a ui-sref="projects.detail({projectId:project.id})" class="button postfix success">{{project.name}}</a>
+			</div>
+			<div class="small-2 columns">
+				<a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
+			</div>
+			<div class="small-2 columns">
+				<a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
+			</div>
+		</div>
+	</li>
+</ul>

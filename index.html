@@ -17,14 +17,24 @@
 <script src="app/public/lib/angular-cookies.js"></script>
 <script src="app/public/lib/mm-foundation-tpls-0.5.1.js"></script>
 <!-- app.js -->
-<script src="scripts/app.js"></script>
-<!-- projects js -->
+<script src="app/app.js"></script>
+<!-- Controllers -->
+<script src="app/scripts/controllers/userController.js"></script>
+<script src="app/scripts/controllers/projectController.js"></script>
+
+<!-- Services -->
+<script src="app/scripts/services/notificationFactory.js"></script>
+<script src="app/scripts/services/modalWindowFactory.js"></script>
+<script src="app/scripts/services/utilFactory.js"></script>
+<script src="app/scripts/services/userService.js"></script>
+<script src="app/scripts/services/projectService.js"></script>
+<!-- projects js 
 <script src="app/scripts/projects.js"></script>
 <script src="app/scripts/projects-service.js"></script>
 <script src="app/scripts/projects-util.js"></script>
 <script src="app/scripts/projects-modal.js"></script>
-<script src="app/scripts/notificationFactory.js"></script>
-<script src="app/scripts/modalWindowFactory.js"></script>
+
+<script src="app/scripts/modalWindowFactory.js"></script>-->
 <!-- could easily use a custom property of the state here instead of 'name' -->
 <title ng-bind="$state.current.name">WIP</title>
 </head>
@@ -35,25 +45,19 @@
 			<li class="name">
 				<h1><a href="#/">WIP</a></h1>
 			</li>
-		<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-			<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 		</ul>
 
 		<section class="top-bar-section">
-		<!-- Left Nav Section -->
+		<!-- Left Nav Section 
 		<ul class="left">
 			<li ng-class="{active: $state.includes('projects')}"><a ui-sref="projects.list">Project List</a></li>
-		</ul>
+		</ul>-->
 		<!-- Right Nav Section -->
 		<ul class="right">
-			<li ng-show="$state.includes('projects')"><a href="#" ng-click="logout()">Logout</a></li>
-			<li class="has-dropdown">
-				<a href="#">Right Button Dropdown</a>
-				<ul class="dropdown">
-					<li><a href="#">First link in dropdown</a></li>
-					<li class="active"><a href="#">Active link in dropdown</a></li>
-				</ul>
-			</li>
+			<!-- <li ng-show="$state.includes('projects')"><a href="#" ng-click="logout()">Logout</a></li> -->
+			<li><a ui-sref="join">Join</a></li>
+			<li><a ui-sref="login">Login</a></li>
+			<li><a ui-sref="logout">Logout</a></li>
 		</ul>
 		</section>
 	</nav>
@@ -62,6 +66,7 @@
 		unless otherwise explicitly named views are targeted. It's also employing ng-animate. -->
 		<div ui-view class="fade" style="padding-top: 80px;"></div>
 	</div>
+	<footer><span>2015 &copy; All rights reserved.</span></footer>
 	<pre>
 	<!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
 	$state = {{$state.current.name}}
