@@ -13,35 +13,25 @@
 class UsersController extends Controller {
 
     protected $result = array(
-        'error_info'=>NULL
+        'result'=>0,
+        'error_msg'=>'',
+        'accessToken'=>''
     );
-    protected $user_info;
 
     protected function checkAccessToken() {
         if( !isset($_COOKIE['LOGIN_ID']) ){
-            $this->result['error_info']['id'] = 1;
-            $this->result['error_info']['msg'] = 'Your session has expired.';
+            $this->result['error_msg'] = 'Your session has expired.';
             echo json_encode($this->result);
             exit;
         }
-        $headers = apache_request_headers();
-        if( !isset($headers['Authorization']) ){
-            $this->result['error_info']['id'] = 1;
-            $this->result['error_info']['msg'] = 'The accessToken is required.';
-            echo json_encode($this->result);
-            exit;
-        }
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>$headers['Authorization']));
-        if(!$this->user_info){
-            $this->result['error_info']['id'] = 1;
-            $this->result['error_info']['msg'] = 'The accessToken is not valid.';
+        if( !isset($_POST['accessToken']) ){
+            $this->result['error_msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
     }
 
     function login() {
-
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
             $this->result['error_msg'] = "Required fields are missing.";
             echo json_encode($this->result);
@@ -58,7 +48,7 @@ class UsersController extends Controller {
 
                 $modify_data = array(
                     "last_login_date"=> date("Y-m-d H:m:s"),
-                    "accessToken"=> SHA1("basic ".$_POST['id'].date("Y-m-d H:m:s").SALT )
+                    "accessToken"=> SHA1($_POST['id'].date("Y-m-d H:m:s").SALT )
                 );
                 $this->User->modify( $user["idx"], $modify_data );
 
@@ -66,9 +56,9 @@ class UsersController extends Controller {
                 setcookie('LOGIN_NAME',$user["name"],time() + (86400 * 1), '/');
                 setcookie('accessToken',$modify_data['accessToken'],time() + (86400 * 1), '/');
 
+                $this->result['result'] = 1;
                 $this->result['name'] = $user["name"];
                 $this->result['accessToken'] = $modify_data['accessToken'];
-                //todo add project list and first project's task list
             }else{
                 $this->result['error_msg'] = "You do not have permission to access.";
             }

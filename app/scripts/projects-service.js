@@ -5,7 +5,6 @@ angular.module('wipApp.projects.service', [
 // A RESTful factory for retrieving projects from 'projects.json'
 .factory('projects', ['$http', 'utils', function ($http, utils) {
   var path = 'assets/projects.json';
-
   var projects = $http.get(path).then(function (resp) {
     return resp.data.projects;
   });
