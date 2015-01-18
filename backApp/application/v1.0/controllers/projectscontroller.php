@@ -114,6 +114,35 @@ class ProjectsController extends Controller {
 
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) || !isset($_POST['user_id']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_idx and user_id is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        if($this->checkIsMaster($_POST['project_idx'], $this->user_info['idx'])){
+            //User information to be updated
+            $this->user = new User();
+            $user = $this->user->getUser("*", array('user_id'=>$_POST["user_id"]));
+            //project member update
+            $user_project = New User_project();
+            $data = array('user_idx'=>$user['idx'], 'project_idx'=>$_POST['project_idx']);
+            if(!@$user_project->add($data)){
+                $this->result['error_info']['id'] = 2;
+                $this->result['error_info']['msg'] = "Update failed.";
+            }
+        }else{
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "You do not have permission to delete.";
+        }
+
+        echo json_encode($this->result);
+
+    }
+
+    function addMaster(){
+
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) || !isset($_POST['user_id']) ){
             $this->result['error_msg'] = 'The project_idx and user_id is required.';
             echo json_encode($this->result);
             exit;
@@ -142,7 +171,8 @@ class ProjectsController extends Controller {
     function del() {
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The project_idx is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_idx is required.';
             echo json_encode($this->result);
             exit;
         }
@@ -153,13 +183,13 @@ class ProjectsController extends Controller {
 
                 $task = New Task();
                 $task->delByProjectidx($_POST['project_idx']);
-                $this->result['result'] = 1;
             }else{
-                $this->result['error_msg'] = 'Cannot delete this project.';
+                $this->result['error_info']['id'] = 2;
+                $this->result['error_info']['msg'] = 'Cannot delete this project.';
             }
         }else{
-
-            $this->result['error_msg'] = "You do not have permission to delete.";
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "You do not have permission to delete.";
         }
         echo json_encode($this->result);
     }
@@ -188,7 +218,7 @@ class ProjectsController extends Controller {
                 $this->result['error_info']['msg'] = 'Cannot update this project.';
             }
         }else{
-            $this->result['error_info']['id'] = 2;
+            $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = "You do not have permission to update.";
         }
 
