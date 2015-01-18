@@ -111,7 +111,8 @@ class TasksController extends Controller {
     function add() {
         $this->checkAccessToken();
         if( !isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The task name or description or project_idx is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The task name and description and project_idx and required.';
             echo json_encode($this->result);
             exit;
         }
@@ -124,11 +125,9 @@ class TasksController extends Controller {
         );
         if( isset($_POST['category']) ) $data["category"] = $_POST['category'];
         if( isset($_POST['related_link']) ) $data["related_link"] = $_POST['related_link'];
-        $task = $this->Task->add($data);
 
-        if($task){
-            $this->result['result'] = 1;
-        }else{
+        if(!$this->Task->add($data)){
+            $this->result['error_info']['id'] = 2;
             $this->result['error_msg'] = 'Failed to add task.';
         }
 
