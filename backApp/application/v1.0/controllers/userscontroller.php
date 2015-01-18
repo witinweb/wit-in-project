@@ -65,6 +65,7 @@ class UsersController extends Controller {
                 setcookie('LOGIN_NAME',$user["name"],time() + (86400 * 1), '/');
                 setcookie('accessToken',$modify_data['accessToken'],time() + (86400 * 1), '/');
 
+                $user = $this->User->getUser("*", $data);
                 $this->result['user_info'] = $user;
                 unset($this->result['user_info']['password']);
                 //todo add project list and first project's task list
