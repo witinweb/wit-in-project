@@ -158,6 +158,7 @@ class ProjectsController extends Controller {
                 $this->result['error_msg'] = 'Cannot delete this project.';
             }
         }else{
+
             $this->result['error_msg'] = "You do not have permission to delete.";
         }
         echo json_encode($this->result);
@@ -172,7 +173,8 @@ class ProjectsController extends Controller {
     function modify($idx = null) {
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The project_idx is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "The project_idx is required.";
             echo json_encode($this->result);
             exit;
         }
@@ -181,13 +183,13 @@ class ProjectsController extends Controller {
             $data = Array(
                 "name" => trim(strval($_POST['name']))
             );
-            if( $this->Project->modify($_POST['project_idx'], $data) ){
-                $this->result['result'] = 1;
-            }else{
-                $this->result['error_msg'] = 'Cannot update this project.';
+            if( !$this->Project->modify($_POST['project_idx'], $data) ){
+                $this->result['error_info']['id'] = 2;
+                $this->result['error_info']['msg'] = 'Cannot update this project.';
             }
         }else{
-            $this->result['error_msg'] = "You do not have permission to update.";
+            $this->result['error_info']['id'] = 2;
+            $this->result['error_info']['msg'] = "You do not have permission to update.";
         }
 
         echo json_encode($this->result);
