@@ -41,6 +41,7 @@ class UsersController extends Controller {
 
     function login() {
         if( !trim($_POST['id']) || !trim($_POST['password']) ){
+            $this->result['error_info']['id'] = 0;
             $this->result['error_info']['msg'] = "Required fields are missing.";
             echo json_encode($this->result);
             exit;
@@ -64,8 +65,8 @@ class UsersController extends Controller {
                 setcookie('LOGIN_NAME',$user["name"],time() + (86400 * 1), '/');
                 setcookie('accessToken',$modify_data['accessToken'],time() + (86400 * 1), '/');
 
-                $this->result['name'] = $user["name"];
-                $this->result['accessToken'] = $modify_data['accessToken'];
+                $this->result['user_info'] = $user;
+                unset($this->result['user_info']['password']);
                 //todo add project list and first project's task list
             }else{
                 $this->result['error_info']['id'] = 1;
