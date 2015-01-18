@@ -30,7 +30,7 @@ class UsersController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>$headers['Authorization']));
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>str_replace("basic ", "", $headers['Authorization'])));
         if(!$this->user_info){
             $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = 'The accessToken is not valid.';
