@@ -21,8 +21,9 @@ angular.module('wipApp.task.controller', [])
     		tasks.AddTask($scope.newTask)
 			.success(function(response){
 				if(response.error_info == null){
-					requestSuccess();
+					//requestSuccess();
 					console.log(response);
+                    $state.reload();
 					//$scope.tasks.unshift(response.new_task);
 					//$scope.newTask = {};
 					

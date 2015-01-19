@@ -51,7 +51,6 @@ class TasksController extends Controller {
         }
 
         $categories = $this->categoryList($_POST['project_idx']);
-        $category_list = array();
 
         if($categories){
             $i = 0;
@@ -135,7 +134,7 @@ class TasksController extends Controller {
     }
 
     protected function categoryList($project_idx){
-        $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ?", array($project_idx));
+        $categories = $this->Task->rawQuery("SELECT DISTINCT category FROM task WHERE project_idx = ? ORDER BY insert_date DESC", array($project_idx));
         if($categories){
             return $categories;
         }else{
