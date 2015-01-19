@@ -7,8 +7,8 @@ angular.module('wipApp.task.service', [])
   tasks.getAlltasks = function (id) {
     return $http.post(path+"/viewAll", {project_idx:id});
   };
-  tasks.AddProject = function (name) {
-    return $http.post(path+"/add",name);
+  tasks.AddTask = function (newTask) {
+    return $http.post(path+"/add",newTask);
   };
   tasks.ModifyProject = function (id, name) {
     return $http.post(path+"/modify",{project_idx:id, name:name});
