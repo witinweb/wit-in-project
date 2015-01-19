@@ -28,8 +28,26 @@
 				<li>Name : {{task.name}}</li>
 				<li>Description : {{task.description}}</li>
 				<li>Creator Date : {{task.insert_date}}</li>
+				<li>Task id : {{task.idx}}</li>
 				<li>Todo
 					<hr>
+                    <div ng-show="addTodoMode">
+                        <form name="form" ng-submit="addTodo(task)" role="form">
+                            <input type="text" name="title" id="title" placeholder="title" ng-model="newTodo.title" required />
+                            <span ng-show="form.title.$dirty && form.title.$error.required" class="error">Title is required</span>
+                            <input type="text" name="receiver_idx" id="receiver_idx" placeholder="receiver" ng-model="newTodo.receiver_idx" required />
+                            <span ng-show="form.receiver.$dirty && form.receiver.$error.required" class="error">receiver is required</span>
+                            <input type="text" name="due_date" id="due_date" placeholder="due_date" ng-model="newTodo.due_date" />
+                             <span ng-show="form.due_date.$dirty && form.due_date.$error.required" class="error">due_date is required</span>
+                            <ul class="button-group text-center">
+                                <li>
+                                    <button type="submit" ng-disabled="form.$invalid || dataLoading">Create</button>
+                                    <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
+                                    <button type="button" ng-click="toggleAddMode()">Close</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
 					<ul ng-repeat="todo in task.todo_list">
 						<li>Title : {{todo.title}}</li>
 						<li>Receiver : {{todo.receiver_id}}</li>

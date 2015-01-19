@@ -5,9 +5,12 @@ angular.module('wipApp.task.controller', [])
 	$scope.project = utils.findById($scope.projects, $stateParams.projectId);
 
 	$scope.addMode = false;
+	$scope.addTodoMode = true;
 	$scope.hasTask = false;
 	$scope.newTask = {};
+	$scope.newTodo = {};
 	$scope.newTask.project_idx = $stateParams.projectId;
+	$scope.newTodo.project_idx = $stateParams.projectId;
 	
 	// Toggle the grid between add and normal mode
     $scope.toggleAddMode = function () {
@@ -30,6 +33,25 @@ angular.module('wipApp.task.controller', [])
 				}else{
 					$scope.error = response.error_info.msg;
 					requestError();
+				}
+			})
+    };
+
+    $scope.addTodo = function(task){
+    		$scope.newTodo.task_idx = task.idx;
+    		console.log($scope.newTodo);
+    		tasks.AddTodo($scope.newTodo)
+			.success(function(response){
+				if(response.error_info == null){
+					//requestSuccess();
+					console.log(response);
+                    $state.reload();
+					//$scope.todos.unshift(response.new_todo);
+					//$scope.newTodo = {};
+					
+				}else{
+					$scope.error = response.error_info.msg;
+					//requestError();
 				}
 			})
     };
