@@ -8,8 +8,9 @@ angular.module('wipApp.task.controller', [])
 		tasks.getAlltasks($stateParams.projectId)
 		   .success(function (response) {
 				if(response.error_info == null){
-					console.log(response.category_list);
-					$scope.tasks = response.category_list;
+					$scope.categorys = response.category_list;
+					$scope.tasks = $scope.categorys.task_list;
+					console.table($scope.categorys);
 				}else{
 					console.log(response.error_info.msg);
 				}

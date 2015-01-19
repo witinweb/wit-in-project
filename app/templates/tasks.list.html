@@ -1,19 +1,20 @@
 <h2>{{project.name}}</h2>
 <div class="row">
-	<h3>category name</h3>
-	<div class="large-4 columns">
-		<p>task name</p>
-		<p>task master</p>
-		<p>task discrption</p>
-	</div>
-	<div class="large-4 columns">
-		<p>task name</p>
-		<p>task master</p>
-		<p>task discrption</p>
-	</div>
-	<div class="large-4 columns">
-		<p>task name</p>
-		<p>task master</p>
-		<p>task discrption</p>
-	</div>
+	<ul ng-repeat="category in categorys">
+		<li> {{category.category}}
+			<hr>
+			<ul ng-repeat="task in category.task_list">
+				<li>Creator : {{task.creator_name}}</li>
+				<li>Name : {{task.name}}</li>
+				<li>Description : {{task.description}}</li>
+				<li>Creator Date : {{task.insert_date}}</li>
+				<li>Todo
+					<ul ng-repeat="todo in task.todo_list">
+						<li>Title : {{todo.title}}
+					</ul>
+				</li>
+				<hr>
+			</ul>
+		</li>
+	</ul>
 </div>

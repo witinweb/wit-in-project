@@ -78,4 +78,5 @@ angular.module('wipApp.project.controller', [])
 
 	//프로젝트 리스트 
 	$scope.projects = projectsList.data.project_list;
+	//console.table(projectsList.data.project_list);
 }]);
