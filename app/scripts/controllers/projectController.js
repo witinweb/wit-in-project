@@ -64,6 +64,7 @@ angular.module('wipApp.project.controller', [])
 				}
 			})
 	};
+        //todo prevent delete click event
 	$scope.deleteProject = function (project){
 		var title = "Delete '" + project.name + "'";
 		var msg = "Are you sure you want to remove this project?";
