@@ -15,26 +15,28 @@ class TodosController extends Controller {
     protected $user;
     protected $user_info;
     protected $result = array(
-        'result'=>0,
-        'error_msg'=>'',
-        'accessToken'=>''
+        'error_info'=>NULL
     );
 
     protected function checkAccessToken() {
         if( !isset($_COOKIE['LOGIN_ID']) ){
-            $this->result['error_msg'] = 'Your session has expired.';
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = 'Your session has expired.';
             echo json_encode($this->result);
             exit;
         }
-        if( !isset($_POST['accessToken']) ){
-            $this->result['error_msg'] = 'The accessToken is required.';
+        $headers = apache_request_headers();
+        ;        if( !isset($headers['Authorization']) || empty($headers['Authorization']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
             exit;
         }
         $this->user = new User();
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>$_POST['accessToken']));
+        $this->user_info = $this->user->getUser("*", array('accessToken'=>str_replace("Basic ", "", $headers['Authorization'])));
         if(!$this->user_info){
-            $this->result['error_msg'] = 'The accessToken is not valid.';
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = 'The accessToken is not valid.';
             echo json_encode($this->result);
             exit;
         }
@@ -104,17 +106,21 @@ class TodosController extends Controller {
     function add() {
         $this->checkAccessToken();
         if( !isset($_POST['task_idx']) || !isset($_POST['title']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The task_idx or todo title or reciever or due date is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "The task_idx or todo title or reciever or due date is required.";
             echo json_encode($this->result);
             exit;
         }
         if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
-            $this->result['error_msg'] = 'You do not have permission to add.';
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "You do not have permission to add.";
             echo json_encode($this->result);
             exit;
         }
         $data = Array(
             "title" => $_POST['title'],
+            "project_idx" => $_POST['project_idx'],
+            "task_idx" => $_POST['task_idx'],
             "user_idx" => $this->user_info['idx'],
             "receiver_idx" => $_POST['receiver_idx'],
             "due_date" => $_POST['due_date'],
@@ -122,10 +128,9 @@ class TodosController extends Controller {
         );
 
         $todo_id = $this->Todo->add($data);
-        if($todo_id){
-            $this->result['result'] = 1;
-        }else{
-            $this->result['error_msg'] = 'Failed to add todo.';
+        if(!$todo_id){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "Failed to add todo.";
         }
 
         echo json_encode($this->result);
