@@ -1,20 +1,20 @@
 <h2>{{project.name}}</h2>
 <div class="row">
-	<div class="btn"><i class="btn fa fa-plus" ng-click="toggleAddMode()" title="Add" ng-hide="addMode">TASK ADD</i></div>
-	<div class="btn"><i class="btn fa fa-minus" ng-click="toggleAddMode()" title="Cancel" ng-show="addMode">Cancel</i></div>	 
-	<div ng-show="addMode">
+	<div class="btn"><i class="btn fa fa-plus" ng-click="toggleAddTaskMode()" title="Add" ng-hide="addTaskMode">TASK ADD</i></div>
+	<div class="btn"><i class="btn fa fa-minus" ng-click="toggleAddTaskMode()" title="Cancel" ng-show="addTaskMode">Cancel</i></div>	 
+	<div ng-show="addTaskMode">
 		<form name="form" ng-submit="addTask()" role="form">
 			<input type="text" name="name" id="name" placeholder="name" ng-model="newTask.name" required />
-			<span ng-show="form.name.$dirty && form.name.$error.required" class="error">Name is required</span>
+			<!-- <span ng-show="form.name.$dirty && form.name.$error.required" class="error">Name is required</span> -->
 			<input type="text" name="description" id="description" placeholder="Description" ng-model="newTask.description" required />
-			<span ng-show="form.description.$dirty && form.description.$error.required" class="error">Description is required</span>
+			<!-- <span ng-show="form.description.$dirty && form.description.$error.required" class="error">Description is required</span> -->
 			<input type="text" name="category" id="category" placeholder="Category" ng-model="newTask.category" />
 			<input type="text" name="link" id="link" placeholder="Link" ng-model="newTask.link" />
 			<ul class="button-group text-center">
 			    <li>
 			        <button type="submit" ng-disabled="form.$invalid || dataLoading">Create</button>
 			        <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
-			        <button type="button" ng-click="toggleAddMode()">Close</button>
+			        <button type="button" ng-click="toggleAddTaskMode()">Close</button>
 			    </li>
 			</ul>
     </form>
@@ -31,19 +31,21 @@
 				<li>Task id : {{task.idx}}</li>
 				<li>Todo
 					<hr>
+				<div class="btn"><i class="btn fa fa-plus" ng-click="toggleAddTodoMode()" title="Add" ng-hide="addTodoMode">Todo ADD</i></div>
+				<div class="btn"><i class="btn fa fa-minus" ng-click="toggleAddTodoMode()" title="Cancel" ng-show="addTodoMode">Cancel</i></div>	 					
                     <div ng-show="addTodoMode">
                         <form name="form" ng-submit="addTodo(task)" role="form">
                             <input type="text" name="title" id="title" placeholder="title" ng-model="newTodo.title" required />
-                            <span ng-show="form.title.$dirty && form.title.$error.required" class="error">Title is required</span>
+                            <!-- <span ng-show="form.title.$dirty && form.title.$error.required" class="error">Title is required</span> -->
                             <input type="text" name="receiver_idx" id="receiver_idx" placeholder="receiver" ng-model="newTodo.receiver_idx" required />
-                            <span ng-show="form.receiver.$dirty && form.receiver.$error.required" class="error">receiver is required</span>
-                            <input type="text" name="due_date" id="due_date" placeholder="due_date" ng-model="newTodo.due_date" />
-                             <span ng-show="form.due_date.$dirty && form.due_date.$error.required" class="error">due_date is required</span>
+                            <!-- <span ng-show="form.receiver.$dirty && form.receiver.$error.required" class="error">receiver is required</span> -->
+                            <input type="text" name="due_date" id="due_date" placeholder="due_date" ng-model="newTodo.due_date" required />
+                             <!-- <span ng-show="form.due_date.$dirty && form.due_date.$error.required" class="error">due_date is required</span> -->
                             <ul class="button-group text-center">
                                 <li>
                                     <button type="submit" ng-disabled="form.$invalid || dataLoading">Create</button>
                                     <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
-                                    <button type="button" ng-click="toggleAddMode()">Close</button>
+                                    <button type="button" ng-click="toggleAddTodoMode()">Close</button>
                                 </li>
                             </ul>
                         </form>
