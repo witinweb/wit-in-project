@@ -1,12 +1,21 @@
 angular.module('wipApp.task.controller', [])
 .controller('taskController', ['$scope', '$stateParams', '$state','utils', 'tasks', 'notificationFactory', 'modalWindowFactory', 
 	function ($scope, $stateParams, $state, utils, tasks, notificationFactory, modalWindowFactory) {
-	
+	// PRIVATE FUNCTIONS 
+    // 성공 알림 function
+	var requestSuccess = function () {
+  		notificationFactory.success();
+	}
+	// 실패 알림 function
+	var requestError = function () {
+		notificationFactory.error();
+	}
+
 	$scope.project = utils.findById($scope.projects, $stateParams.projectId);
 
 	$scope.addTaskMode = false;
 	$scope.addTodoMode = false;
-	$scope.hasTask = false;
+	$scope.hasTask = true;
 	$scope.newTask = {};
 	$scope.newTodo = {};
 	$scope.newTask.project_idx = $stateParams.projectId;
@@ -30,7 +39,7 @@ angular.module('wipApp.task.controller', [])
     		tasks.AddTask($scope.newTask)
 			.success(function(response){
 				if(response.error_info == null){
-					//requestSuccess();
+					requestSuccess();
 					console.log(response);
                     $state.reload();
 					//$scope.tasks.unshift(response.new_task);
@@ -49,7 +58,7 @@ angular.module('wipApp.task.controller', [])
     		tasks.AddTodo($scope.newTodo)
 			.success(function(response){
 				if(response.error_info == null){
-					//requestSuccess();
+					requestSuccess();
 					console.log(response);
                     $state.reload();
 					//$scope.todos.unshift(response.new_todo);
@@ -57,7 +66,7 @@ angular.module('wipApp.task.controller', [])
 					
 				}else{
 					$scope.error = response.error_info.msg;
-					//requestError();
+					requestError();
 				}
 			})
     };
@@ -70,8 +79,7 @@ angular.module('wipApp.task.controller', [])
 						$scope.hasTask = !$scope.hasTask;
 					} else{
 						$scope.categorys = response.category_list;
-						$scope.tasks = $scope.categorys.task_list;
-						console.table($scope.categorys);	
+						console.table($scope.categorys[0].category);	
 					}
 				}else{
 					console.log(response.error_info.msg);
