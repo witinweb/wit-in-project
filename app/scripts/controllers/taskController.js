@@ -79,7 +79,7 @@ angular.module('wipApp.task.controller', [])
 						$scope.hasTask = !$scope.hasTask;
 					} else{
 						$scope.categorys = response.category_list;
-						console.table($scope.categorys[0].category);	
+						console.table($scope.categorys);	
 					}
 				}else{
 					console.log(response.error_info.msg);

@@ -42,31 +42,59 @@ class TodosController extends Controller {
         }
     }
 
-    function view_all($page_idx, $thispage = null) {
-        global $is_API;
-        $result = array(
-            'result'=>0,
-            'list'=>''
-        );
-        if(is_null($thispage) || empty($thispage)) $thispage = 1;
-        $limit = array( ($thispage-1)*10, 100 );
+    protected function categoryList($project_idx){
 
-        $where = array( "t.page_idx"=>$page_idx );
-        $this->Todo->join("user u", "u.idx=t.receiver_idx", "LEFT");
-        $column = array("u.idx as u_idx", "u.name as u_name", "t.idx as idx", "t.title as title", "t.status as status");
-        $todos = $this->Todo->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-        if($todos) {
-            $result['result'] = 1;
-            foreach($todos as $Todo){
-
-            }
-            $result['list'] = $todos;
-        }
-        if($is_API){
-            echo json_encode($result);
+        $category =  new Category();
+        $where = array( "project_idx"=>$project_idx );
+        $categories = $category->getList( array('insert_date'=>'asc'), array(0, 10000), $where );
+        if($categories){
+            return $categories;
         }else{
-            return $result;
+            return null;
         }
+    }
+
+    function viewAll() {
+        $this->checkAccessToken();
+        if( !isset($_POST['project_idx']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_idx is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+
+        $categories = $this->categoryList($_POST['project_idx']);
+        printr($categories);
+        if($categories){
+            $i = 0;
+            foreach($categories as $category){
+                $limit = array( 0, 1000 );
+                $where = array(
+                    "t.project_idx"=>$_POST['project_idx'],
+                    "t.category"=>$category['category']
+                );
+                //todo todo와 user정보 조인 부분 수정해야함.
+                $this->Task->join("user u", "u.idx=t.user_idx", "LEFT");
+                $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category_idx as category_idx", "t.insert_date as insert_date","u.id as user_id", "u.name as user_name");
+                $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+                if($tasks){
+                    $categories[$i]['task_list'] = $tasks;
+                    $j = 0;
+                    foreach($tasks as $task){
+                        $categories[$i]['task_list'][$j]['todo_list'] = $this->getTodoList($task);
+                        $j++;
+                    }
+                }else{
+                    $categories[$i]['task_list'] = null;
+                }
+
+                $i++;
+            }
+            $this->result['category_list'] = $categories;
+        }else{
+            $this->result['category_list'] = null;
+        }
+        echo json_encode($this->result);
     }
 
 
