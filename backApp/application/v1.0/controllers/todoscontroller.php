@@ -64,28 +64,26 @@ class TodosController extends Controller {
         }
 
         $categories = $this->categoryList($_POST['project_idx']);
-        printr($categories);
         if($categories){
             $i = 0;
             foreach($categories as $category){
                 $limit = array( 0, 1000 );
                 $where = array(
                     "t.project_idx"=>$_POST['project_idx'],
-                    "t.category"=>$category['category']
+                    "t.category_idx"=>$category['idx']
                 );
-                //todo todo와 user정보 조인 부분 수정해야함.
-                $this->Task->join("user u", "u.idx=t.user_idx", "LEFT");
-                $column = array("t.idx as idx", "t.name as name", "t.description as description", "t.project_idx as project_idx", "t.category_idx as category_idx", "t.insert_date as insert_date","u.id as user_id", "u.name as user_name");
-                $tasks = $this->Task->getList("task t", array('t.insert_date'=>'desc'), $limit, $where, $column);
-                if($tasks){
-                    $categories[$i]['task_list'] = $tasks;
+                $this->Todo->join("user u", "u.idx=t.user_idx", "LEFT");
+                $column = array("t.idx as idx", "t.title as title", "t.project_idx as project_idx", "t.category_idx as category_idx", "u.id as user_id","u.name as user_name", "t.receiver_idx as receiver_idx", "t.insert_date as insert_date", " t.due_date as due_date, t.is_finish as is_finish");
+                $todos = $this->Todo->getList("todo t", array('t.insert_date'=>'desc'), $limit, $where, $column);
+                if($todos){
                     $j = 0;
-                    foreach($tasks as $task){
-                        $categories[$i]['task_list'][$j]['todo_list'] = $this->getTodoList($task);
+                    foreach($todos as $todo){
+                        $todos[$j] = $this->getReceiverInfo($todo);
                         $j++;
                     }
+                    $categories[$i]['todo_list'] = $todos;
                 }else{
-                    $categories[$i]['task_list'] = null;
+                    $categories[$i]['todo_list'] = null;
                 }
 
                 $i++;
@@ -95,6 +93,39 @@ class TodosController extends Controller {
             $this->result['category_list'] = null;
         }
         echo json_encode($this->result);
+    }
+
+    function viewAllByDueDate(){
+        $this->checkAccessToken();
+
+        $limit = array( 0, 1000 );
+        $where = array("user_idx"=>$this->user_info['idx']);
+        $this->Todo->orderBy('due_date','asc');
+        $this->Todo->where('user_idx', $this->user_info['idx']);
+        $this->Todo->orwhere('receiver_idx', $this->user_info['idx']);
+        $todo_list = $todos = $this->Todo->get('todo', $limit);
+        if($todo_list){
+            $this->result['todo_list'] = $todo_list;
+        }else{
+            $this->result['todo_list'] = null;
+        }
+        echo json_encode($this->result);
+    }
+
+    function getReceiverInfo($todo){
+        $user = new User();
+        $where = array(
+            "idx"=>$todo['receiver_idx']
+        );
+        $user_info = $user->getUser('*', $where);
+        if($user_info){
+            $todo['receiver_id'] = $user_info['id'];
+            $todo['receiver_name'] = $user_info['name'];
+        }else{
+            $todo_list = null;
+        }
+        printr($todo);
+        return $todo;
     }
 
 
