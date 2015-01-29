@@ -71,6 +71,22 @@ angular.module('wipApp.todo.controller', [])
 			})
     };
 
+    $scope.getAlltodos = function(id){
+		todos.getAlltodos(id)
+		   .success(function (response) {
+				if(response.error_info == null){
+					
+					console.log(response);	
+					
+				}else{
+					console.log(response.error_info.msg);
+				}
+			})
+		   .error(function (response) {
+		    	console.log(response);
+			});	
+	}
+
 	$scope.viewAllByDueDate = function(){
 		todos.viewAllByDueDate()
 		   .success(function (response) {
@@ -87,6 +103,10 @@ angular.module('wipApp.todo.controller', [])
 			});	
 	}
 
-	$scope.viewAllByDueDate();
+	if($stateParams.projectId == undefined){
+		$scope.viewAllByDueDate();	
+	} else{
+		$scope.getAlltodos($stateParams.projectId);
+	}
 		
 }]);

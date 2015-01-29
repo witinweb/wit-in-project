@@ -120,7 +120,7 @@ angular.module('wipApp', [
       // url is '/projects' (because '/projects' + '').
     	url: '/{projectId:[0-9]{1,4}}',
 
-      templateUrl: 'app/templates/tasks.list.html',
+      templateUrl: 'app/templates/todo.list.html',
       /*resolve: {
 				tasksList: ['tasks',
 				function( tasks){
@@ -138,6 +138,6 @@ angular.module('wipApp', [
 						});
 				}]
 			},*/
-      controller: 'taskController'
+      controller: 'todoController'
     })
 }]);
