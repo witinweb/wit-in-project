@@ -73,7 +73,7 @@ class Todo extends Model {
     * @param
     * @return array
     */
-    public function updateTodo($idx, $data)
+    public function modify($idx, $data)
     {
         $this->where ('idx', $idx);
         return	$this->update('todo', $data);

@@ -124,7 +124,6 @@ class TodosController extends Controller {
         }else{
             $todo_list = null;
         }
-        printr($todo);
         return $todo;
     }
 
@@ -161,14 +160,61 @@ class TodosController extends Controller {
         echo json_encode($this->result);
     }
 
-    function del($idx = null, $project_idx) {
-
+    function modify() {
+        $this->checkAccessToken();
+        if( !isset($_POST['category_idx']) || !isset($_POST['content']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['todo_idx']) || !isset($_POST['project_idx']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "The category_idx or todo content or reciever or due date or todo_idx is required.";
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "You do not have permission to add.";
+            echo json_encode($this->result);
+            exit;
+        }
         $data = Array(
-            "state" => 4,
+            "content" => $_POST['content'],
+            "category_idx" => $_POST['category_idx'],
+            "user_idx" => $this->user_info['idx'],
+            "receiver_idx" => $_POST['receiver_idx'],
+            "due_date" => $_POST['due_date'],
+            "insert_date"=> date("Y-m-d H:i:s")
         );
 
-        $this->Page->updatePost($idx, $data);
-        redirect(_BASE_URL_."/pages/view_all/".$project_idx);
+        $todo_id = $this->Todo->modify($_POST['todo_idx'], $data);
+        if(!$todo_id){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "Failed to modify todo.";
+        }
+
+        echo json_encode($this->result);
+    }
+
+    function del() {
+        $this->checkAccessToken();
+        if( !isset($_POST['todo_idx']) || !isset($_POST['project_idx']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = "The todo_idx is and project_idx required.";
+            echo json_encode($this->result);
+            exit;
+        }
+        if( !$this->checkIsMaster($_POST['project_idx'], $this->user_info['idx']) && !$this->checkIsManager($_POST['project_idx'], $this->user_info['idx'])){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "You do not have permission to delete.";
+            echo json_encode($this->result);
+            exit;
+        }
+
+        $todo_id = $this->Todo->del($_POST['todo_idx']);
+        printr($todo_id);
+        if(!$todo_id){
+            $this->result['error_info']['id'] = 1;
+            $this->result['error_info']['msg'] = "Failed to delete todo.";
+        }
+
+        echo json_encode($this->result);
     }
 
 
@@ -206,7 +252,7 @@ class TodosController extends Controller {
     private function checkIsMaster($project_idx, $user_idx){
         $project = New Project();
         $item = $project->getProject("master_idx", array("idx"=>$project_idx));
-        return ($user_idx == $item['master_idx']);
+        return ($user_idx != $item['master_idx']);
     }
 
     private function checkIsManager($project_idx, $user_idx){
@@ -216,7 +262,7 @@ class TodosController extends Controller {
             "user_idx"=>$user_idx
         );
         $item = $user_project->getUserProject("is_manager", $where);
-        return (1 == $item['is_manager']);
+        return (1 != $item['is_manager']);
     }
 
 
