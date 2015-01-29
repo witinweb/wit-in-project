@@ -1,1 +1,7 @@
-todolist
+<h2>전체 todo 리스트 (마감일순)</h2>
+<ul ng-repeat="todo in allTodos">
+	<li>Title : {{todo.title}}</li>
+	<li>Receiver : {{todo.receiver_id}}</li>
+	<li>Due Date : {{todo.due_date}}</li>
+	<li>Finish : {{todo.is_finish}}</li>
+</ul>

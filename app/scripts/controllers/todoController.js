@@ -71,25 +71,22 @@ angular.module('wipApp.todo.controller', [])
 			})
     };
 
-	$scope.tasksList = function(){
-		tasks.getAlltasks($stateParams.projectId)
+	$scope.viewAllByDueDate = function(){
+		todos.viewAllByDueDate()
 		   .success(function (response) {
 				if(response.error_info == null){
-					if(response.category_list == null){
-						$scope.hasTask = !$scope.hasTask;
-					} else{
-						$scope.categorys = response.category_list;
-						console.table($scope.categorys);	
-					}
+					$scope.allTodos = response.todo_list;
+					console.log($scope.allTodos);	
+					
 				}else{
 					console.log(response.error_info.msg);
 				}
-				})
+			})
 		   .error(function (response) {
-		    console.log(response);
-				});	
+		    	console.log(response);
+			});	
 	}
 
-	//$scope.tasksList();
+	$scope.viewAllByDueDate();
 		
 }]);

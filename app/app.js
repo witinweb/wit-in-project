@@ -80,7 +80,7 @@ angular.module('wipApp', [
 	  //////////
 	  .state("projects", {
 	    url: "/projects",
-	  //  abstract: true,
+	    abstract: true,
 	    templateUrl: "app/templates/projects.html",
 	    resolve: {
 				projectsList: ['projects',
