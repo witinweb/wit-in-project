@@ -40,7 +40,7 @@ class TasksController extends Controller {
             exit;
         }
     }
-
+//todo member list도 함께 리턴하도록!
     function viewAll() {
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){

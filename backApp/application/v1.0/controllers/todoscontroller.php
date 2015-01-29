@@ -99,9 +99,10 @@ class TodosController extends Controller {
         $this->checkAccessToken();
 
         $limit = array( 0, 1000 );
-        $where = array("user_idx"=>$this->user_info['idx']);
+        $where = array("user_idx"=>$this->user_info['idx'], 'is_finish'=> 0);
         $this->Todo->orderBy('due_date','asc');
         $this->Todo->where('user_idx', $this->user_info['idx']);
+        $this->Todo->where('is_finish', 0);
         $this->Todo->orwhere('receiver_idx', $this->user_info['idx']);
         $todo_list = $todos = $this->Todo->get('todo', $limit);
         if($todo_list){
