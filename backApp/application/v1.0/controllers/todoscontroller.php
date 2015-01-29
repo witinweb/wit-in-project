@@ -73,7 +73,7 @@ class TodosController extends Controller {
                     "t.category_idx"=>$category['idx']
                 );
                 $this->Todo->join("user u", "u.idx=t.user_idx", "LEFT");
-                $column = array("t.idx as idx", "t.title as title", "t.project_idx as project_idx", "t.category_idx as category_idx", "u.id as user_id","u.name as user_name", "t.receiver_idx as receiver_idx", "t.insert_date as insert_date", " t.due_date as due_date, t.is_finish as is_finish");
+                $column = array("t.idx as idx", "t.content as content", "t.project_idx as project_idx", "t.category_idx as category_idx", "u.id as user_id","u.name as user_name", "t.receiver_idx as receiver_idx", "t.insert_date as insert_date", " t.due_date as due_date, t.is_finish as is_finish");
                 $todos = $this->Todo->getList("todo t", array('t.insert_date'=>'desc'), $limit, $where, $column);
                 if($todos){
                     $j = 0;
@@ -99,7 +99,6 @@ class TodosController extends Controller {
         $this->checkAccessToken();
 
         $limit = array( 0, 1000 );
-        $where = array("user_idx"=>$this->user_info['idx'], 'is_finish'=> 0);
         $this->Todo->orderBy('due_date','asc');
         $this->Todo->where('user_idx', $this->user_info['idx']);
         $this->Todo->where('is_finish', 0);
@@ -129,45 +128,11 @@ class TodosController extends Controller {
         return $todo;
     }
 
-
-
-    function makeState($state){
-        $result = array(
-            "en"=>"",
-            "ko"=>""
-        );
-        if($state == 1){
-            $result["en"] = "ready";
-            $result["ko"] = "진행중";
-            $result["class"] = "button tiny state0";
-        }else if($state == 1){
-            $result["en"] = "finish";
-            $result["ko"] = "완료";
-            $result["class"] = "button tiny alert state1";
-        }else if($state == 2){
-            $result["en"] = "delete";
-            $result["ko"] = "삭제";
-            $result["class"] = "button tiny secondary state2";
-        }
-        return $result;
-    }
-    function writeForm($project_idx) {
-        $limit = array( 0, 1000 );
-        $where = array(
-            'project_idx'=> $project_idx
-        );
-        $category = new Category();
-        $categories = $category->getList( array('insert_date'=>'asc'), $limit, $where );
-        $this->set('project_idx', $project_idx);
-        $this->set('categories', $categories);
-        $this->set('title','Write  pages');
-    }
-
     function add() {
         $this->checkAccessToken();
-        if( !isset($_POST['task_idx']) || !isset($_POST['title']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
+        if( !isset($_POST['category_idx']) || !isset($_POST['content']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
             $this->result['error_info']['id'] = 0;
-            $this->result['error_info']['msg'] = "The task_idx or todo title or reciever or due date is required.";
+            $this->result['error_info']['msg'] = "The category_idx or todo title or reciever or due date is required.";
             echo json_encode($this->result);
             exit;
         }
@@ -178,9 +143,9 @@ class TodosController extends Controller {
             exit;
         }
         $data = Array(
-            "title" => $_POST['title'],
+            "content" => $_POST['content'],
             "project_idx" => $_POST['project_idx'],
-            "task_idx" => $_POST['task_idx'],
+            "category_idx" => $_POST['category_idx'],
             "user_idx" => $this->user_info['idx'],
             "receiver_idx" => $_POST['receiver_idx'],
             "due_date" => $_POST['due_date'],
