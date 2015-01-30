@@ -1,4 +1,4 @@
-angular.module('wipApp.todo.controller', [])
+angular.module('wipApp.todo.controller', ['angular-datepicker'])
 .controller('todoController', ['$scope', '$stateParams', '$state','utils', 'todos', 'notificationFactory', 'modalWindowFactory', 
 	function ($scope, $stateParams, $state, utils, todos, notificationFactory, modalWindowFactory) {
 	// PRIVATE FUNCTIONS 
@@ -104,7 +104,7 @@ angular.module('wipApp.todo.controller', [])
 		todo.editMode = false;
 		// Only update if there are changes
 		if (isDirty(item)) {
-			//knownItemsFactory.update({ id: item.id }, item, function (success) {
+			knownItemsFactory.update({ id: item.id }, item, function (success) {
 			requestSuccess();
 		}, requestError);
 		}
@@ -151,5 +151,12 @@ angular.module('wipApp.todo.controller', [])
 	} else{
 		$scope.getAlltodos($stateParams.projectId);
 	}
+	$scope.date = new Date();
+	$scope.options = {
+  format: 'yyyy-mm-dd', // ISO formatted date
+  onClose: function(e) {
+    // do something when the picker closes   
+  }
+}
 		
 }]);

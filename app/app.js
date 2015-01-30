@@ -7,8 +7,6 @@ angular.module('wipApp', [
   'wipApp.user.service',
   'wipApp.project.controller',
   'wipApp.project.service',
-  'wipApp.task.controller',
-  'wipApp.task.service',
   'wipApp.todo.controller',
   'wipApp.todo.service',
   'wipApp.util.service',
@@ -17,7 +15,8 @@ angular.module('wipApp', [
   'ui.router', 
   'ngAnimate',
   'ngCookies',
-  'notificationFactory'
+  'notificationFactory',
+  'angular-datepicker'
 ])
 
 .run(['$rootScope', '$state', '$stateParams', '$cookieStore', '$http' ,function ($rootScope, $state, $stateParams, $cookieStore, $http) {
