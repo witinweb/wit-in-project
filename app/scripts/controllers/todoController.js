@@ -18,12 +18,38 @@ angular.module('wipApp.todo.controller', [])
 	$scope.hasTodo = true;
 	$scope.newTodo.project_idx = $stateParams.projectId;
 	
-    $scope.toggleAddTodoMode = function () {
-        $scope.addTodoMode = !$scope.addTodoMode;
- 
-        // Default new item name is empty
-        $scope.newTodo = {};
-    };	
+	$scope.toggleAddTodoMode = function () {
+	    $scope.addTodoMode = !$scope.addTodoMode;
+
+	    // Default new item name is empty
+	    $scope.newTodo = {};
+	};	
+
+	// Toggle an item between normal and edit mode
+	$scope.toggleEditMode = function (todo) {
+		// Toggle
+		todo.editMode = !todo.editMode;
+
+		// if todo is not in edit mode anymore
+		if (!todo.editMode) {
+			// Restore name
+			todo.name = todo.serverName;
+		} else {
+			// save server name to restore it if the user cancel edition
+			todo.serverName = todo.name;
+
+			// Set edit mode = false and restore the name for the rest of items in edit mode 
+			// (there should be only one)
+			$scope.todos.forEach(function (i) {
+			// item is not the item being edited now and it is in edit mode
+				if (todo.id != i.id && i.editMode) {
+					// Restore name
+					i.name = i.serverName;
+					i.editMode = false;
+				}
+			});
+		}
+	};
 
     $scope.addTodo = function(){
     		todos.AddTodo($scope.newTodo)
@@ -44,7 +70,8 @@ angular.module('wipApp.todo.controller', [])
 		todos.getAlltodos(id)
 		   .success(function (response) {
 				if(response.error_info == null){
-					$scope.hasTodo = false;		
+					$scope.hasTodo = false;
+					$scope.todos = response;		
 					console.log(response);	
 					
 				}else{
@@ -97,6 +124,26 @@ angular.module('wipApp.todo.controller', [])
 		   .error(function (response) {
 		    	console.log(response);
 			});	
+	};
+
+	// In edit mode, if user press ENTER, update item
+	$scope.updateOnEnter = function (item, args) {
+	    // if key is enter
+	    if (args.keyCode == 13) {
+	        $scope.updateItem(item);
+	        // remove focus
+	        args.target.blur();
+	    }
+	};
+
+	// In add mode, if user press ENTER, add item
+	$scope.saveOnEnter = function (item, args) {
+	    // if key is enter
+	    if (args.keyCode == 13) {
+	        $scope.createItem();
+	        // remove focus
+	        args.target.blur();
+	    }
 	};
 
 	if($stateParams.projectId == undefined){

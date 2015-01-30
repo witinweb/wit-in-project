@@ -25,40 +25,59 @@
 	<ul ng-repeat="category in categorys">
 		<li> Category : {{category.category}}
 			<hr>
-			<ul ng-repeat="task in category.task_list">
-				<li>Creator : {{task.creator_name}}</li>
-				<li>Name : {{task.name}}</li>
-				<li>Description : {{task.description}}</li>
-				<li>Creator Date : {{task.insert_date}}</li>
-				<li>Task id : {{task.idx}}</li>
-				<li>Todo
-					<hr>
-				<div class="btn"><i class="btn fa fa-plus" ng-click="toggleAddTodoMode()" title="Add" ng-hide="addTodoMode">Todo ADD</i></div>
-				<div class="btn"><i class="btn fa fa-minus" ng-click="toggleAddTodoMode()" title="Cancel" ng-show="addTodoMode">Cancel</i></div>	 					
-                    <div ng-show="addTodoMode">
-                        <form name="form" ng-submit="addTodo(task)" role="form">
-                            <input type="text" name="title" id="title" placeholder="title" ng-model="newTodo.title" required />
-                            <!-- <span ng-show="form.title.$dirty && form.title.$error.required" class="error">Title is required</span> -->
-                            <input type="text" name="receiver_idx" id="receiver_idx" placeholder="receiver" ng-model="newTodo.receiver_idx" required />
-                            <!-- <span ng-show="form.receiver.$dirty && form.receiver.$error.required" class="error">receiver is required</span> -->
-                            <input type="text" name="due_date" id="due_date" placeholder="due_date" ng-model="newTodo.due_date" required />
-                             <!-- <span ng-show="form.due_date.$dirty && form.due_date.$error.required" class="error">due_date is required</span> -->
-                            <ul class="button-group text-center">
-                                <li>
-                                    <button type="submit" ng-disabled="form.$invalid || dataLoading">Create</button>
-                                    <img ng-if="dataLoading" src="http://www.rechercheisidore.fr/img/loader.gif" width="20px" height="20px" />
-                                    <button type="button" ng-click="toggleAddTodoMode()">Close</button>
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
-					<ul ng-repeat="todo in task.todo_list">
-						<li>Title : {{todo.title}}</li>
-						<li>Receiver : {{todo.receiver_id}}</li>
-						<li>Due Date : {{todo.due_date}}</li>
-						<li>Finish : {{todo.is_finish}}</li>
-						<hr>
-					</ul>
+			<ul ng-repeat="todo in category.todo_list">
+				<li>Content : 
+					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo)">
+						{{todo.content}}
+					</span>
+					<!--edit mode-->
+					<form name="editForm">
+						<input ng-model="todo.content" ng-show="todo.editMode" required ng-keydown="updateOnEnter(todo, $event)"  />
+					</form>
+				</li>
+				<li>Receiver_id : 
+					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo)">
+						{{todo.receiver_id}}
+					</span>
+					<!--edit mode-->
+					<form name="editForm">
+						<input ng-model="todo.receiver_id" ng-show="todo.editMode" required ng-keydown="updateOnEnter(todo, $event)"  />
+					</form>
+				</li>
+				<li>Due Date : 
+					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo)">
+						{{todo.due_date}}
+					</span>
+					<!--edit mode-->
+					<form name="editForm">
+						<input ng-model="todo.due_date" ng-show="todo.editMode" required ng-keydown="updateOnEnter(todo, $event)"  />
+					</form>
+				</li>
+				<li>is Finish : 
+					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo)">
+						{{todo.is_finish}}
+					</span>
+					<!--edit mode-->
+					<form name="editForm">
+						<input ng-model="todo.is_finish" ng-show="todo.editMode" required ng-keydown="updateOnEnter(todo, $event)"  />
+					</form>
+				</li>
+				<li>
+					 <!--Edit + Delete-->
+					<div class="btn-toolbar" ng-show="todo.editMode == null || todo.editMode == false">
+					    <div class="btn-group">
+					        <i class="fa fa-pencil-square-o" ng-click="toggleEditMode(todo)" title="Edit"></i>
+					        <i class="fa fa-trash-o" ng-click="deleteTodo(todo)" title="Delete" data-toggle="modal"></i>
+					    </div>
+					</div>
+
+					<!--Save + Cancel-->
+					<div class="btn-toolbar" ng-show="todo.editMode">
+					    <div class="btn-group">
+					        <i class="fa fa-floppy-o" ng-click="updateTodo(todo)" title="Save" ng-disabled="editForm.$invalid"></i>
+					        <i class="fa fa-remove" ng-click="toggleEditMode(todo)" title="Cancel"></i>
+					    </div>
+					</div>
 				</li>
 				<hr>
 			</ul>
