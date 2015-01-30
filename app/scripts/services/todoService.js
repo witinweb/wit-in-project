@@ -6,10 +6,14 @@ angular.module('wipApp.todo.service', [])
 	todos.viewAllByDueDate = function () {
   		return $http.post(todoPath+"/viewAllByDueDate");
 	};
-
+/*
 	todos.getAlltodos = function (id) {
 		return $http.post(todoPath+"/viewAll", {project_idx:id});
+	};*/
+	todos.getAlltodos = function (id) {
+		return $http.post("/app/todo.json");
 	};
+
 	todos.ModifyProject = function (id, name) {
 		return $http.post(todoPath+"/modify",{project_idx:id, name:name});
 	};

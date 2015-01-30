@@ -71,8 +71,8 @@ angular.module('wipApp.todo.controller', ['angular-datepicker'])
 		   .success(function (response) {
 				if(response.error_info == null){
 					$scope.hasTodo = false;
-					$scope.todos = response;		
-					console.log(response);	
+					$scope.categories = response.category_list;		
+					console.table(response);	
 					
 				}else{
 					console.log(response.error_info.msg);
