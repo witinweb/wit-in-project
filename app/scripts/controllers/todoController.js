@@ -13,21 +13,11 @@ angular.module('wipApp.todo.controller', [])
 
 	$scope.project = utils.findById($scope.projects, $stateParams.projectId);
 
-	$scope.addTaskMode = false;
 	$scope.addTodoMode = false;
-	$scope.hasTask = true;
-	$scope.newTask = {};
 	$scope.newTodo = {};
-	$scope.newTask.project_idx = $stateParams.projectId;
+	$scope.hasTodo = true;
 	$scope.newTodo.project_idx = $stateParams.projectId;
 	
-	// Toggle the grid between add and normal mode
-    $scope.toggleAddTaskMode = function () {
-        $scope.addTaskMode = !$scope.addTaskMode;
- 
-        // Default new item name is empty
-        $scope.newTask = {};
-    };
     $scope.toggleAddTodoMode = function () {
         $scope.addTodoMode = !$scope.addTodoMode;
  
@@ -35,34 +25,13 @@ angular.module('wipApp.todo.controller', [])
         $scope.newTodo = {};
     };	
 
-    $scope.addTask = function(){
-    		tasks.AddTask($scope.newTask)
+    $scope.addTodo = function(){
+    		todos.AddTodo($scope.newTodo)
 			.success(function(response){
 				if(response.error_info == null){
+					$scope.todos.unshift(response.data); // response 확인
+					$scope.toggleAddTodoMode();
 					requestSuccess();
-					console.log(response);
-                    $state.reload();
-					//$scope.tasks.unshift(response.new_task);
-					//$scope.newTask = {};
-					
-				}else{
-					$scope.error = response.error_info.msg;
-					requestError();
-				}
-			})
-    };
-
-    $scope.addTodo = function(task){
-    		$scope.newTodo.task_idx = task.idx;
-    		console.log($scope.newTodo);
-    		tasks.AddTodo($scope.newTodo)
-			.success(function(response){
-				if(response.error_info == null){
-					requestSuccess();
-					console.log(response);
-                    $state.reload();
-					//$scope.todos.unshift(response.new_todo);
-					//$scope.newTodo = {};
 					
 				}else{
 					$scope.error = response.error_info.msg;
@@ -75,7 +44,7 @@ angular.module('wipApp.todo.controller', [])
 		todos.getAlltodos(id)
 		   .success(function (response) {
 				if(response.error_info == null){
-					
+					$scope.hasTodo = false;		
 					console.log(response);	
 					
 				}else{
@@ -85,7 +54,7 @@ angular.module('wipApp.todo.controller', [])
 		   .error(function (response) {
 		    	console.log(response);
 			});	
-	}
+	};
 
 	$scope.viewAllByDueDate = function(){
 		todos.viewAllByDueDate()
@@ -99,9 +68,36 @@ angular.module('wipApp.todo.controller', [])
 				}
 			})
 		   .error(function (response) {
+		    	console.log(response); //에러 처리 확인
+			});	
+	};
+
+	// Updates an item
+	$scope.updateTodo = function (todo) {
+		todo.editMode = false;
+		// Only update if there are changes
+		if (isDirty(item)) {
+			//knownItemsFactory.update({ id: item.id }, item, function (success) {
+			requestSuccess();
+		}, requestError);
+		}
+	}
+
+	$scope.deleteTodo = function(todo){
+		todos.deleteTodo(todo)
+		   .success(function (response) {
+				if(response.error_info == null){
+					$scope.hasTodo = false;		
+					console.log(response);	
+					
+				}else{
+					console.log(response.error_info.msg);
+				}
+			})
+		   .error(function (response) {
 		    	console.log(response);
 			});	
-	}
+	};
 
 	if($stateParams.projectId == undefined){
 		$scope.viewAllByDueDate();	
