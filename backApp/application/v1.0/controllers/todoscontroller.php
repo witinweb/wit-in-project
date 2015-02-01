@@ -129,9 +129,9 @@ class TodosController extends Controller {
 
     function add() {
         $this->checkAccessToken();
-        if( !isset($_POST['category_idx']) || !isset($_POST['content']) || !isset($_POST['receiver_idx']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
+        if( !isset($_POST['category_idx']) || !isset($_POST['content']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
             $this->result['error_info']['id'] = 0;
-            $this->result['error_info']['msg'] = "The category_idx or todo title or reciever or due date is required.";
+            $this->result['error_info']['msg'] = "The category_idx or todo title or due date is required.";
             echo json_encode($this->result);
             exit;
         }
@@ -141,12 +141,13 @@ class TodosController extends Controller {
             echo json_encode($this->result);
             exit;
         }
+        $receiver_id = ( isset($_POST['receiver_idx']) ) ? $_POST['receiver_idx'] : $this->user_info['id'];
         $data = Array(
             "content" => $_POST['content'],
             "project_idx" => $_POST['project_idx'],
             "category_idx" => $_POST['category_idx'],
             "user_idx" => $this->user_info['idx'],
-            "receiver_idx" => $_POST['receiver_idx'],
+            "receiver_idx" => $receiver_id,
             "due_date" => $_POST['due_date'],
             "insert_date"=> date("Y-m-d H:i:s")
         );
