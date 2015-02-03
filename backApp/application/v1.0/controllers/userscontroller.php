@@ -68,7 +68,6 @@ class UsersController extends Controller {
                 $user = $this->User->getUser("*", $data);
                 $this->result['user_info'] = $user;
                 unset($this->result['user_info']['password']);
-                //todo add project list and first project's task list
             }else{
                 $this->result['error_info']['id'] = 1;
                 $this->result['error_info']['msg'] = "You do not have permission to access.";

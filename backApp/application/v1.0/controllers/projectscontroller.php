@@ -59,13 +59,13 @@ class ProjectsController extends Controller {
         $limit = array( 0, 100 );
 
         $user_project = New User_project();
-        $project_idx_list = $user_project->getList(array('insert_date'=>'desc'), array(0, 1000), array('user_idx'=>$this->user_info['idx']));
+        $project_idx_list = $user_project->getList(array('insert_date'=>'asc'), array(0, 1000), array('user_idx'=>$this->user_info['idx']));
         $project_list = array();
         $i = 0;
         foreach($project_idx_list as $project){
             $this->Project->join("user u", "u.idx=p.master_idx", "LEFT");
             $column = array("p.idx as idx", "p.name as name", "u.id as master_id, p.insert_date as insert_date, p.modify_date modify_date");
-            $temp = $this->Project->getList("project p", array('p.insert_date'=>'desc'), $limit, array('p.idx'=>$project['project_idx']), $column);
+            $temp = $this->Project->getList("project p", array('p.insert_date'=>'asc'), $limit, array('p.idx'=>$project['project_idx']), $column);
             $project_list[] = $temp[0];
             $i++;
         }

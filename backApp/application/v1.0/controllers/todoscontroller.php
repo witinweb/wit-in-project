@@ -26,7 +26,7 @@ class TodosController extends Controller {
             exit;
         }
         $headers = apache_request_headers();
-        ;        if( !isset($headers['Authorization']) || empty($headers['Authorization']) ){
+        if( !isset($headers['Authorization']) || empty($headers['Authorization']) ){
             $this->result['error_info']['id'] = 0;
             $this->result['error_info']['msg'] = 'The accessToken is required.';
             echo json_encode($this->result);
