@@ -31,7 +31,7 @@ angular.module('wipApp.project.controller', [])
 			.success(function(response){
 				if(response.error_info == null){
 					requestSuccess();
-					$scope.projects.unshift(response.new_project);
+					$scope.projects.push(response.new_project);
 					$scope.newProject = {};
 					
 				}else{
