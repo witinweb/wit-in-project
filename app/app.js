@@ -16,7 +16,7 @@ angular.module('wipApp', [
   'ngAnimate',
   'ngCookies',
   'notificationFactory',
-  'angular-datepicker'
+  'pickadate'
 ])
 
 .run(['$rootScope', '$state', '$stateParams', '$cookieStore', '$http' ,function ($rootScope, $state, $stateParams, $cookieStore, $http) {

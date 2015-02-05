@@ -1,4 +1,4 @@
-angular.module('wipApp.todo.controller', ['angular-datepicker'])
+angular.module('wipApp.todo.controller', [])
 .controller('todoController', ['$scope', '$stateParams', '$state','utils', 'todos', 'notificationFactory', 'modalWindowFactory', 
 	function ($scope, $stateParams, $state, utils, todos, notificationFactory, modalWindowFactory) {
 	// PRIVATE FUNCTIONS 
@@ -16,6 +16,7 @@ angular.module('wipApp.todo.controller', ['angular-datepicker'])
 	$scope.addTodoMode = false;
 	$scope.newTodo = {};
 	$scope.hasTodo = true;
+    $scope.showDatePicker = false;
 	$scope.newTodo.project_idx = $stateParams.projectId;
 	
 	$scope.toggleAddTodoMode = function () {
@@ -151,12 +152,6 @@ angular.module('wipApp.todo.controller', ['angular-datepicker'])
 	} else{
 		$scope.getAlltodos($stateParams.projectId);
 	}
-	$scope.date = new Date();
-	$scope.options = {
-  format: 'yyyy-mm-dd', // ISO formatted date
-  onClose: function(e) {
-    // do something when the picker closes   
-  }
-}
+
 		
 }]);
