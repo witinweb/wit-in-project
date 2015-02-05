@@ -26,25 +26,7 @@ angular.module('wipApp.project.controller', [])
         $scope.showAddProjectForm = !$scope.showAddProjectForm;
         $scope.showAddProjectButton = !$scope.showAddProjectButton;
 
-        // if todo is not in edit mode anymore
-        if (!todo.editMode) {
-            // Restore name
-            todo.name = todo.serverName;
-        } else {
-            // save server name to restore it if the user cancel edition
-            todo.serverName = todo.name;
 
-            // Set edit mode = false and restore the name for the rest of items in edit mode
-            // (there should be only one)
-            $scope.todos.forEach(function (i) {
-                // item is not the item being edited now and it is in edit mode
-                if (todo.id != i.id && i.editMode) {
-                    // Restore name
-                    i.name = i.serverName;
-                    i.editMode = false;
-                }
-            });
-        }
     };
 	// all the items
     $scope.projects = [];
