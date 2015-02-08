@@ -11,7 +11,7 @@ angular.module('wipApp.todo.service', [])
 		return $http.post(todoPath+"/viewAll", {project_idx:id});
 	};*/
 	todos.getAlltodos = function (id) {
-		return $http.post("/app/todo.json");
+		return $http.post(todoPath+"/viewAll",{project_idx:id});
 	};
 
 	todos.ModifyProject = function (id, name) {

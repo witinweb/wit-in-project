@@ -1,10 +1,15 @@
     <div ng-show="error" class="error">{{error}}</div>
     <div class="row">
     <h2><i class="fa fa-lock"></i> Login</h2>
-    <form name="form" ng-submit="login()" role="form">
-        <input type="text" name="id" id="id" class="form-control" placeholder="ID (E-mail)" ng-model="id" required />
+    <form name="form" ng-submit="login()" role="form" data-abide>
+        <label>email
+            <input type="email" name="id" id="id" class="form-control" placeholder="input your email" ng-model="id" required />
+        </label>
+        <small class="error">An email address is required.</small>
         <span ng-show="form.id.$dirty && form.id.$error.required" class="error">ID is required</span>
-        <input type="password" name="password" id="password" class="form-control"  placeholder="PASSWORD" ng-model="password" required />
+        <label>password
+            <input type="password" name="password" id="password" class="form-control"  placeholder="PASSWORD" ng-model="password" required />
+        </label>
         <span ng-show="form.password.$dirty && form.password.$error.required" class="error">Password is required</span>
         <ul class="button-group text-center">
             <li>

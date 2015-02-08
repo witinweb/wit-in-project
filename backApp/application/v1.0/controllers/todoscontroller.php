@@ -92,6 +92,7 @@ class TodosController extends Controller {
         }else{
             $this->result['category_list'] = null;
         }
+        //printr($this->result);
         echo json_encode($this->result);
     }
 

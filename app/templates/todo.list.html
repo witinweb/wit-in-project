@@ -10,11 +10,14 @@
 			<input type="text" name="content" id="content" placeholder="Content" ng-model="newTodo.content" required />
 			<span ng-show="form.content.$dirty && form.content.$error.required" class="error">Content is required</span>
 			<input type="text" name="receiver" id="receiver" placeholder="Receiver" ng-model="newTodo.receiver" />
-            <input type="text" placeholder="click me!" ng-model="newTodo.date" ng-click="showDatePicker = !showDatePicker" required />showDatePicker:{{showDatePicker}}
+            <datepicker date-format="yyyy-MM-dd">
+                <input ng-model="newTodo.date" type="text" placeholder="Select Date" />
+            </datepicker>
+            <!--<input type="text" placeholder="Select Date" pick-a-date="date" pick-a-date-options="{ format: 'yyyy-mm-dd' }" ng-model="newTodo.date" ng-click="showDatePicker = !showDatePicker" required />{{ date }}
             <div ng-show="showDatePicker">
                 <button type="button" ng-click="showDatePicker = !showDatePicker">close</button>
-                <div pickadate ng-model="newTodo.date" ></div> {{date}}
-            </div>
+                <div pickadate ng-model="newTodo.date" ></div>
+            </div>-->
 			<span ng-show="form.due_date.$dirty && form.due_date.$error.required" class="error">Due Date is required</span>
 
 			<ul class="button-group text-center">
@@ -27,12 +30,12 @@
     </form>
 	</div>
 	<div ng-hide="hasTodo">There is no todo</div>
-	<ul ng-repeat="category in categorys">
-		<li> Category : {{category.categories}}
+	<ul ng-repeat="category in categories">
+		<li> Category : {{category.name}}
 			<hr>
 			<ul ng-repeat="todo in category.todo_list">
 				<li>Content : 
-					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo)">
+					<span ng-show="todo.editMode == null || todo.editMode == false" ng-dblclick="toggleEditMode(todo,category)">
 						{{todo.content}}
 					</span>
 					<!--edit mode-->

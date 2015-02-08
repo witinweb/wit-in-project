@@ -12,7 +12,8 @@ angular.module('wipApp.todo.controller', [])
 	}
 
 	$scope.project = utils.findById($scope.projects, $stateParams.projectId);
-
+    // all the items
+    $scope.categories = [];
 	$scope.addTodoMode = false;
 	$scope.newTodo = {};
 	$scope.hasTodo = true;
@@ -27,7 +28,7 @@ angular.module('wipApp.todo.controller', [])
 	};	
 
 	// Toggle an item between normal and edit mode
-	$scope.toggleEditMode = function (todo) {
+	$scope.toggleEditMode = function (todo,category ) {
 		// Toggle
 		todo.editMode = !todo.editMode;
 
@@ -41,9 +42,9 @@ angular.module('wipApp.todo.controller', [])
 
 			// Set edit mode = false and restore the name for the rest of items in edit mode 
 			// (there should be only one)
-			$scope.todos.forEach(function (i) {
+            $scope.categories.forEach(function (i) {
 			// item is not the item being edited now and it is in edit mode
-				if (todo.id != i.id && i.editMode) {
+				if (category.idx != i.idx && i.editMode) {
 					// Restore name
 					i.name = i.serverName;
 					i.editMode = false;
@@ -73,7 +74,7 @@ angular.module('wipApp.todo.controller', [])
 				if(response.error_info == null){
 					$scope.hasTodo = false;
 					$scope.categories = response.category_list;		
-					console.table(response);	
+					console.table(response.category_list);
 					
 				}else{
 					console.log(response.error_info.msg);
