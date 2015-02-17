@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/app/public/css/todo.css"/>
+<link rel="stylesheet" href="/app/public/css/angucomplete.css"/>
 <h2>{{project.name}}</h2>
 <div class="row">
 	<div class="btn"><i class="btn fa fa-plus" ng-click="toggleAddTodoMode()" title="Add" ng-hide="addTodoMode">Todo ADD</i></div>
@@ -6,12 +7,31 @@
 	<div ng-show="addTodoMode">
 		<form name="form" ng-submit="addTodo()" role="form">
 			<span>기존 카테고리 넣기</span>
-			<input type="text" name="category" id="category" placeholder="New Category" ng-model="newTodo.category" />
+			<!--<input type="text" name="category" id="category" placeholder="New Category" ng-model="newTodo.category" />-->
+            <angucomplete id="selectCategory"
+                          placeholder="Search category"
+                          pause="100"
+                          selectedobject="selectedCategory"
+                          localdata="categories"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
+
 			<input type="text" name="content" id="content" placeholder="Content" ng-model="newTodo.content" required />
 			<span ng-show="form.content.$dirty && form.content.$error.required" class="error">Content is required</span>
-			<input type="text" name="receiver" id="receiver" placeholder="Receiver" ng-model="newTodo.receiver" />
+			<!--<input type="text" name="receiver" id="receiver" placeholder="Receiver" ng-model="newTodo.receiver" />-->
+            <angucomplete id="selectReceiver"
+                          placeholder="Search receiver"
+                          pause="100"
+                          selectedobject="selectedReceiver"
+                          localdata="users"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
             <datepicker date-format="yyyy-MM-dd">
-                <input ng-model="newTodo.date" type="text" placeholder="Select Date" />
+                <input ng-model="newTodo.due_date" type="text" placeholder="Select Date" />
             </datepicker>
             <!--<input type="text" placeholder="Select Date" pick-a-date="date" pick-a-date-options="{ format: 'yyyy-mm-dd' }" ng-model="newTodo.date" ng-click="showDatePicker = !showDatePicker" required />{{ date }}
             <div ng-show="showDatePicker">

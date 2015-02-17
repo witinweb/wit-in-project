@@ -30,7 +30,7 @@ class UsersController extends Controller {
             echo json_encode($this->result);
             exit;
         }
-        $this->user_info = $this->user->getUser("*", array('accessToken'=>str_replace("Basic ", "", $headers['Authorization'])));
+        $this->user_info = $this->User->getUser("*", array('accessToken'=>str_replace("Basic ", "", $headers['Authorization'])));
         if(!$this->user_info){
             $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = 'The accessToken is not valid.';
@@ -107,10 +107,11 @@ class UsersController extends Controller {
         echo json_encode($this->result);
     }
 
-    function userViewAll(){
+    function viewAll(){
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){
-            $this->result['error_msg'] = 'The project_idx is required.';
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_idx is required.';
             echo json_encode($this->result);
             exit;
         }
@@ -123,10 +124,10 @@ class UsersController extends Controller {
             $user_list[] = $this->User->getList( array('insert_date'=>'desc'), $limit, array('idx'=>$item['user_idx']), array('id','name'));
         }
         if($user_list){
-            $this->result['result'] = 1;
-            $this->result['user_list'] = $user_list;
+            $this->result['user_list'] = $user_list[0];
         }else{
-            $this->result['error_msg'] = "user does not exist.";
+            $this->result['error_info']['id'] = 2;
+            $this->result['error_info']['msg'] = "user does not exist.";
         }
         echo json_encode($this->result);
     }

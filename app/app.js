@@ -16,7 +16,8 @@ angular.module('wipApp', [
   'ngAnimate',
   'ngCookies',
   'notificationFactory',
-  '720kb.datepicker'
+  '720kb.datepicker',
+  'angucomplete'
 ])
 
 .run(['$rootScope', '$state', '$stateParams', '$cookieStore', '$http' ,function ($rootScope, $state, $stateParams, $cookieStore, $http) {

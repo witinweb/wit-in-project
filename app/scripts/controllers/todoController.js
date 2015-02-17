@@ -14,6 +14,7 @@ angular.module('wipApp.todo.controller', [])
 	$scope.project = utils.findById($scope.projects, $stateParams.projectId);
     // all the items
     $scope.categories = [];
+    $scope.users = [];
 	$scope.addTodoMode = false;
 	$scope.newTodo = {};
 	$scope.hasTodo = true;
@@ -54,11 +55,14 @@ angular.module('wipApp.todo.controller', [])
 	};
 
     $scope.addTodo = function(){
+        $scope.newTodo.category_idx = $scope.selectedCategory.originalObject.idx;
+        $scope.newTodo.project_idx = $stateParams.projectId;
+        console.table($scope.newTodo);
     		todos.AddTodo($scope.newTodo)
 			.success(function(response){
 				if(response.error_info == null){
-					$scope.todos.unshift(response.data); // response 확인
-					$scope.toggleAddTodoMode();
+					//$scope.todos.unshift(response.data); // response 확인
+					//$scope.toggleAddTodoMode();
 					requestSuccess();
 					
 				}else{
@@ -73,7 +77,7 @@ angular.module('wipApp.todo.controller', [])
 		   .success(function (response) {
 				if(response.error_info == null){
 					$scope.hasTodo = false;
-					$scope.categories = response.category_list;		
+					$scope.categories = response.category_list;
 					console.table(response.category_list);
 					
 				}else{
@@ -84,6 +88,22 @@ angular.module('wipApp.todo.controller', [])
 		    	console.log(response);
 			});	
 	};
+
+    $scope.getAllUsers = function(id){
+        todos.getAllUsers(id)
+            .success(function (response) {
+                if(response.error_info == null){
+                    $scope.users = response.user_list;
+                    console.table(response.user_list);
+
+                }else{
+                    console.log(response.error_info.msg);
+                }
+            })
+            .error(function (response) {
+                console.log(response);
+            });
+    };
 
 	$scope.viewAllByDueDate = function(){
 		todos.viewAllByDueDate()
@@ -152,6 +172,7 @@ angular.module('wipApp.todo.controller', [])
 		$scope.viewAllByDueDate();	
 	} else{
 		$scope.getAlltodos($stateParams.projectId);
+        $scope.getAllUsers($stateParams.projectId);
 	}
 
 		
