@@ -1,4 +1,4 @@
-angular.module('wipApp.project.controller', [])
+angular.module('wipApp.project.controller', ['ui.sortable'])
 .controller('projectController', ['$scope', '$stateParams', '$state', 'projectsList' ,'projects', 'notificationFactory', 'modalWindowFactory', 
 	function (  $scope,   $stateParams,   $state, projectsList,  projects, notificationFactory, modalWindowFactory) {
 
@@ -91,4 +91,16 @@ angular.module('wipApp.project.controller', [])
 	//프로젝트 리스트 
 	$scope.projects = projectsList.data.project_list;
 	//console.table(projectsList.data.project_list);
+
+	// Drag & Drop
+	$scope.dragControlListeners = {
+    	accept: function (sourceItemHandleScope, destSortableScope) {
+    		sourceItemHandleScope.itemScope.sortableScope.$id === destSortableScope.$id;
+    	},//override to determine drag is allowed or not. default is true.
+    	itemMoved: function (event) {//Do what you want
+    	},
+    	orderChanged: function(event) {//Do what you want
+    	}
+    	//containment: '#project'//optional param.
+	};
 }]);

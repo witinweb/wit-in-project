@@ -17,7 +17,8 @@ angular.module('wipApp', [
   'ngCookies',
   'notificationFactory',
   '720kb.datepicker',
-  'angucomplete'
+  'angucomplete',
+  'ui.sortable'
 ])
 
 .run(['$rootScope', '$state', '$stateParams', '$cookieStore', '$http' ,function ($rootScope, $state, $stateParams, $cookieStore, $http) {
