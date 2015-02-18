@@ -128,6 +128,15 @@ class TodosController extends Controller {
         return $todo;
     }
 
+    function getUserInfo($idx){
+        $user = new User();
+        $where = array(
+            "idx"=>$idx
+        );
+        $user_info = $user->getUser('*', $where);
+        return $user_info;
+    }
+
     function add() {
         $this->checkAccessToken();
         if( !isset($_POST['category_idx']) || !isset($_POST['content']) || !isset($_POST['due_date']) || !isset($_POST['project_idx']) ){
@@ -154,9 +163,14 @@ class TodosController extends Controller {
         );
 
         $todo_id = $this->Todo->add($data);
+        //{idx,title,project_idx,task_idx,user_idx, receiver_idx,due_date,insert_date,is_finish, user_id, receiver_id}
+
+
         if(!$todo_id){
             $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = "Failed to add todo.";
+        }else{
+            $this->result['todo'] = $this->Todo->getTodo('*', array("id"=>$todo_id));
         }
 
         echo json_encode($this->result);

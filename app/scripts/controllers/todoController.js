@@ -57,6 +57,7 @@ angular.module('wipApp.todo.controller', [])
     $scope.addTodo = function(){
         $scope.newTodo.category_idx = $scope.selectedCategory.originalObject.idx;
         $scope.newTodo.project_idx = $stateParams.projectId;
+        $scope.newTodo.receiver_idx = $scope.selectedReceiver.originalObject.idx;
         console.table($scope.newTodo);
     		todos.AddTodo($scope.newTodo)
 			.success(function(response){

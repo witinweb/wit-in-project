@@ -10,26 +10,28 @@
 			<!--<input type="text" name="category" id="category" placeholder="New Category" ng-model="newTodo.category" />-->
             <angucomplete id="selectCategory"
                           placeholder="Search category"
-                          pause="100"
+                          pause="300"
                           selectedobject="selectedCategory"
                           localdata="categories"
                           searchfields="name"
                           titlefield="name"
                           minlength="1"
-                          inputclass="form-control form-control-small"/>
+                          inputclass="form-control form-control-small"
+                          matchclass="highlight" />
 
 			<input type="text" name="content" id="content" placeholder="Content" ng-model="newTodo.content" required />
 			<span ng-show="form.content.$dirty && form.content.$error.required" class="error">Content is required</span>
 			<!--<input type="text" name="receiver" id="receiver" placeholder="Receiver" ng-model="newTodo.receiver" />-->
             <angucomplete id="selectReceiver"
                           placeholder="Search receiver"
-                          pause="100"
+                          pause="300"
                           selectedobject="selectedReceiver"
                           localdata="users"
-                          searchfields="name"
-                          titlefield="name"
+                          searchfields="id,name"
+                          titlefield="id"
                           minlength="1"
-                          inputclass="form-control form-control-small"/>
+                          inputclass="form-control form-control-small"
+                          matchclass="highlight"  />
             <datepicker date-format="yyyy-MM-dd">
                 <input ng-model="newTodo.due_date" type="text" placeholder="Select Date" />
             </datepicker>
