@@ -58,12 +58,17 @@ angular.module('wipApp.todo.controller', [])
         $scope.newTodo.category_idx = $scope.selectedCategory.originalObject.idx;
         $scope.newTodo.project_idx = $stateParams.projectId;
         $scope.newTodo.receiver_idx = $scope.selectedReceiver.originalObject.idx;
-        console.table($scope.newTodo);
+        //console.table($scope.selectedReceiver);
     		todos.AddTodo($scope.newTodo)
 			.success(function(response){
 				if(response.error_info == null){
-					//$scope.todos.unshift(response.data); // response 확인
-					//$scope.toggleAddTodoMode();
+                    console.table(response.new_todo);
+                    $scope.categories.forEach(function(value, index, ar){
+                        if( $scope.categories[index].idx == response.new_todo.category_idx ){
+                            $scope.categories[index].todo_list.push(response.new_todo);
+                        }
+                    });
+					$scope.toggleAddTodoMode();
 					requestSuccess();
 					
 				}else{
@@ -79,7 +84,7 @@ angular.module('wipApp.todo.controller', [])
 				if(response.error_info == null){
 					$scope.hasTodo = false;
 					$scope.categories = response.category_list;
-					console.table(response.category_list);
+					//console.table(response.category_list);
 					
 				}else{
 					console.log(response.error_info.msg);
@@ -95,7 +100,7 @@ angular.module('wipApp.todo.controller', [])
             .success(function (response) {
                 if(response.error_info == null){
                     $scope.users = response.user_list;
-                    console.table(response.user_list);
+                    //console.table(response.user_list);
 
                 }else{
                     console.log(response.error_info.msg);
@@ -111,7 +116,7 @@ angular.module('wipApp.todo.controller', [])
 		   .success(function (response) {
 				if(response.error_info == null){
 					$scope.allTodos = response.todo_list;
-					console.log($scope.allTodos);	
+					//console.log($scope.allTodos);
 					
 				}else{
 					console.log(response.error_info.msg);
@@ -138,7 +143,7 @@ angular.module('wipApp.todo.controller', [])
 		   .success(function (response) {
 				if(response.error_info == null){
 					$scope.hasTodo = false;		
-					console.log(response);	
+					//console.log(response);
 					
 				}else{
 					console.log(response.error_info.msg);

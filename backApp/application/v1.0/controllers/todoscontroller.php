@@ -114,11 +114,7 @@ class TodosController extends Controller {
     }
 
     function getReceiverInfo($todo){
-        $user = new User();
-        $where = array(
-            "idx"=>$todo['receiver_idx']
-        );
-        $user_info = $user->getUser('*', $where);
+        $user_info = $this->getUserInfo($todo['receiver_idx']);
         if($user_info){
             $todo['receiver_id'] = $user_info['id'];
             $todo['receiver_name'] = $user_info['name'];
@@ -133,8 +129,7 @@ class TodosController extends Controller {
         $where = array(
             "idx"=>$idx
         );
-        $user_info = $user->getUser('*', $where);
-        return $user_info;
+        return $user->getUser('*', $where);
     }
 
     function add() {
@@ -170,7 +165,12 @@ class TodosController extends Controller {
             $this->result['error_info']['id'] = 1;
             $this->result['error_info']['msg'] = "Failed to add todo.";
         }else{
-            $this->result['todo'] = $this->Todo->getTodo('*', array("id"=>$todo_id));
+            $new_todo = $this->Todo->getTodo('*', array("idx"=>$todo_id));
+            $user_info = $this->getUserInfo($new_todo['user_idx']);
+            $receiver_info = $this->getUserInfo($new_todo['receiver_idx']);
+            $new_todo['user_id'] = $user_info['id'];
+            $new_todo['receiver_id'] = $receiver_info['id'];
+            $this->result['new_todo'] = $new_todo;
         }
 
         echo json_encode($this->result);
