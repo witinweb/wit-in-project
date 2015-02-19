@@ -1,32 +1,32 @@
 <div class="row">
 
-	<div id="project" class="large-4 columns">
+	<div id="project-list" class="large-4 columns">
 		<ul class="side-nav" as-sortable="dragControlListeners" ng-model="projects">
             <li ng-repeat="project in projects" ui-sref-active="active" as-sortable-item>
                 <div as-sortable-item-handle>
-                <!-- Here's a ui-sref that is also providing necessary parameters -->
-                <div ng-show="$edit" class="row collapse">
-                    <div class="small-8 columns">
-                        <input type="text" name="project.name" id="project.name" ng-model="project.name" required />
+                    <!-- Here's a ui-sref that is also providing necessary parameters -->
+                    <div ng-show="$edit" class="row collapse">
+                        <div class="small-8 columns">
+                            <input type="text" name="project.name" id="project.name" ng-model="project.name" required />
+                        </div>
+                        <div class="small-2 columns">
+                            <a href="#" class="button postfix" ng-click="$edit = !$edit; modifyProject(project)">save</a>
+                        </div>
+                        <div class="small-2 columns">
+                            <a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
+                        </div>
                     </div>
-                    <div class="small-2 columns">
-                        <a href="#" class="button postfix" ng-click="$edit = !$edit; modifyProject(project)">save</a>
+                    <div ng-show="!$edit" class="row collapse">
+                        <div class="small-8 columns">
+                            <a ui-sref="projects.detail({projectId:project.idx})" class="button postfix success">{{project.name}}</a>
+                        </div>
+                        <div class="small-2 columns">
+                            <a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
+                        </div>
+                        <div class="small-2 columns">
+                            <a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
+                        </div>
                     </div>
-                    <div class="small-2 columns">
-                        <a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
-                    </div>
-                </div>
-                <div ng-show="!$edit" class="row collapse">
-                    <div class="small-8 columns">
-                        <a ui-sref="projects.detail({projectId:project.idx})" class="button postfix success">{{project.name}}</a>
-                    </div>
-                    <div class="small-2 columns">
-                        <a href="#" class="button postfix" ng-click="$edit = !$edit">edit</a>
-                    </div>
-                    <div class="small-2 columns">
-                        <a href="#" class="button postfix alert" ng-click="deleteProject(project)">delete</a>
-                    </div>
-                </div>
                 </div>
             </li>
         </ul>
@@ -50,7 +50,6 @@
                 </div>
             </div>
         </form>
-
 	</div>
 	<div ui-view class="large-8 columns fade"></div>
 </div>

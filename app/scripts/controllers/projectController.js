@@ -101,6 +101,6 @@ angular.module('wipApp.project.controller', ['ui.sortable'])
     	},
     	orderChanged: function(event) {//Do what you want
     	}
-    	//containment: '#project'//optional param.
+    	//containment: '#project-list'//optional param.
 	};
 }]);
