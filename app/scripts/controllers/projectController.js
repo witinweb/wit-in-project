@@ -95,7 +95,7 @@ angular.module('wipApp.project.controller', ['ui.sortable'])
 	// Drag & Drop
 	$scope.dragControlListeners = {
     	accept: function (sourceItemHandleScope, destSortableScope) {
-    		sourceItemHandleScope.itemScope.sortableScope.$id === destSortableScope.$id;
+    		return sourceItemHandleScope.itemScope.sortableScope.$id === destSortableScope.$id;
     	},//override to determine drag is allowed or not. default is true.
     	itemMoved: function (event) {//Do what you want
     	},
