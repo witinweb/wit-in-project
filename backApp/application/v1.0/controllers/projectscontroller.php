@@ -168,6 +168,17 @@ class ProjectsController extends Controller {
 
     }
 
+    function updateOrder(){
+        $this->checkAccessToken();
+        if( !isset($_POST['project_list']) ){
+            $this->result['error_info']['id'] = 0;
+            $this->result['error_info']['msg'] = 'The project_list is required.';
+            echo json_encode($this->result);
+            exit;
+        }
+        printr($_POST);
+    }
+
     function del() {
         $this->checkAccessToken();
         if( !isset($_POST['project_idx']) ){
