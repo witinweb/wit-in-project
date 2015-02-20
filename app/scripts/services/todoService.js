@@ -22,8 +22,8 @@ angular.module('wipApp.todo.service', [])
 	todos.ModifyProject = function (id, name) {
 		return $http.post(todoPath+"/modify",{project_idx:id, name:name});
 	};
-	todos.deleteTodo = function (id) {
-  		return $http.post(todoPath+"/del",{todo_idx:id});
+	todos.deleteTodo = function (todo_idx, project_idx) {
+  		return $http.post(todoPath+"/del",{todo_idx:todo_idx, project_idx:project_idx});
 	};
 	todos.AddTodo = function (newTodo) {
  		return $http.post(todoPath+"/add",newTodo);

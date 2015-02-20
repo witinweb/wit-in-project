@@ -62,7 +62,7 @@ angular.module('wipApp.todo.controller', [])
     		todos.AddTodo($scope.newTodo)
 			.success(function(response){
 				if(response.error_info == null){
-                    console.table(response.new_todo);
+                    //console.table(response.new_todo);
                     $scope.categories.forEach(function(value, index, ar){
                         if( $scope.categories[index].idx == response.new_todo.category_idx ){
                             $scope.categories[index].todo_list.push(response.new_todo);
@@ -139,9 +139,16 @@ angular.module('wipApp.todo.controller', [])
 	}
 
 	$scope.deleteTodo = function(todo){
-		todos.deleteTodo(todo)
+		todos.deleteTodo(todo.idx, todo.project_idx)
 		   .success(function (response) {
 				if(response.error_info == null){
+                    $scope.categories.forEach(function(value, index, ar){
+                        $scope.categories[index].todo_list.forEach(function(todoValue, todoIndex, todoAr){
+                            if( $scope.categories[index].todo_list[todoIndex].idx == todo.idx ){
+                                $scope.categories[index].todo_list.splice(todoIndex, 1);
+                            }
+                        });
+                    });
 					$scope.hasTodo = false;		
 					//console.log(response);
 					
